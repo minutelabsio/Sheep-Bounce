@@ -73,81 +73,116 @@ define(
                 ,grabPos
                 ,grabOffset
                 ,path
+                ,isTouch = Modernizr.touch
                 ;
 
-            canvas.on({
-                'mousedown': function(e){
+            function grab(e){
 
-                    var x = e.offsetX/scale
-                        ,y = e.offsetY/scale
-                        ,entities = world.find(x, y, x+1, y+1)
+                var coords = isTouch? e.originalEvent.touches[0] : e
+                    ,x = coords.pageX/scale
+                    ,y = coords.pageY/scale
+                    ,entities
+                    ;
+
+                if (!x || !y) return;
+                
+                entities = world.find(x, y, x+1, y+1);
+
+                if (entities.length){
+
+                    e.preventDefault();
+
+                    grabbed = entities[0];
+                    grabbed._body.SetType(Box2D.Dynamics.b2Body.b2_staticBody);
+                    grabbed._body.SetActive(false);
+
+                    grabPos = grabbed.position();
+
+                    grabOffset = {
+                        x: coords.pageX/scale - grabPos.x,
+                        y: coords.pageY/scale - grabPos.y
+                    };
+
+                    path = [{
+                        t: e.timeStamp,
+                        x: grabPos.x,
+                        y: grabPos.y
+                    }];
+                }
+            }
+
+            function drag(e){
+
+                e.preventDefault();
+
+                if (grabbed) {
+
+                    var coords = isTouch? e.originalEvent.touches[0] : e
+                        ,x = coords.pageX/scale
+                        ,y = coords.pageY/scale
                         ;
 
-                    if (entities.length){
+                    if (!x || !y){
 
-                        grabbed = entities[0];
-                        grabbed._body.SetType(Box2D.Dynamics.b2Body.b2_staticBody);
-                        grabbed._body.SetActive(false);
-
-                        grabPos = grabbed.position();
-
-                        grabOffset = {
-                            x: e.offsetX/scale - grabPos.x,
-                            y: e.offsetY/scale - grabPos.y
-                        };
-
-                        path = [{
-                            t: e.timeStamp,
-                            x: grabPos.x,
-                            y: grabPos.y
-                        }];
+                        release(e);
                     }
-                },
-                'mousemove': function(e){
 
-                    if (grabbed) {
-
-                        var x = e.offsetX/scale
-                            ,y = e.offsetY/scale
-                            ;
-
-                        path.push({
-                            t: e.timeStamp,
-                            x: x,
-                            y: y
-                        });
-                    
-                        grabbed.position({
-                            x: x - grabOffset.x,
-                            y: y - grabOffset.y
-                        });
-                    }
-                },
-                'mouseup': function(e){
-
-                    var dx, dy, prev, last, dt;
-
-                    if (grabbed){
-
-                        last = path.pop();
-                        prev = path.pop();
-
-                        if (prev){
-                            dt = last.t - prev.t;
-                            dx = last.x - prev.x;
-                            dy = last.y - prev.y;
-                        }
-
-                        grabbed._body.SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
-                        grabbed._body.SetActive(true);
-                        
-                        if (prev)
-                            grabbed.applyImpulse(100000*Math.sqrt(dx*dx + dy*dy)/dt, dx, dy);
-
-                        grabbed = null;
-                    }
+                    path.push({
+                        t: e.timeStamp,
+                        x: x,
+                        y: y
+                    });
+                
+                    grabbed.position({
+                        x: x - grabOffset.x,
+                        y: y - grabOffset.y
+                    });
                 }
-            });
+            }
+
+            function release(e){
+
+                e.preventDefault();
+
+                var dx, dy, prev, last, dt;
+
+                if (grabbed){
+
+                    last = path.pop();
+                    prev = path.pop();
+
+                    if (prev){
+                        dt = last.t - prev.t;
+                        dx = last.x - prev.x;
+                        dy = last.y - prev.y;
+                    }
+
+                    grabbed._body.SetType(Box2D.Dynamics.b2Body.b2_dynamicBody);
+                    grabbed._body.SetActive(true);
+                    
+                    if (prev)
+                        grabbed.applyImpulse(100000*Math.sqrt(dx*dx + dy*dy)/dt, dx, dy);
+
+                    grabbed = null;
+                }
+            }
+
+            if (isTouch){
+
+                canvas.on({
+                    'touchstart': grab,
+                    'touchmove': drag,
+                    'touchend': release
+                });                
+
+            } else {
+
+                canvas.on({
+                    'mousedown': grab,
+                    'mousemove': drag,
+                    'mouseup': release,
+                });
+            }
         }
 
         function initGravity(){
