@@ -145,7 +145,7 @@ define(
                 //     y: defaultGravity.y
                 // });
 
-                return;
+                //return;
 
                 var entities = world.find(0,0,width,height)
                     ,entity
@@ -156,12 +156,160 @@ define(
                     entity = entities[i];
 
                     entity.clearForce('grav');
-                    entity.setForce('grav', 10000*gravity.x, gravity.x < 0 ? 270 : -90);
+                    entity.setForce('grav', Math.abs(5000 * gravity.x), gravity.x > 0 ? 90 : -90);
                 }
             });
         }
 
+        function createBoundaries(){
+
+            var tplBoundary = {
+                    restitution: 1,
+                    friction: 0.1,
+                    type: 'static',
+                    active: true,
+                    shape: 'square'
+                }
+                ,bounds = []
+                ;
+
+            // left
+            bounds.push(
+                world.createEntity(tplBoundary, {
+                    x: 0,
+                    y: 0,
+                    width: 1,
+                    height: height*2
+                })
+            );
+
+            // bottom
+            bounds.push(
+                world.createEntity(tplBoundary, {
+                    x: 0,
+                    y: height,
+                    width: width*2,
+                    height: 1
+                })
+            );
+
+            // top
+            bounds.push(
+                world.createEntity(tplBoundary, {
+                    x: 0,
+                    y: 0,
+                    width: width*2,
+                    height: 1
+                })
+            );
+
+            // right
+            bounds.push(
+                world.createEntity(tplBoundary, {
+                    x: width,
+                    y: 0,
+                    width: 1,
+                    height: height*2
+                })
+            );
+
+            return bounds;
+        }
+
+        function createSheep(){
+
+            var sheepTemplate1 = {
+                    restitution: 1.4,
+                    friction: 0.1,
+                    rotation: 10,
+                    width: 25,
+                    height: 20,
+                    shape: 'square',
+                    image: 'images/sheep-1.png',
+                    imageOffsetX: -7,
+                    imageOffsetY: -4,
+                    imageStretchToFit: true
+                }
+                ,sheepTemplate2 = $.extend({}, sheepTemplate1, {
+
+                    image: 'images/sheep-2.png'
+                })
+                ,sheepTemplateFly = $.extend({}, sheepTemplate1, {
+
+                    width: 46,
+                    height: 26,
+                    imageOffsetY: -7,
+                    imageOffsetX: -10,
+                    image: 'images/sheep-fly.png'
+                })
+                ,sheep = []
+                ;
+            
+            sheep.push(
+                world.createEntity(sheepTemplate1, {
+                    x: 30,
+                    y: 10
+                })
+            );
+
+            sheep.push(
+                world.createEntity(sheepTemplate1, {
+                    x: 80,
+                    y: 50
+                })
+            );
+
+            sheep.push(
+                world.createEntity(sheepTemplate1, {
+                    x: 120,
+                    y: 60
+                })
+            );
+
+            sheep.push(
+                world.createEntity(sheepTemplate2, {
+                    x: 60,
+                    y: 10
+                })
+            );
+
+            sheep.push(
+                world.createEntity(sheepTemplate2, {
+                    x: 20,
+                    y: 60
+                })
+            );
+
+            sheep.push(
+                world.createEntity(sheepTemplate2, {
+                    x: 140,
+                    y: 10
+                })
+            );
+
+            return sheep;
+        }
+
+        function getTotalKE( entities ){
+
+            var energy = 0;
+
+            if (!entities.length) return energy;
+
+            for ( var i = 0, l = entities.length, body; i < l; ++i ){
+                
+                body = entities[ i ]._body;
+                energy += 0.5 * body.GetMass() * body.GetLinearVelocity().LengthSquared();
+            }
+
+            return energy;
+        }
+
         function init(){
+
+            var sheep
+                ,bounds
+                ;
 
             $(window).on('resize', resize);
 
@@ -179,103 +327,12 @@ define(
                 initDragDropToss();
                 initGravity();
                 
-                var tplBoundary = {
-                    restitution: 1,
-                    friction: 0.1,
-                    type: 'static',
-                    active: true,
-                    shape: 'square'
-                };
+                bounds = createBoundaries();
+                sheep = createSheep();
 
-                // left
-                world.createEntity(tplBoundary, {
-                    x: 0,
-                    y: 0,
-                    width: 1,
-                    height: height*2
-                });
-
-                // bottom
-                world.createEntity(tplBoundary, {
-                    x: 0,
-                    y: height,
-                    width: width*2,
-                    height: 1
-                });
-
-                // top
-                world.createEntity(tplBoundary, {
-                    x: 0,
-                    y: 0,
-                    width: width*2,
-                    height: 1
-                });
-
-                // right
-                world.createEntity(tplBoundary, {
-                    x: width,
-                    y: 0,
-                    width: 1,
-                    height: height*2
-                });
-
-                var sheepTemplate1 = {
-                        restitution: 1.4,
-                        friction: 0.1,
-                        rotation: 10,
-                        width: 25,
-                        height: 20,
-                        shape: 'square',
-                        image: 'images/sheep-1.png',
-                        imageOffsetX: -7,
-                        imageOffsetY: -4,
-                        imageStretchToFit: true
-                    }
-                    ,sheepTemplate2 = $.extend({}, sheepTemplate1, {
-
-                        image: 'images/sheep-2.png'
-                    })
-                    ,sheepTemplateFly = $.extend({}, sheepTemplate1, {
-
-                        width: 46,
-                        height: 26,
-                        imageOffsetY: -7,
-                        imageOffsetX: -10,
-                        image: 'images/sheep-fly.png'
-                    })
-                    ;
-                
-                var entity = world.createEntity(sheepTemplate1, {
-                    x: 30,
-                    y: 10
-                });
-
-                world.createEntity(sheepTemplate1, {
-                    x: 80,
-                    y: 50
-                });
-
-                world.createEntity(sheepTemplate1, {
-                    x: 120,
-                    y: 60
-                });
-
-                world.createEntity(sheepTemplate2, {
-                    x: 60,
-                    y: 10
-                });
-
-                world.createEntity(sheepTemplate2, {
-                    x: 20,
-                    y: 60
-                });
-
-                world.createEntity(sheepTemplate2, {
-                    x: 140,
-                    y: 10
-                });
-
- 
+                // world.onTick(function(){
+                //     console.log(getTotalKE(sheep));
+                // })
             });
     
         }
