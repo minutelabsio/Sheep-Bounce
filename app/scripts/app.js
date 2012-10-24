@@ -25,7 +25,7 @@ define(
             ;
 
         var sheepTemplate1 = {
-                restitution: 1,
+                restitution: 1.4,
                 friction: 0.1,
                 rotation: 10,
                 width: 25,
@@ -196,12 +196,22 @@ define(
                 return false;
             }
 
+            function cb(){
+
+                $('body').addClass('device-orientation');
+
+                cb = function(){};
+            }
+
             deviceGravity.subscribe(function(data){
+
+                cb();
 
                 gravity = {
                     x: defaultGravity.y * ( defaultGravity.x + data.x ),
                     y: defaultGravity.y * ( 1 + data.y )
                 };
+
             });
 
             world.onTick(function(){
@@ -232,7 +242,7 @@ define(
         function createBoundaries(){
 
             var tplBoundary = {
-                    restitution: 1.1,
+                    restitution: 1.4,
                     friction: 0.1,
                     type: 'static',
                     active: true,
@@ -401,11 +411,7 @@ define(
                 });
 
                 initDragDropToss();
-
-                if ( initGravity() ){
-
-                    $('body').addClass('device-orientation');
-                }
+                initGravity();
                 
                 bounds = createBoundaries();
                 sheep = createSheep();
