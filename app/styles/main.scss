@@ -1,5 +1,9 @@
 @import "compass_twitter_bootstrap";
 
+#resources {
+    display: none !important;
+}
+
 #main {
     position: fixed;
     top: 0;

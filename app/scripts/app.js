@@ -225,14 +225,14 @@ define(
                     width: 25,
                     height: 20,
                     shape: 'square',
-                    image: 'images/sheep-1.png',
+                    image: $('#sheep1').attr('src'),
                     imageOffsetX: -7,
                     imageOffsetY: -4,
                     imageStretchToFit: true
                 }
                 ,sheepTemplate2 = $.extend({}, sheepTemplate1, {
 
-                    image: 'images/sheep-2.png'
+                    image: $('#sheep2').attr('src')
                 })
                 ,sheepTemplateFly = $.extend({}, sheepTemplate1, {
 
@@ -240,7 +240,7 @@ define(
                     height: 26,
                     imageOffsetY: -7,
                     imageOffsetX: -10,
-                    image: 'images/sheep-fly.png'
+                    image: $('#sheep-fly').attr('src')
                 })
                 ,sheep = []
                 ;
