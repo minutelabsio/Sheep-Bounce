@@ -21,6 +21,34 @@ define(
                     x: 0,
                     y: 100
                 }
+            ,flyingSheepVelocity = 1000
+            ;
+
+        var sheepTemplate1 = {
+                restitution: 1,
+                friction: 0.1,
+                rotation: 10,
+                width: 25,
+                height: 20,
+                shape: 'square',
+                image: $('#sheep1').attr('src'),
+                imageOffsetX: -7,
+                imageOffsetY: -4,
+                imageStretchToFit: true
+            }
+            ,sheepTemplate2 = $.extend({}, sheepTemplate1, {
+
+                image: $('#sheep2').attr('src')
+            })
+            ,sheepTemplateFly = $.extend({}, sheepTemplate1, {
+
+                width: 46,
+                height: 26,
+                imageOffsetY: -7,
+                imageOffsetX: -10,
+                image: $('#sheep-fly').attr('src')
+            })
+            ,sheep = []
             ;
 
         function resize(){
@@ -124,10 +152,13 @@ define(
 
         function initGravity(){
 
-            var gravity = {};
+            var gravity = {
+                x: defaultGravity.x,
+                y: defaultGravity.y
+            };
 
             if (!deviceGravity.isSupported){ 
-                return;
+                return false;
             }
 
             deviceGravity.subscribe(function(data){
@@ -145,9 +176,9 @@ define(
                 //     y: defaultGravity.y
                 // });
 
-                //return;
+                // return;
 
-                var entities = world.find(0,0,width,height)
+                var entities = world.find(0, 0, width, height)
                     ,entity
                     ;
 
@@ -159,16 +190,19 @@ define(
                     entity.setForce('grav', Math.abs(5000 * gravity.x), gravity.x > 0 ? 90 : -90);
                 }
             });
+
+            return true;
         }
 
         function createBoundaries(){
 
             var tplBoundary = {
-                    restitution: 1,
+                    restitution: 1.1,
                     friction: 0.1,
                     type: 'static',
                     active: true,
-                    shape: 'square'
+                    shape: 'square',
+                    color: '#222'
                 }
                 ,bounds = []
                 ;
@@ -218,33 +252,6 @@ define(
 
         function createSheep(){
 
-            var sheepTemplate1 = {
-                    restitution: 1.4,
-                    friction: 0.1,
-                    rotation: 10,
-                    width: 25,
-                    height: 20,
-                    shape: 'square',
-                    image: $('#sheep1').attr('src'),
-                    imageOffsetX: -7,
-                    imageOffsetY: -4,
-                    imageStretchToFit: true
-                }
-                ,sheepTemplate2 = $.extend({}, sheepTemplate1, {
-
-                    image: $('#sheep2').attr('src')
-                })
-                ,sheepTemplateFly = $.extend({}, sheepTemplate1, {
-
-                    width: 46,
-                    height: 26,
-                    imageOffsetY: -7,
-                    imageOffsetX: -10,
-                    image: $('#sheep-fly').attr('src')
-                })
-                ,sheep = []
-                ;
-            
             sheep.push(
                 world.createEntity(sheepTemplate1, {
                     x: 30,
@@ -290,19 +297,53 @@ define(
             return sheep;
         }
 
-        function getTotalKE( entities ){
+        function getEnergy( entities ){
 
-            var energy = 0;
+            var ke = 0
+                ,pe = 0
+                ,m
+                ;
 
-            if (!entities.length) return energy;
+            if (!entities.length) return ke;
 
             for ( var i = 0, l = entities.length, body; i < l; ++i ){
                 
                 body = entities[ i ]._body;
-                energy += 0.5 * body.GetMass() * body.GetLinearVelocity().LengthSquared();
+                m = body.GetMass();
+                ke += 0.5 * m * body.GetLinearVelocity().LengthSquared();
+                pe += m * defaultGravity.y * (height - body.GetPosition().y);
+
             }
 
-            return energy;
+            return {
+                ke: ke,
+                pe: pe,
+                total: ke + pe
+            };
+        }
+
+        function flyingSheep( cb ){
+
+            var flying;
+
+            flying = world.createEntity(sheepTemplateFly, {
+                x: 0.5*sheepTemplateFly.width,
+                y: height/1.5,
+                fixedRotation: true,
+                rotation: -20
+            });
+
+            flying.setVelocity('fly', flyingSheepVelocity, 90);
+            flying.onTick(function(){
+
+                var pos = flying.position();
+                //console.log(pos.x, width)
+                if ( pos.x > (width - sheepTemplateFly.width) ){
+
+                    flying.destroy();
+                    cb && cb(pos);
+                }
+            });
         }
 
         function init(){
@@ -311,7 +352,7 @@ define(
                 ,bounds
                 ;
 
-            $(window).on('resize', resize);
+            //$(window).on('resize', resize);
 
             $(function(){
 
@@ -325,14 +366,40 @@ define(
                 });
 
                 initDragDropToss();
-                initGravity();
+
+                if ( initGravity() ){
+
+                    $('body').addClass('device-orientation');
+                }
                 
                 bounds = createBoundaries();
                 sheep = createSheep();
 
                 // world.onTick(function(){
-                //     console.log(getTotalKE(sheep));
+                //     var e = getEnergy(sheep);
+                //     console.log(e.ke, e.pe, e.total);
                 // })
+                
+                $('#controls .ctrl-energy').on('click', function(e){
+
+                    e.preventDefault();
+
+                    flyingSheep(function( pos ){
+
+                        var tpl = Math.random() > 0.5 ? sheepTemplate1 : sheepTemplate2
+                            ,shp
+                            ;
+
+                        shp = world.createEntity(tpl, {
+                            x: pos.x,
+                            y: pos.y
+                        });
+
+                        shp.applyImpulse(flyingSheepVelocity*100, 90);
+                        
+                        sheep.push(shp);
+                    });
+                });
             });
     
         }

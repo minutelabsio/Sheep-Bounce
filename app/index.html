@@ -12,13 +12,66 @@
 
         <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
 
-        
+        <link href='http://fonts.googleapis.com/css?family=Alice&text=Well%20Caffeinated' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" href="styles/main.css">
         <script src="scripts/vendor/modernizr.min.js"></script>
     </head>
     <body>
     <div id="main">
-        <h1 class="page-header muted">Sheep as an Ideal Gas - <big>For Science!</big></h1>
+        <div class="container">
+            <header>
+                <h1 class="page-header muted">Sheep as an Ideal Gas - <big>For Science!</big></h1>
+                <a href="https://github.com/wellcaffeinated/Sheep-Bounce"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 50;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png" alt="Fork me on GitHub"></a>
+            </header>
+
+            <div class="row-fluid">
+                <div class="span9">
+                    <h4 class="muted tagline">...because cats are clich&eacute;</h4>
+                </div>
+                <div class="span3">
+                    <div class="grav-msg alert alert-info">
+                        Go ahead and tilt your screen... if you dare
+                    </div>
+                    <div id="controls" class="btn-toolbar well">
+                        <div class="btn-group btn-group-vertical row-fluid">
+                            <button class="btn btn-danger btn-block ctrl-energy">Add Energy!</button>
+                            <a href="http://www.youtube.com/watch?v=nrUBPO6zZ40" class="btn btn-info btn-block">Ideal gas... what?</a>
+                        </div>
+                    </div>
+
+                    <footer>
+                        <span style="color: #888; font-weight: normal;">
+                            Coding
+                            <a href="http://wellcaffeinated.net" target="_blank" style="font-family: 'Alice', sans-serif; color: #AE3737;">
+                            Well Caffeinated</a>
+                            <br/>
+                            Artwork <a href="http://minutephysics.com" target="_blank" style="color: #000;">
+                            Minute Physics</a>
+                        </span>
+
+                        <div class="share-links">
+                            <!-- AddThis Button BEGIN -->
+                            <div class="addthis_toolbox addthis_default_style ">
+                            <a class="addthis_button_facebook"></a>
+                            <a class="addthis_button_twitter"></a>
+                            <a class="addthis_button_reddit"></a>
+                            <a class="addthis_button_email"></a>
+                            <a class="addthis_button_compact"></a>
+                            <a class="addthis_counter addthis_bubble_style"></a>
+                            </div>
+                            <script type="text/javascript">
+                                var addthis_config = {
+                                    "data_track_addressbar":true
+                                };
+                            </script>
+                            <script type="text/javascript" src="http://s7.addthis.com/js/300/addthis_widget.js#pubid=ra-50884fe340c4ef63"></script>
+                            <!-- AddThis Button END -->
+                        </div>
+                    </footer>
+                </div>
+            </div>
+        </div>
+
         <canvas id="canvas"></canvas>
     </div>
     <div id="resources">
@@ -35,7 +88,7 @@
 
         <!-- Google Analytics: change UA-XXXXX-X to be your site's ID. -->
         <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
+            var _gaq=[['_setAccount','UA-34870341-2'],['_trackPageview']];
             (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
             g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
             s.parentNode.insertBefore(g,s)}(document,'script'));

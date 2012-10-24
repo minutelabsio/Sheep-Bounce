@@ -1,5 +1,20 @@
 @import "compass_twitter_bootstrap";
 
+@mixin fadein {
+
+    opacity: 0.4;
+    -webkit-transition: opacity 0.25s linear;
+    -moz-transition: opacity 0.25s linear;
+    -ms-transition: opacity 0.25s linear;
+    transition: opacity 0.25s linear;
+
+    .touch &,
+    &:hover {
+
+        opacity: 1;
+    }
+}
+
 #resources {
     display: none !important;
 }
@@ -12,8 +27,12 @@
     bottom: 0;
 
 
-    & > .page-header big {
+    header .page-header big {
         color: #333;
+    }
+
+    .tagline {
+        font-weight: normal;
     }
 }
 
@@ -21,4 +40,32 @@
     position: absolute;
     top: 0;
     left: 0;
+    z-index: 1;
+}
+
+#controls {
+    position: relative;
+    z-index: 2;
+
+    @include fadein;
+}
+
+.grav-msg {
+
+    display: none;
+}
+
+.device-orientation .grav-msg {
+    display: block;
+}
+
+.share-links {
+    margin-top: 1em;
+}
+
+footer {
+    position: relative;
+    z-index: 2;
+
+    @include fadein;
 }
