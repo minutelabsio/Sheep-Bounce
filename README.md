@@ -1,6 +1,6 @@
 # Sheep Bounce
 
-[See it in action](http://wellcaffeinated.github.com/Sheep-Bounce/)
+[See it in action](http://minutephysics.github.com/Sheep-Bounce/)
 
 Project by Jasper Palfree <[wellcaffeinated.net](http://wellcaffeinated.net)>, with artwork by Henry Reich <[minutephysics.com](http://minutephysics.com)>.
 
