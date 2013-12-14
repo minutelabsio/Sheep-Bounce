@@ -15,8 +15,8 @@ module.exports = ({
     baseUrl: 'js/',
 
     // use optimize: none to get concatenation without optimization for debugging
-    // optimize: 'none',
-    optimize: 'uglify',
+    optimize: 'none',
+    // optimize: 'uglify',
     optimizeCss: 'none',
 
     // exclude any hidden files (.filename) and any node.js libraries

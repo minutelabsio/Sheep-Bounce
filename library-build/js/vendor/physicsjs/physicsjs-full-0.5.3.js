@@ -7,10 +7,6644 @@
  * Licensed MIT
  */
 
+// ---
+// inside: src/intro.js
+
+(function (root, factory) {
+    if (typeof exports === 'object') {
+        // Node. 
+        module.exports = factory.call(root);
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(function(){ return factory.call(root) });
+    } else {
+        // Browser globals (root is window)
+        root.Physics = factory.call(root);
+    }
+}(this, function () {
+
+
+
+var Physics = function Physics(){
+
+    return Physics.world.apply(Physics, arguments);
+};
+
+Physics.util = {};
+
+
+// ---
+// inside: lib/lodash.js
+
 /**
  * @license
  * Lo-Dash 2.2.1 (Custom Build) lodash.com/license | Underscore.js 1.5.2 underscorejs.org/LICENSE
  * Build: `lodash exports="none" iife="(function(window){%output%;lodash.extend(Physics.util, lodash);}(this));" include="isObject,isFunction,isArray,isPlainObject,uniqueId,each,random,extend,clone,throttle,bind,sortedIndex,shuffle" --minify --output lib/lodash.js`
  */
+;!function(n){function t(n){return typeof n.toString!="function"&&typeof(n+"")=="string"}function e(){}function r(n){n.length=0,O.length<A&&O.push(n)}function o(n,t,e){t||(t=0),typeof e=="undefined"&&(e=n?n.length:0);var r=-1;e=e-t||0;for(var o=Array(0>e?0:e);++r<e;)o[r]=n[t+r];return o}function a(){}function u(n,e,a,i,l){if(a){var c=a(n);if(typeof c!="undefined")return c}if(!v(n))return n;var f=at.call(n);if(!$[f]||!mt.nodeClass&&t(n))return n;var s=bt[f];switch(f){case T:case B:return new s(+n);case L:case M:return new s(n);
+case W:return c=s(n.source,S.exec(n)),c.lastIndex=n.lastIndex,c}if(f=Et(n),e){var p=!i;i||(i=O.pop()||[]),l||(l=O.pop()||[]);for(var g=i.length;g--;)if(i[g]==n)return l[g];c=f?s(n.length):{}}else c=f?o(n):At({},n);return f&&(tt.call(n,"index")&&(c.index=n.index),tt.call(n,"input")&&(c.input=n.input)),e?(i.push(n),l.push(c),(f?_t:Ct)(n,function(n,t){c[t]=u(n,e,a,i,l)}),p&&(r(i),r(l)),c):c}function i(n,t,e){if(typeof n!="function")return j;if(typeof t=="undefined")return n;var r=n.__bindData__||mt.funcNames&&!n.name;
+if(typeof r=="undefined"){var o=P&&Z.call(n);mt.funcNames||!o||C.test(o)||(r=!0),(mt.funcNames||!r)&&(r=!mt.funcDecomp||P.test(o),jt(n,r))}if(true!==r&&r&&1&r[1])return n;switch(e){case 1:return function(e){return n.call(t,e)};case 2:return function(e,r){return n.call(t,e,r)};case 3:return function(e,r,o){return n.call(t,e,r,o)};case 4:return function(e,r,o,a){return n.call(t,e,r,o,a)}}return d(n,t)}function l(n,e,o,a,u,i){if(o){var c=o(n,e);if(typeof c!="undefined")return!!c}if(n===e)return 0!==n||1/n==1/e;
+if(n===n&&!(n&&G[typeof n]||e&&G[typeof e]))return!1;if(null==n||null==e)return n===e;var f=at.call(n),s=at.call(e);if(f==F&&(f=R),s==F&&(s=R),f!=s)return!1;switch(f){case T:case B:return+n==+e;case L:return n!=+n?e!=+e:0==n?1/n==1/e:n==+e;case W:case M:return n==e+""}if(s=f==I,!s){if(tt.call(n,"__wrapped__")||tt.call(e,"__wrapped__"))return l(n.__wrapped__||n,e.__wrapped__||e,o,a,u,i);if(f!=R||!mt.nodeClass&&(t(n)||t(e)))return!1;var f=!mt.argsObject&&g(n)?Object:n.constructor,p=!mt.argsObject&&g(e)?Object:e.constructor;
+if(f!=p&&!(y(f)&&f instanceof f&&y(p)&&p instanceof p))return!1}for(p=!u,u||(u=O.pop()||[]),i||(i=O.pop()||[]),f=u.length;f--;)if(u[f]==n)return i[f]==e;var v=0,c=!0;if(u.push(n),i.push(e),s){if(f=n.length,v=e.length,c=v==n.length,!c&&!a)return c;for(;v--;)if(s=f,p=e[v],a)for(;s--&&!(c=l(n[s],p,o,a,u,i)););else if(!(c=l(n[v],p,o,a,u,i)))break;return c}return St(e,function(t,e,r){return tt.call(r,e)?(v++,c=tt.call(n,e)&&l(n[e],t,o,a,u,i)):void 0}),c&&!a&&St(n,function(n,t,e){return tt.call(e,t)?c=-1<--v:void 0
+}),p&&(r(u),r(i)),c}function c(n,t,e,r,o,a){var u=1&t,i=2&t,l=4&t,f=8&t,p=16&t,g=32&t,h=n;if(!i&&!y(n))throw new TypeError;p&&!e.length&&(t&=-17,p=e=!1),g&&!r.length&&(t&=-33,g=r=!1);var b=n&&n.__bindData__;if(b)return!u||1&b[1]||(b[4]=o),!u&&1&b[1]&&(t|=8),!l||4&b[1]||(b[5]=a),p&&rt.apply(b[2]||(b[2]=[]),e),g&&rt.apply(b[3]||(b[3]=[]),r),b[1]|=t,c.apply(null,b);if(!u||i||l||g||!(mt.fastBind||lt&&p))m=function(){var y=arguments,b=u?o:this;return(l||p||g)&&(y=vt.call(y),p&&ut.apply(y,e),g&&rt.apply(y,r),l&&y.length<a)?(t|=16,c(n,f?t:-4&t,y,null,o,a)):(i&&(n=b[h]),this instanceof m?(b=s(n.prototype),y=n.apply(b,y),v(y)?y:b):n.apply(b,y))
+};else{if(p){var d=[o];rt.apply(d,e)}var m=p?lt.apply(n,d):lt.call(n,o)}return jt(m,vt.call(arguments)),m}function f(){q.h=D,q.b=q.c=q.g=q.i="",q.e="t",q.j=!0;for(var n,t=0;n=arguments[t];t++)for(var e in n)q[e]=n[e];t=q.a,q.d=/^[^,]+/.exec(t)[0],n=Function,t="return function("+t+"){",e=q;var r="var n,t="+e.d+",E="+e.e+";if(!t)return E;"+e.i+";";e.b?(r+="var u=t.length;n=-1;if("+e.b+"){",mt.unindexedChars&&(r+="if(s(t)){t=t.split('')}"),r+="while(++n<u){"+e.g+";}}else{"):mt.nonEnumArgs&&(r+="var u=t.length;n=-1;if(u&&p(t)){while(++n<u){n+='';"+e.g+";}}else{"),mt.enumPrototypes&&(r+="var G=typeof t=='function';"),mt.enumErrorProps&&(r+="var F=t===k||t instanceof Error;");
+var o=[];if(mt.enumPrototypes&&o.push('!(G&&n=="prototype")'),mt.enumErrorProps&&o.push('!(F&&(n=="message"||n=="name"))'),e.j&&e.f)r+="var C=-1,D=B[typeof t]&&v(t),u=D?D.length:0;while(++C<u){n=D[C];",o.length&&(r+="if("+o.join("&&")+"){"),r+=e.g+";",o.length&&(r+="}"),r+="}";else if(r+="for(n in t){",e.j&&o.push("m.call(t, n)"),o.length&&(r+="if("+o.join("&&")+"){"),r+=e.g+";",o.length&&(r+="}"),r+="}",mt.nonEnumShadows){for(r+="if(t!==A){var i=t.constructor,r=t===(i&&i.prototype),f=t===J?I:t===k?j:L.call(t),x=y[f];",k=0;7>k;k++)r+="n='"+e.h[k]+"';if((!(r&&x[n])&&m.call(t,n))",e.j||(r+="||(!x[n]&&t[n]!==A[n])"),r+="){"+e.g+"}";
+r+="}"}return(e.b||mt.nonEnumArgs)&&(r+="}"),r+=e.c+";return E",n("d,j,k,m,o,p,q,s,v,A,B,y,I,J,L",t+r+"}")(i,N,V,tt,_,g,Et,h,q.f,Q,G,dt,M,U,at)}function s(n){return v(n)?ct(n):{}}function p(n){var e,r;return!n||at.call(n)!=R||(e=n.constructor,y(e)&&!(e instanceof e))||!mt.argsClass&&g(n)||!mt.nodeClass&&t(n)?!1:mt.ownLast?(St(n,function(n,t,e){return r=tt.call(e,t),!1}),false!==r):(St(n,function(n,t){r=t}),typeof r=="undefined"||tt.call(n,r))}function g(n){return n&&typeof n=="object"&&typeof n.length=="number"&&at.call(n)==F||!1
+}function y(n){return typeof n=="function"}function v(n){return!(!n||!G[typeof n])}function h(n){return typeof n=="string"||at.call(n)==M}function b(n,t,e){if(t&&typeof e=="undefined"&&Et(n)){e=-1;for(var r=n.length;++e<r&&false!==t(n[e],e,n););}else _t(n,t,e);return n}function d(n,t){return 2<arguments.length?c(n,17,vt.call(arguments,2),null,t):c(n,1,null,null,t)}function m(n,t,e){var r,o,a,u,i,l,c,f=0,s=!1,p=!0;if(!y(n))throw new TypeError;if(t=pt(0,t)||0,true===e)var g=!0,p=!1;else v(e)&&(g=e.leading,s="maxWait"in e&&(pt(t,e.maxWait)||0),p="trailing"in e?e.trailing:p);
+var h=function(){var e=t-(et()-u);0<e?l=setTimeout(h,e):(o&&clearTimeout(o),e=c,o=l=c=w,e&&(f=et(),a=n.apply(i,r)))},b=function(){l&&clearTimeout(l),o=l=c=w,(p||s!==t)&&(f=et(),a=n.apply(i,r))};return function(){if(r=arguments,u=et(),i=this,c=p&&(l||!g),false===s)var e=g&&!l;else{o||g||(f=u);var y=s-(u-f);0<y?o||(o=setTimeout(b,y)):(o&&(o=clearTimeout(o)),f=u,a=n.apply(i,r))}return l||t===s||(l=setTimeout(h,t)),e&&(a=n.apply(i,r)),a}}function j(n){return n}function E(n,t,e){var r=null==n,o=null==t;return null==e&&(typeof n=="boolean"&&o?(e=n,n=1):o||typeof t!="boolean"||(e=t,o=!0)),r&&o&&(t=1),n=+n||0,o?(t=n,n=0):t=+t||0,r=yt(),e||n%1||t%1?gt(n+r*(t-n+parseFloat("1e-"+((r+"").length-1))),t):n+Y(r*(t-n+1))
+}var w,O=[],x=0,_={},A=40,S=/\w*$/,C=/^function[ \n\r\t]+\w/,P=/\bthis\b/,D="constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" "),F="[object Arguments]",I="[object Array]",T="[object Boolean]",B="[object Date]",N="[object Error]",L="[object Number]",R="[object Object]",W="[object RegExp]",M="[object String]",$={"[object Function]":!1};$[F]=$[I]=$[T]=$[B]=$[L]=$[R]=$[W]=$[M]=!0;var z={leading:!1,maxWait:0,trailing:!1},K={configurable:!1,enumerable:!1,value:null,writable:!1},q={a:"",b:null,c:"",d:"",e:"",v:null,g:"",h:null,support:null,i:"",j:!1},G={"boolean":!1,"function":!0,object:!0,number:!1,string:!1,undefined:!1},J=G[typeof n]&&n||this,H=[],V=Error.prototype,Q=Object.prototype,U=String.prototype,X=RegExp("^"+(Q.valueOf+"").replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/valueOf|for [^\]]+/g,".+?")+"$"),Y=Math.floor,Z=Function.prototype.toString,nt=X.test(nt=Object.getPrototypeOf)&&nt,tt=Q.hasOwnProperty,et=X.test(et=Date.now)&&et||function(){return+new Date
+},rt=H.push,ot=Q.propertyIsEnumerable,at=Q.toString,ut=H.unshift,it=function(){try{var n={},t=X.test(t=Object.defineProperty)&&t,e=t(n,n,n)&&t}catch(r){}return e}(),lt=X.test(lt=at.bind)&&lt,ct=X.test(ct=Object.create)&&ct,ft=X.test(ft=Array.isArray)&&ft,st=X.test(st=Object.keys)&&st,pt=Math.max,gt=Math.min,yt=Math.random,vt=H.slice;n=X.test(J.attachEvent);var ht=lt&&!/\n|true/.test(lt+n),bt={};bt[I]=Array,bt[T]=Boolean,bt[B]=Date,bt["[object Function]"]=Function,bt[R]=Object,bt[L]=Number,bt[W]=RegExp,bt[M]=String;
+var dt={};dt[I]=dt[B]=dt[L]={constructor:!0,toLocaleString:!0,toString:!0,valueOf:!0},dt[T]=dt[M]={constructor:!0,toString:!0,valueOf:!0},dt[N]=dt["[object Function]"]=dt[W]={constructor:!0,toString:!0},dt[R]={constructor:!0},function(){for(var n=D.length;n--;){var t,e=D[n];for(t in dt)tt.call(dt,t)&&!tt.call(dt[t],e)&&(dt[t][e]=!1)}}();var mt=a.support={};!function(){var n=function(){this.x=1},t={0:1,length:1},e=[];n.prototype={valueOf:1,y:1};for(var r in new n)e.push(r);for(r in arguments);mt.argsClass=at.call(arguments)==F,mt.argsObject=arguments.constructor==Object&&!(arguments instanceof Array),mt.enumErrorProps=ot.call(V,"message")||ot.call(V,"name"),mt.enumPrototypes=ot.call(n,"prototype"),mt.fastBind=lt&&!ht,mt.funcDecomp=!X.test(J.WinRTError)&&P.test(function(){return this
+}),mt.funcNames=typeof Function.name=="string",mt.nonEnumArgs=0!=r,mt.nonEnumShadows=!/valueOf/.test(e),mt.ownLast="x"!=e[0],mt.spliceObjects=(H.splice.call(t,0,1),!t[0]),mt.unindexedChars="xx"!="x"[0]+Object("x")[0];try{mt.nodeClass=!(at.call(document)==R&&!({toString:0}+""))}catch(o){mt.nodeClass=!0}}(1),ct||(s=function(n){if(v(n)){e.prototype=n;var t=new e;e.prototype=null}return t||{}});var jt=it?function(n,t){K.value=t,it(n,"__bindData__",K)}:e;mt.argsClass||(g=function(n){return n&&typeof n=="object"&&typeof n.length=="number"&&tt.call(n,"callee")||!1
+});var Et=ft||function(n){return n&&typeof n=="object"&&typeof n.length=="number"&&at.call(n)==I||!1},wt=f({a:"z",e:"[]",i:"if(!(B[typeof z]))return E",g:"E.push(n)"}),Ot=st?function(n){return v(n)?mt.enumPrototypes&&typeof n=="function"||mt.nonEnumArgs&&n.length&&g(n)?wt(n):st(n):[]}:wt,ft={a:"g,e,K",i:"e=e&&typeof K=='undefined'?e:d(e,K,3)",b:"typeof u=='number'",v:Ot,g:"if(e(t[n],n,g)===false)return E"};n={a:"z,H,l",i:"var a=arguments,b=0,c=typeof l=='number'?2:a.length;while(++b<c){t=a[b];if(t&&B[typeof t]){",v:Ot,g:"if(typeof E[n]=='undefined')E[n]=t[n]",c:"}}"};
+var xt={i:"if(!B[typeof t])return E;"+ft.i,b:!1},_t=f(ft),At=f(n,{i:n.i.replace(";",";if(c>3&&typeof a[c-2]=='function'){var e=d(a[--c-1],a[c--],2)}else if(c>2&&typeof a[c-1]=='function'){e=a[--c]}"),g:"E[n]=e?e(E[n],t[n]):t[n]"}),St=f(ft,xt,{j:!1}),Ct=f(ft,xt);y(/x/)&&(y=function(n){return typeof n=="function"&&"[object Function]"==at.call(n)}),ft=nt?function(n){if(!n||at.call(n)!=R||!mt.argsClass&&g(n))return!1;var t=n.valueOf,e=typeof t=="function"&&(e=nt(t))&&nt(e);return e?n==e||nt(n)==e:p(n)
+}:p,a.assign=At,a.bind=d,a.createCallback=function(n,t,e){var r=typeof n;if(null==n||"function"==r)return i(n,t,e);if("object"!=r)return function(t){return t[n]};var o=Ot(n),a=o[0],u=n[a];return 1!=o.length||u!==u||v(u)?function(t){for(var e=o.length,r=!1;e--&&(r=l(t[o[e]],n[o[e]],null,!0)););return r}:function(n){return n=n[a],u===n&&(0!==u||1/u==1/n)}},a.debounce=m,a.forEach=b,a.forIn=St,a.forOwn=Ct,a.keys=Ot,a.shuffle=function(n){var t=-1,e=n?n.length:0,r=Array(typeof e=="number"?e:0);return b(n,function(n){var e=E(++t);
+r[t]=r[e],r[e]=n}),r},a.throttle=function(n,t,e){var r=!0,o=!0;if(!y(n))throw new TypeError;return false===e?r=!1:v(e)&&(r="leading"in e?e.leading:r,o="trailing"in e?e.trailing:o),z.leading=r,z.maxWait=t,z.trailing=o,m(n,t,z)},a.each=b,a.extend=At,a.clone=function(n,t,e,r){return typeof t!="boolean"&&null!=t&&(r=e,e=t,t=!1),u(n,t,typeof e=="function"&&i(e,r,1))},a.identity=j,a.isArguments=g,a.isArray=Et,a.isFunction=y,a.isObject=v,a.isPlainObject=ft,a.isString=h,a.random=E,a.sortedIndex=function(n,t,e,r){var o=0,u=n?n.length:o;
+for(e=e?a.createCallback(e,r,1):j,t=e(t);o<u;)r=o+u>>>1,e(n[r])<t?o=r+1:u=r;return o},a.uniqueId=function(n){var t=++x;return(null==n?"":n)+""+t},a.VERSION="2.2.1",a.extend(Physics.util,a)}(this);
 
-(function(e,t){typeof exports=="object"?module.exports=t.call(e):typeof define=="function"&&define.amd?define([],function(){return t.call(e)}):e.Physics=t.call(e)})(this,function(){var e=function n(){return n.world.apply(n,arguments)};e.util={},!function(t){function n(e){return typeof e.toString!="function"&&typeof (e+"")=="string"}function r(){}function i(e){e.length=0,T.length<L&&T.push(e)}function s(e,t,n){t||(t=0),typeof n=="undefined"&&(n=e?e.length:0);var r=-1;n=n-t||0;for(var i=Array(0>n?0:n);++r<n;)i[r]=e[t+r];return i}function o(){}function u(e,t,r,o,a){if(r){var f=r(e);if(typeof f!="undefined")return f}if(!m(e))return e;var l=ot.call(e);if(!U[l]||!wt.nodeClass&&n(e))return e;var c=yt[l];switch(l){case H:case B:return new c(+e);case F:case R:return new c(e);case q:return f=c(e.source,A.exec(e)),f.lastIndex=e.lastIndex,f}if(l=St(e),t){var h=!o;o||(o=T.pop()||[]),a||(a=T.pop()||[]);for(var p=o.length;p--;)if(o[p]==e)return a[p];f=l?c(e.length):{}}else f=l?s(e):kt({},e);return l&&(nt.call(e,"index")&&(f.index=e.index),nt.call(e,"input")&&(f.input=e.input)),t?(o.push(e),a.push(f),(l?Ct:At)(e,function(e,n){f[n]=u(e,t,r,o,a)}),h&&(i(o),i(a)),f):f}function a(e,t,n){if(typeof e!="function")return E;if(typeof t=="undefined")return e;var r=e.__bindData__||wt.funcNames&&!e.name;if(typeof r=="undefined"){var i=M&&et.call(e);wt.funcNames||!i||O.test(i)||(r=!0),(wt.funcNames||!r)&&(r=!wt.funcDecomp||M.test(i),Et(e,r))}if(!0!==r&&r&&1&r[1])return e;switch(n){case 1:return function(n){return e.call(t,n)};case 2:return function(n,r){return e.call(t,n,r)};case 3:return function(n,r,i){return e.call(t,n,r,i)};case 4:return function(n,r,i,s){return e.call(t,n,r,i,s)}}return b(e,t)}function f(e,t,r,s,o,u){if(r){var a=r(e,t);if(typeof a!="undefined")return!!a}if(e===t)return 0!==e||1/e==1/t;if(e===e&&!(e&&V[typeof e]||t&&V[typeof t]))return!1;if(null==e||null==t)return e===t;var l=ot.call(e),c=ot.call(t);if(l==D&&(l=I),c==D&&(c=I),l!=c)return!1;switch(l){case H:case B:return+e==+t;case F:return e!=+e?t!=+t:0==e?1/e==1/t:e==+t;case q:case R:return e==t+""}if(c=l==P,!c){if(nt.call(e,"__wrapped__")||nt.call(t,"__wrapped__"))return f(e.__wrapped__||e,t.__wrapped__||t,r,s,o,u);if(l!=I||!wt.nodeClass&&(n(e)||n(t)))return!1;var l=!wt.argsObject&&d(e)?Object:e.constructor,h=!wt.argsObject&&d(t)?Object:t.constructor;if(l!=h&&!(v(l)&&l instanceof l&&v(h)&&h instanceof h))return!1}for(h=!o,o||(o=T.pop()||[]),u||(u=T.pop()||[]),l=o.length;l--;)if(o[l]==e)return u[l]==t;var p=0,a=!0;if(o.push(e),u.push(t),c){if(l=e.length,p=t.length,a=p==e.length,!a&&!s)return a;for(;p--;)if(c=l,h=t[p],s)for(;c--&&!(a=f(e[c],h,r,s,o,u)););else if(!(a=f(e[p],h,r,s,o,u)))break;return a}return Lt(t,function(t,n,i){return nt.call(i,n)?(p++,a=nt.call(e,n)&&f(e[n],t,r,s,o,u)):void 0}),a&&!s&&Lt(e,function(e,t,n){return nt.call(n,t)?a=-1<--p:void 0}),h&&(i(o),i(u)),a}function l(e,t,n,r,i,s){var o=1&t,u=2&t,a=4&t,f=8&t,c=16&t,p=32&t,d=e;if(!u&&!v(e))throw new TypeError;c&&!n.length&&(t&=-17,c=n=!1),p&&!r.length&&(t&=-33,p=r=!1);var g=e&&e.__bindData__;if(g)return!o||1&g[1]||(g[4]=i),!o&&1&g[1]&&(t|=8),!a||4&g[1]||(g[5]=s),c&&it.apply(g[2]||(g[2]=[]),n),p&&it.apply(g[3]||(g[3]=[]),r),g[1]|=t,l.apply(null,g);if(!o||u||a||p||!(wt.fastBind||ft&&c))b=function(){var v=arguments,g=o?i:this;return(a||c||p)&&(v=mt.call(v),c&&ut.apply(v,n),p&&it.apply(v,r),a&&v.length<s)?(t|=16,l(e,f?t:-4&t,v,null,i,s)):(u&&(e=g[d]),this instanceof b?(g=h(e.prototype),v=e.apply(g,v),m(v)?v:g):e.apply(g,v))};else{if(c){var y=[i];it.apply(y,n)}var b=c?ft.apply(e,y):ft.call(e,i)}return Et(b,mt.call(arguments)),b}function c(){X.h=_,X.b=X.c=X.g=X.i="",X.e="t",X.j=!0;for(var e,t=0;e=arguments[t];t++)for(var n in e)X[n]=e[n];t=X.a,X.d=/^[^,]+/.exec(t)[0],e=Function,t="return function("+t+"){",n=X;var r="var n,t="+n.d+",E="+n.e+";if(!t)return E;"+n.i+";";n.b?(r+="var u=t.length;n=-1;if("+n.b+"){",wt.unindexedChars&&(r+="if(s(t)){t=t.split('')}"),r+="while(++n<u){"+n.g+";}}else{"):wt.nonEnumArgs&&(r+="var u=t.length;n=-1;if(u&&p(t)){while(++n<u){n+='';"+n.g+";}}else{"),wt.enumPrototypes&&(r+="var G=typeof t=='function';"),wt.enumErrorProps&&(r+="var F=t===k||t instanceof Error;");var i=[];if(wt.enumPrototypes&&i.push('!(G&&n=="prototype")'),wt.enumErrorProps&&i.push('!(F&&(n=="message"||n=="name"))'),n.j&&n.f)r+="var C=-1,D=B[typeof t]&&v(t),u=D?D.length:0;while(++C<u){n=D[C];",i.length&&(r+="if("+i.join("&&")+"){"),r+=n.g+";",i.length&&(r+="}"),r+="}";else if(r+="for(n in t){",n.j&&i.push("m.call(t, n)"),i.length&&(r+="if("+i.join("&&")+"){"),r+=n.g+";",i.length&&(r+="}"),r+="}",wt.nonEnumShadows){for(r+="if(t!==A){var i=t.constructor,r=t===(i&&i.prototype),f=t===J?I:t===k?j:L.call(t),x=y[f];",k=0;7>k;k++)r+="n='"+n.h[k]+"';if((!(r&&x[n])&&m.call(t,n))",n.j||(r+="||(!x[n]&&t[n]!==A[n])"),r+="){"+n.g+"}";r+="}"}return(n.b||wt.nonEnumArgs)&&(r+="}"),r+=n.c+";return E",e("d,j,k,m,o,p,q,s,v,A,B,y,I,J,L",t+r+"}")(a,j,K,nt,C,d,St,g,X.f,Q,V,bt,R,G,ot)}function h(e){return m(e)?lt(e):{}}function p(e){var t,r;return!e||ot.call(e)!=I||(t=e.constructor,v(t)&&!(t instanceof t))||!wt.argsClass&&d(e)||!wt.nodeClass&&n(e)?!1:wt.ownLast?(Lt(e,function(e,t,n){return r=nt.call(n,t),!1}),!1!==r):(Lt(e,function(e,t){r=t}),typeof r=="undefined"||nt.call(e,r))}function d(e){return e&&typeof e=="object"&&typeof e.length=="number"&&ot.call(e)==D||!1}function v(e){return typeof e=="function"}function m(e){return!!e&&!!V[typeof e]}function g(e){return typeof e=="string"||ot.call(e)==R}function y(e,t,n){if(t&&typeof n=="undefined"&&St(e)){n=-1;for(var r=e.length;++n<r&&!1!==t(e[n],n,e););}else Ct(e,t,n);return e}function b(e,t){return 2<arguments.length?l(e,17,mt.call(arguments,2),null,t):l(e,1,null,null,t)}function w(e,t,n){var r,i,s,o,u,a,f,l=0,c=!1,h=!0;if(!v(e))throw new TypeError;if(t=pt(0,t)||0,!0===n)var p=!0,h=!1;else m(n)&&(p=n.leading,c="maxWait"in n&&(pt(t,n.maxWait)||0),h="trailing"in n?n.trailing:h);var d=function(){var n=t-(rt()-o);0<n?a=setTimeout(d,n):(i&&clearTimeout(i),n=f,i=a=f=x,n&&(l=rt(),s=e.apply(u,r)))},g=function(){a&&clearTimeout(a),i=a=f=x,(h||c!==t)&&(l=rt(),s=e.apply(u,r))};return function(){if(r=arguments,o=rt(),u=this,f=h&&(a||!p),!1===c)var n=p&&!a;else{i||p||(l=o);var v=c-(o-l);0<v?i||(i=setTimeout(g,v)):(i&&(i=clearTimeout(i)),l=o,s=e.apply(u,r))}return a||t===c||(a=setTimeout(d,t)),n&&(s=e.apply(u,r)),s}}function E(e){return e}function S(e,t,n){var r=null==e,i=null==t;return null==n&&(typeof e=="boolean"&&i?(n=e,e=1):i||typeof t!="boolean"||(n=t,i=!0)),r&&i&&(t=1),e=+e||0,i?(t=e,e=0):t=+t||0,r=vt(),n||e%1||t%1?dt(e+r*(t-e+parseFloat("1e-"+((r+"").length-1))),t):e+Z(r*(t-e+1))}var x,T=[],N=0,C={},L=40,A=/\w*$/,O=/^function[ \n\r\t]+\w/,M=/\bthis\b/,_="constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" "),D="[object Arguments]",P="[object Array]",H="[object Boolean]",B="[object Date]",j="[object Error]",F="[object Number]",I="[object Object]",q="[object RegExp]",R="[object String]",U={"[object Function]":!1};U[D]=U[P]=U[H]=U[B]=U[F]=U[I]=U[q]=U[R]=!0;var z={leading:!1,maxWait:0,trailing:!1},W={configurable:!1,enumerable:!1,value:null,writable:!1},X={a:"",b:null,c:"",d:"",e:"",v:null,g:"",h:null,support:null,i:"",j:!1},V={"boolean":!1,"function":!0,object:!0,number:!1,string:!1,"undefined":!1},$=V[typeof t]&&t||this,J=[],K=Error.prototype,Q=Object.prototype,G=String.prototype,Y=RegExp("^"+(Q.valueOf+"").replace(/[.*+?^${}()|[\]\\]/g,"\\$&").replace(/valueOf|for [^\]]+/g,".+?")+"$"),Z=Math.floor,et=Function.prototype.toString,tt=Y.test(tt=Object.getPrototypeOf)&&tt,nt=Q.hasOwnProperty,rt=Y.test(rt=Date.now)&&rt||function(){return+(new Date)},it=J.push,st=Q.propertyIsEnumerable,ot=Q.toString,ut=J.unshift,at=function(){try{var e={},t=Y.test(t=Object.defineProperty)&&t,n=t(e,e,e)&&t}catch(r){}return n}(),ft=Y.test(ft=ot.bind)&&ft,lt=Y.test(lt=Object.create)&&lt,ct=Y.test(ct=Array.isArray)&&ct,ht=Y.test(ht=Object.keys)&&ht,pt=Math.max,dt=Math.min,vt=Math.random,mt=J.slice;t=Y.test($.attachEvent);var gt=ft&&!/\n|true/.test(ft+t),yt={};yt[P]=Array,yt[H]=Boolean,yt[B]=Date,yt["[object Function]"]=Function,yt[I]=Object,yt[F]=Number,yt[q]=RegExp,yt[R]=String;var bt={};bt[P]=bt[B]=bt[F]={constructor:!0,toLocaleString:!0,toString:!0,valueOf:!0},bt[H]=bt[R]={constructor:!0,toString:!0,valueOf:!0},bt[j]=bt["[object Function]"]=bt[q]={constructor:!0,toString:!0},bt[I]={constructor:!0},function(){for(var e=_.length;e--;){var t,n=_[e];for(t in bt)nt.call(bt,t)&&!nt.call(bt[t],n)&&(bt[t][n]=!1)}}();var wt=o.support={};!function(){var e=function(){this.x=1},t={0:1,length:1},n=[];e.prototype={valueOf:1,y:1};for(var r in new e)n.push(r);for(r in arguments);wt.argsClass=ot.call(arguments)==D,wt.argsObject=arguments.constructor==Object&&!(arguments instanceof Array),wt.enumErrorProps=st.call(K,"message")||st.call(K,"name"),wt.enumPrototypes=st.call(e,"prototype"),wt.fastBind=ft&&!gt,wt.funcDecomp=!Y.test($.WinRTError)&&M.test(function(){return this}),wt.funcNames=typeof Function.name=="string",wt.nonEnumArgs=0!=r,wt.nonEnumShadows=!/valueOf/.test(n),wt.ownLast="x"!=n[0],wt.spliceObjects=(J.splice.call(t,0,1),!t[0]),wt.unindexedChars="xx"!="x"[0]+Object("x")[0];try{wt.nodeClass=ot.call(document)!=I||!!({toString:0}+"")}catch(i){wt.nodeClass=!0}}(1),lt||(h=function(e){if(m(e)){r.prototype=e;var t=new r;r.prototype=null}return t||{}});var Et=at?function(e,t){W.value=t,at(e,"__bindData__",W)}:r;wt.argsClass||(d=function(e){return e&&typeof e=="object"&&typeof e.length=="number"&&nt.call(e,"callee")||!1});var St=ct||function(e){return e&&typeof e=="object"&&typeof e.length=="number"&&ot.call(e)==P||!1},xt=c({a:"z",e:"[]",i:"if(!(B[typeof z]))return E",g:"E.push(n)"}),Tt=ht?function(e){return m(e)?wt.enumPrototypes&&typeof e=="function"||wt.nonEnumArgs&&e.length&&d(e)?xt(e):ht(e):[]}:xt,ct={a:"g,e,K",i:"e=e&&typeof K=='undefined'?e:d(e,K,3)",b:"typeof u=='number'",v:Tt,g:"if(e(t[n],n,g)===false)return E"};t={a:"z,H,l",i:"var a=arguments,b=0,c=typeof l=='number'?2:a.length;while(++b<c){t=a[b];if(t&&B[typeof t]){",v:Tt,g:"if(typeof E[n]=='undefined')E[n]=t[n]",c:"}}"};var Nt={i:"if(!B[typeof t])return E;"+ct.i,b:!1},Ct=c(ct),kt=c(t,{i:t.i.replace(";",";if(c>3&&typeof a[c-2]=='function'){var e=d(a[--c-1],a[c--],2)}else if(c>2&&typeof a[c-1]=='function'){e=a[--c]}"),g:"E[n]=e?e(E[n],t[n]):t[n]"}),Lt=c(ct,Nt,{j:!1}),At=c(ct,Nt);v(/x/)&&(v=function(e){return typeof e=="function"&&"[object Function]"==ot.call(e)}),ct=tt?function(e){if(!e||ot.call(e)!=I||!wt.argsClass&&d(e))return!1;var t=e.valueOf,n=typeof t=="function"&&(n=tt(t))&&tt(n);return n?e==n||tt(e)==n:p(e)}:p,o.assign=kt,o.bind=b,o.createCallback=function(e,t,n){var r=typeof e;if(null==e||"function"==r)return a(e,t,n);if("object"!=r)return function(t){return t[e]};var i=Tt(e),s=i[0],o=e[s];return 1!=i.length||o!==o||m(o)?function(t){for(var n=i.length,r=!1;n--&&(r=f(t[i[n]],e[i[n]],null,!0)););return r}:function(e){return e=e[s],o===e&&(0!==o||1/o==1/e)}},o.debounce=w,o.forEach=y,o.forIn=Lt,o.forOwn=At,o.keys=Tt,o.shuffle=function(e){var t=-1,n=e?e.length:0,r=Array(typeof n=="number"?n:0);return y(e,function(e){var n=S(++t);r[t]=r[n],r[n]=e}),r},o.throttle=function(e,t,n){var r=!0,i=!0;if(!v(e))throw new TypeError;return!1===n?r=!1:m(n)&&(r="leading"in n?n.leading:r,i="trailing"in n?n.trailing:i),z.leading=r,z.maxWait=t,z.trailing=i,w(e,t,z)},o.each=y,o.extend=kt,o.clone=function(e,t,n,r){return typeof t!="boolean"&&null!=t&&(r=n,n=t,t=!1),u(e,t,typeof n=="function"&&a(n,r,1))},o.identity=E,o.isArguments=d,o.isArray=St,o.isFunction=v,o.isObject=m,o.isPlainObject=ct,o.isString=g,o.random=S,o.sortedIndex=function(e,t,n,r){var i=0,s=e?e.length:i;for(n=n?o.createCallback(n,r,1):E,t=n(t);i<s;)r=i+s>>>1,n(e[r])<t?i=r+1:s=r;return i},o.uniqueId=function(e){var t=++N;return(null==e?"":e)+""+t},o.VERSION="2.2.1",o.extend(e.util,o)}(this);var t=e.util.decorator=function(n,r){var i={},s={},o=function(n,r){return e.util.isFunction(r)?r:n},u=Object.getPrototypeOf;typeof u!="function"&&(typeof "test".__proto__=="object"?u=function(e){return e.__proto__}:u=function(e){return e.constructor.prototype});var a=Object.create;typeof a!="function"&&(a=function(e){function t(){}return t.prototype=e,new t});var f=function(r,i){if(typeof r=="object"){s=e.util.extend(s,r,o),s.type=n;return}r!=="type"&&e.util.isFunction(i)&&(s[r]=i)};f(r);var l=function(r,f,l,c){var h,p,d=s,v;if(typeof f!="string")c=l,l=f;else{d=i[f];if(!d)throw'Error: "'+f+'" '+n+" not defined";d=d.prototype}if(typeof l=="function")p=i[r],p?p.prototype=e.util.extend(p.prototype,l(u(p.prototype)),o):(p=i[r]=function m(e){this.init&&this.init(e)},p.prototype=a(d),p.prototype=e.util.extend(p.prototype,l(d),o)),p.prototype.type=n,p.prototype.name=r;else{c=l||{},p=i[r];if(!p)throw'Error: "'+r+'" '+n+" not defined"}if(c)return new p(c)};return l.mixin=f,l};return function(t){var n=t.Physics;e.noConflict=function(){return t.Physics===e&&(t.Physics=n),e}}(this),function(){var t=function n(e){if(!(this instanceof n))return new n(e);this.initPubsub(e)};t.prototype={initPubsub:function(e){this._topics={},this._defaultScope=e||this},subscribe:function(t,n,r,i){var s=this._topics[t]||(this._topics[t]=[]),o=n,u;if(e.util.isObject(t)){for(var a in t)this.subscribe(a,t[a],n,r);return this}return e.util.isObject(r)?(n=e.util.bind(n,r),n._bindfn_=o):i||(i=r),n._priority_=i,u=e.util.sortedIndex(s,n,"_priority_"),s.splice(u,0,n),this},unsubscribe:function(e,t){if(e===!0)return this._topics={},this;var n=this._topics[e],r;if(!n)return this;if(t===!0)return this._topics[e]=[],this;for(var i=0,s=n.length;i<s;i++){r=n[i];if(r._bindfn_===t||r===t){n.splice(i,1);break}}return this},publish:function(e,t){typeof e!="object"&&(e={topic:e});var n=e.topic,r=this._topics[n],i=r&&r.length;if(!n)throw"Error: No topic specified in call to world.publish()";if(!i)return this;e.scope=e.scope||this._defaultScope;while(i--)e.handler=r[i],e.handler(e);return this}},e.util.pubsub=t}(),function(e){var t=0,n=["ms","moz","webkit","o"];for(var r=0;r<n.length&&!e.requestAnimationFrame;++r)e.requestAnimationFrame=e[n[r]+"RequestAnimationFrame"],e.cancelAnimationFrame=e[n[r]+"CancelAnimationFrame"]||e[n[r]+"CancelRequestAnimationFrame"];e.requestAnimationFrame||(e.requestAnimationFrame=function(n,r){var i=(new Date).getTime(),s=Math.max(0,16-(i-t)),o=e.setTimeout(function(){n(i+s)},s);return t=i+s,o}),e.cancelAnimationFrame||(e.cancelAnimationFrame=function(e){clearTimeout(e)})}(this),function(){var t=100,n=10,r="Error: Scratchpad used after .done() called. (Could it be unintentionally scoped?)",i="Error: Scratchpad usage space out of bounds. (Did you forget to call .done()?)",s="Error: Too many scratchpads created. (Did you forget to call .done()?)",o=[],u=0,a=function(){this.objIndex=0,this.arrayIndex=0,this.vectorIndex=0,this.aabbIndex=0,this.transformIndex=0,this.objectStack=[],this.arrayStack=[],this.vectorStack=[],this.aabbStack=[],this.transformStack=[];if(++u>=t)throw s};a.prototype={done:function(){this._active=!1,this.objIndex=this.arrayIndex=this.vectorIndex=this.aabbIndex=this.transformIndex=0,o.push(this)},object:function(){var e=this.objectStack;if(!this._active)throw r;if(this.objIndex>=n)throw i;return e[this.objIndex++]||e[e.push({})-1]},array:function(){var e=this.arrayStack;if(!this._active)throw r;if(this.arrIndex>=n)throw i;return e[this.arrIndex++]||e[e.push([])-1]},vector:function(){var t=this.vectorStack;if(!this._active)throw r;if(this.vectorIndex>=n)throw i;return t[this.vectorIndex++]||t[t.push(e.vector())-1]},aabb:function(){var t=this.aabbStack;if(!this._active)throw r;if(this.aabbIndex>=n)throw i;return t[this.aabbIndex++]||t[t.push(e.aabb())-1]},transform:function(){var t=this.transformStack;if(!this._active)throw r;if(this.transformIndex>=n)throw i;return t[this.transformIndex++]||t[t.push(e.transform())-1]}},e.scratchpad=function(){var e=o.pop()||new a;return e._active=!0,e}}(),function(t){function s(e){var o=i;if(!r)return;t.requestAnimationFrame(s);for(var u=0,a=o.length;u<a;++u)o[u](e,e-n);n=e}function o(){return n=(new Date).getTime(),r=!0,s(),this}function u(){return r=!1,this}function a(e){if(typeof e=="function"){for(var t=0,n=i.length;t<n;++t)if(e===i[t])return this;i.push(e)}return this}function f(e){var t=i;for(var n=0,r=t.length;n<r;++n)if(t[n]===e)return t.splice(n,1),this;return this}function l(){return!!r}var n=0,r=!1,i=[];e.util.ticker={start:o,stop:u,subscribe:a,unsubscribe:f,isActive:l}}(this),function(){var t=function n(t,r,i,s){if(!(this instanceof n))return new n(t,r,i,s);this._pos=e.vector(),this.set(t,r,i,s)};t.prototype.set=function(n,r,i,s){return e.util.isObject(n)?(this._pos.clone(n.pos),this._hw=n.halfWidth,this._hh=n.halfHeight,this):(this._pos.set(.5*(i+n),.5*(s+r)),this._hw=.5*(i-n),this._hh=.5*(s-r),this)},t.prototype.get=function(){var t=this.halfWidth(),n=this.halfHeight();return{pos:this._pos.values(),halfWidth:t,halfHeight:n,x:t,y:n}},t.prototype.halfWidth=function(){return this._hw},t.prototype.halfHeight=function(){return this._hh},t.prototype.contains=function(t){var n=t.x!==undefined?t.x:t.get(0),r=t.y!==undefined?t.y:t.get(1);return n>this._pos.get(0)-this._hw&&n<this._pos.get(0)+this._hw&&r>this._pos.get(1)-this._hh&&r<this._pos.get(1)+this._hh},t.prototype.transform=function(n){var r=this._hw,i=this._hh,s=e.scratchpad(),o=s.vector().set(r,i),u=s.vector().set(r,-i);return this._pos.translate(n),o.rotate(n),u.rotate(n),this._hw=Math.max(Math.abs(o.get(0)),Math.abs(u.get(0))),this._hh=Math.max(Math.abs(o.get(1)),Math.abs(u.get(1))),s.done(),this},t.contains=function(e,t){var n=t.x!==undefined?t.x:t.get(0),r=t.y!==undefined?t.y:t.get(1);return e=e.get?e.get():e,n>e.pos.x-e.halfWidth&&n<e.pos.x+e.halfWidth&&r>e.pos.y-e.halfHeight&&r<e.pos.y+e.halfHeight},e.aabb=t}(),function(){var t=1e-4,n=100,r=function(t,n,r){var i=n.normSq()-n.dot(t),s=n.dot(t)-t.normSq();return i<0?r.clone(n).negate():s>0?r.clone(t).negate():(r.clone(n).vsub(t),r.perp(t.cross(r)<0))},i=function(n){var r=n.length,i=n[r-2],s=n[r-3],o=e.scratchpad(),u=o.vector().clone(i.pt),a=o.vector().clone(s.pt).vsub(u),f,l;if(a.equals(e.vector.zero))return o.done(),{a:i.a,b:i.b};f=-a.dot(u)/a.normSq(),l=1-f;if(l<=0)return o.done(),{a:s.a,b:s.b};if(f<=0)return o.done(),{a:i.a,b:i.b};var c={a:u.clone(i.a).mult(l).vadd(a.clone(s.a).mult(f)).values(),b:u.clone(i.b).mult(l).vadd(a.clone(s.b).mult(f)).values()};return o.done(),c},s=function(o,u,a,f){var l=!1,c=!1,h=!1,p=[],d=1,v=e.scratchpad(),m=v.vector().clone(u||e.vector.axis[0]),g=v.vector(),y=v.vector(),b=v.vector(),w=v.vector(),E,S,x,T,N=0;T=o(m),d=p.push(T),g.clone(T.pt),m.negate();while(++N){g.swap(y),T=o(m),d=p.push(T),g.clone(T.pt),f&&f(p);if(g.equals(e.vector.zero)){l=!0;break}if(!c&&g.dot(m)<=0){if(a)break;c=!0}if(d===2)m=r(g,y,m);else if(c){m.normalize(),T=y.dot(m);if(Math.abs(T-g.dot(m))<t){h=-T;break}y.normSq()<b.clone(p[0].pt).normSq()?p.shift():p.splice(1,1),m=r(b.clone(p[1].pt),w.clone(p[0].pt),m)}else{E=E||v.vector(),S=S||v.vector(),E.clone(y).vsub(g),S.clone(p[0].pt).vsub(g),x=E.cross(S)>0;if(x^g.cross(E)>0)p.shift(),E.perp(x),m.swap(E);else{if(!(x^S.cross(g)>0)){l=!0;break}p.splice(1,1),S.perp(!x),m.swap(E)}}if(N>n)return v.done(),{simplex:p,iterations:N,distance:0,maxIterationsReached:!0}}return v.done(),T={overlap:l,simplex:p,iterations:N},h!==!1&&(T.distance=h,T.closest=i(p)),T};e.gjk=s}(),function(){var t=function n(t,r,i){if(!(this instanceof n))return new n(t,r);this.v=e.vector(),this.o=e.vector();if(t instanceof n){this.clone(t);return}t&&this.setTranslation(t),this.setRotation(r||0,i)};t.prototype.setTranslation=function(e){return this.v.clone(e),this},t.prototype.setRotation=function(e,t){return this.cosA=Math.cos(e),this.sinA=Math.sin(e),t?this.o.clone(t):this.o.zero(),this},t.prototype.clone=function(e){return e?(this.setTranslation(e.v),this.cosA=e.cosA,this.sinA=e.sinA,this.o.clone(e.o),this):new t(this)},e.transform=t}(),function(t){var n=Math.sqrt,r=Math.min,i=Math.max,s=Math.acos,o=Math.atan2,u=Math.PI*2,a=!!t.Float64Array,f=function l(e,t){if(!(this instanceof l))return new l(e,t);a?this._=new Float64Array(5):this._=[],e&&(e.x!==undefined||e._&&e._.length)?this.clone(e):(this.recalc=!0,this.set(e||0,t||0))};f.prototype.set=function(e,t){return this.recalc=!0,this._[0]=e||0,this._[1]=t||0,this},f.prototype.get=function(e){return this._[e]},f.prototype.vadd=function(e){return this.recalc=!0,this._[0]+=e._[0],this._[1]+=e._[1],this},f.prototype.vsub=function(e){return this.recalc=!0,this._[0]-=e._[0],this._[1]-=e._[1],this},f.prototype.add=function(e,t){return this.recalc=!0,this._[0]+=e,this._[1]+=t===undefined?e:t,this},f.prototype.sub=function(e,t){return this.recalc=!0,this._[0]-=e,this._[1]-=t===undefined?e:t,this},f.prototype.mult=function(e){return this.recalc||(this._[4]*=e*e,this._[3]*=e),this._[0]*=e,this._[1]*=e,this},f.prototype.dot=function(e){return this._[0]*e._[0]+this._[1]*e._[1]},f.prototype.cross=function(e){return-this._[0]*e._[1]+this._[1]*e._[0]},f.prototype.proj=function(e){return this.dot(e)/e.norm()},f.prototype.vproj=function(e){var t=this.dot(e)/e.normSq();return this.clone(e).mult(t)},f.prototype.angle=function(e){var t;if(this.equals(f.zero))return e?e.angle():NaN;e&&!e.equals(f.zero)?t=o(this._[1]*e._[0]-this._[0]*e._[1],this._[0]*e._[0]+this._[1]*e._[1]):t=o(this._[1],this._[0]);while(t>Math.PI)t-=u;while(t<-Math.PI)t+=u;return t},f.prototype.angle2=function(e,t){var n=e._[0]-this._[0],r=e._[1]-this._[1],i=t._[0]-this._[0],s=t._[1]-this._[1],a=o(r*i-n*s,n*i+r*s);while(a>Math.PI)a-=u;while(a<-Math.PI)a+=u;return a},f.prototype.norm=function(){return this.recalc&&(this.recalc=!1,this._[4]=this._[0]*this._[0]+this._[1]*this._[1],this._[3]=n(this._[4])),this._[3]},f.prototype.normSq=function(){return this.recalc&&(this.recalc=!1,this._[4]=this._[0]*this._[0]+this._[1]*this._[1],this._[3]=n(this._[4])),this._[4]},f.prototype.dist=function(e){var t,r;return n((t=e._[0]-this._[0])*t+(r=e._[1]-this._[1])*r)},f.prototype.distSq=function(e){var t,n;return(t=e._[0]-this._[0])*t+(n=e._[1]-this._[1])*n},f.prototype.perp=function(e){var t=this._[0];return e?(this._[0]=-this._[1],this._[1]=t):(this._[0]=this._[1],this._[1]=-t),this},f.prototype.normalize=function(){var e=this.norm();return e===0?this:(e=1/e,this._[0]*=e,this._[1]*=e,this._[3]=1,this._[4]=1,this)},f.prototype.transform=function(e){var t=e.sinA,n=e.cosA,r=e.o._[0],i=e.o._[1];return this._[0]-=r,this._[1]-=i,this.set(this._[0]*n-this._[1]*t+r+e.v._[0],this._[0]*t+this._[1]*n+i+e.v._[1])},f.prototype.transformInv=function(e){var t=e.sinA,n=e.cosA,r=e.o._[0],i=e.o._[1];return this._[0]-=r+e.v._[0],this._[1]-=i+e.v._[1],this.set(this._[0]*n+this._[1]*t+r,-this._[0]*t+this._[1]*n+i)},f.prototype.rotate=function(e,t){var n,r,i=0,s=0;return typeof e=="number"?(n=Math.sin(e),r=Math.cos(e),t&&(i=(t.x||t._[0])|0,s=(t.y||t._[1])|0)):(n=e.sinA,r=e.cosA,i=e.o._[0],s=e.o._[1]),this._[0]-=i,this._[1]-=s,this.set(this._[0]*r-this._[1]*n+i,this._[0]*n+this._[1]*r+s)},f.prototype.rotateInv=function(e){return this.set((this._[0]-e.o._[0])*e.cosA+(this._[1]-e.o._[1])*e.sinA+e.o._[0],-(this._[0]-e.o._[0])*e.sinA+(this._[1]-e.o._[1])*e.cosA+e.o._[1])},f.prototype.translate=function(e){return this.vadd(e.v)},f.prototype.translateInv=function(e){return this.vsub(e.v)},f.prototype.clone=function(e){return e?e._?(this.recalc=e.recalc,e.recalc||(this._[3]=e._[3],this._[4]=e._[4]),this._[0]=e._[0],this._[1]=e._[1],this):this.set(e.x,e.y):new f(this)},f.prototype.swap=function(e){var t=this._;return this._=e._,e._=t,t=this.recalc,this.recalc=e.recalc,e.recalc=t,this},f.prototype.values=function(){return{x:this._[0],y:this._[1]}},f.prototype.zero=function(){return this._[3]=0,this._[4]=0,this._[0]=0,this._[1]=0,this},f.prototype.negate=function(e){return e!==undefined?(this._[e]=-this._[e],this):(this._[0]=-this._[0],this._[1]=-this._[1],this)},f.prototype.clamp=function(e,t){return e=e.values?e.values():e,t=t.values?t.values():t,this._[0]=r(i(this._[0],e.x),t.x),this._[1]=r(i(this._[1],e.y),t.y),this.recalc=!0,this},f.prototype.toString=function(){return"("+this._[0]+", "+this._[1]+")"},f.prototype.equals=function(e){return this._[0]===e._[0]&&this._[1]===e._[1]&&this._[2]===e._[2]},f.vadd=function(e,t){return new f(e._[0]+t._[0],e._[1]+t._[1])},f.vsub=function(e,t){return new f(e._[0]-t._[0],e._[1]-t._[1])},f.mult=function(e,t){return new f(t._[0]*e,t._[1]*e)},f.vproj=function(e,t){return f.mult(e.dot(t)/t.normSq(),t)},f.axis=[new f(1,0),new f(0,1)],f.zero=new f(0,0),e.vector=f}(this),function(){e.behavior=e.behaviour=t("behavior",{priority:0,init:function(){this.options={}},connect:function(e){this.behave&&e.subscribe("integrate:positions",this.behave,this,this.priority)},disconnect:function(e){this.behave&&e.unsubscribe("integrate:positions",this.behave)},behave:null})}(),function(){var n={fixed:!1,mass:1,restitution:1,cof:.8,view:null};e.body=t("body",{init:function(t){var r=e.vector;this.options=e.util.extend({},n,t),this.fixed=this.options.fixed,this.hidden=this.options.hidden,this.mass=this.options.mass,this.restitution=this.options.restitution,this.cof=this.options.cof,this.view=this.options.view,this.state={pos:r(t.x,t.y),vel:r(t.vx,t.vy),acc:r(),angular:{pos:t.angle||0,vel:t.angularVelocity||0,acc:0},old:{pos:r(),vel:r(),acc:r(),angular:{pos:0,vel:0,acc:0}}};if(this.mass===0)throw"Error: Bodies must have non-zero mass";this.geometry=e.geometry("point")},accelerate:function(e){return this.state.acc.vadd(e),this},applyForce:function(t,n){var r=e.scratchpad(),i=r.vector(),s;return n?this.moi&&(s=this.state,i.clone(n),this.state.angular.acc-=i.cross(t)/this.moi,this.applyForce(t)):this.accelerate(i.clone(t).mult(1/this.mass)),r.done(),this},aabb:function(){var t=e.scratchpad(),n=t.transform(),r=this.state.angular.pos,i=t.aabb().set(this.geometry.aabb(r));return n.setRotation(0).setTranslation(this.state.pos),i.transform(n),i=i.get(),t.done(),i},recalc:function(){}})}(),function(){e.geometry=t("geometry",{init:function(t){this._aabb=new e.aabb},aabb:function(e){return this._aabb.get()},getFarthestHullPoint:function(t,n){return n=n||e.vector(),n.set(0,0)},getFarthestCorePoint:function(t,n,r){return n=n||e.vector(),n.set(0,0)}})}(),e.geometry.isPolygonConvex=function(t){var n=e.scratchpad(),r=n.vector(),i=n.vector(),s=n.vector(),o=!0,u=!1,a=t.length;if(!t||!a)return!1;if(a<3)return n.done(),o;r.clone(t[0]).vsub(s.clone(t[a-1]));for(var f=1;f<=a;++f){i.clone(t[f%a]).vsub(s.clone(t[(f-1)%a]));if(u===!1)u=r.cross(i);else if(u>0^r.cross(i)>0){o=!1;break}i.swap(r)}return n.done(),o},e.geometry.getPolygonMOI=function(t){var n=e.scratchpad(),r=n.vector(),i=n.vector(),s=0,o=0,u,a=t.length;if(a<2)return n.done(),0;if(a===2)return u=i.clone(t[1]).distSq(r.clone(t[0])),n.done(),u/12;r.clone(t[0]);for(var f=1;f<a;++f)i.clone(t[f]),u=Math.abs(i.cross(r)),s+=u*(i.normSq()+i.dot(r)+r.normSq()),o+=u,r.swap(i);return n.done(),s/(6*o)},e.geometry.isPointInPolygon=function(t,n){var r=e.scratchpad(),i=r.vector().clone(t),s=r.vector(),o=r.vector(),u=0,a=n.length;if(a<2)return u=i.equals(s.clone(n[0])),r.done(),u;if(a===2)return u=i.angle(s.clone(n[0])),u+=i.angle(s.clone(n[1])),r.done(),Math.abs(u)===Math.PI;s.clone(n[0]).vsub(i);for(var f=1;f<=a;++f)o.clone(n[f%a]).vsub(i),u+=o.angle(s),s.swap(o);return r.done(),Math.abs(u)>0},e.geometry.getPolygonArea=function(n){var r=e.scratchpad(),i=r.vector(),s=r.vector(),o=0,u=n.length;if(u<3)return r.done(),0;i.clone(n[u-1]);for(var a=0;a<u;++a)s.clone(n[a]),o+=i.cross(s),i.swap(s);return r.done(),o/2},e.geometry.getPolygonCentroid=function(n){var r=e.scratchpad(),i=r.vector(),s=r.vector(),o=e.vector(),u,a=n.length;if(a<2)return r.done(),e.vector(n[0]);if(a===2)return r.done(),e.vector((n[1].x+n[0].x)/2,(n[1].y+n[0].y)/2);i.clone(n[a-1]);for(var f=0;f<a;++f)s.clone(n[f]),u=i.cross(s),i.vadd(s).mult(u),o.vadd(i),i.swap(s);return u=1/(6*e.geometry.getPolygonArea(n)),r.done(),o.mult(u)},e.geometry.nearestPointOnLine=function(n,r,i){var s=e.scratchpad(),o=s.vector().clone(n),u=s.vector().clone(r).vsub(o),a=s.vector().clone(i).vsub(o).vsub(u),f,l;return a.equals(e.vector.zero)?(s.done(),e.vector(r)):(f=-a.dot(u)/a.normSq(),l=1-f,l<=0?(s.done(),e.vector(i)):f<=0?(s.done(),e.vector(r)):(o=e.vector(i).mult(f).vadd(u.clone(r).mult(l)),s.done(),o))},function(){var n={drag:0};e.integrator=t("integrator",{init:function(t){this.options=e.util.extend({},n,t)},integrate:function(e,t){var n=this._world;return this.integrateVelocities(e,t),n&&n.publish({topic:"integrate:velocities",bodies:e,dt:t}),this.integratePositions(e,t),n&&n.publish({topic:"integrate:positions",bodies:e,dt:t}),this},integrateVelocities:function(e,t){throw"The integrator.integrateVelocities() method must be overriden"},integratePositions:function(e,t){throw"The integrator.integratePositions() method must be overriden"}})}(),function(){var n={meta:!1,metaRefresh:200,width:600,height:600};e.renderer=t("renderer",{init:function(t){var r=typeof t.el=="string"?document.getElementById(t.el):t.el;this.options=e.util.extend({},n,t),this.el=r?r:document.body,this.drawMeta=e.util.throttle(e.util.bind(this.drawMeta,this),this.options.metaRefresh)},render:function(e,t){var n,r,i;this.beforeRender&&this.beforeRender(),this._world.publish({topic:"beforeRender",renderer:this,bodies:e,stats:t}),this.options.meta&&this.drawMeta(t);for(var s=0,o=e.length;s<o;++s)n=e[s],r=n.view||(n.view=this.createView(n.geometry)),n.hidden||this.drawBody(n,r);return this},createView:function(e){throw"You must overried the renderer.createView() method."},drawMeta:function(e){throw"You must overried the renderer.drawMeta() method."},drawBody:function(e,t){throw"You must overried the renderer.drawBody() method."}})}(),function(){var t=function(e){this.disconnect&&this._world&&this.disconnect(this._world),this._world=e,this.connect&&e&&this.connect(e)};e.util.each("body,behavior,integrator,renderer".split(","),function(n,r){e[n].mixin("setWorld",t)});var n=function s(e,t,n){var r,i,o=function(){return s(e,t,n)};while(r=e.shift()){i=r.apply(t,n);if(i&&i.then)return i.then(o)}},r={timestep:6.25,maxIPF:16,webworker:!1,integrator:"verlet"},i=function o(e,t){if(!(this instanceof o))return new o(e,t);this.init(e,t)};i.prototype=e.util.extend({},e.util.pubsub.prototype,{init:function(t,r){if(e.util.isFunction(t)||e.util.isArray(t))r=t,t={};this._stats={fps:0,ipf:0},this._bodies=[],this._behaviors=[],this._integrator=null,this._renderer=null,this._paused=!1,this._opts={},this.initPubsub(this),this.options(t||{}),e.util.isFunction(r)?n([r],this,[this,e]):e.util.isArray(r)&&n(r,this,[this,e])},options:function(t){return t?(e.util.extend(this._opts,r,t),this.timeStep(this._opts.timestep),this.add(e.integrator(this._opts.integrator)),this):e.util.clone(this._opts)},add:function(e){var t=0,n=e&&e.length||0,r=n?e[0]:e,i;if(!r)return this;do{switch(r.type){case"behavior":this.addBehavior(r);break;case"integrator":this.integrator(r);break;case"renderer":this.renderer(r);break;case"body":this.addBody(r);break;default:throw'Error: failed to add item of unknown type "'+r.type+'" to world'}i={topic:"add:"+r.type},i[r.type]=r,this.publish(i)}while(++t<n&&(r=e[t]));return this},remove:function(e){var t=0,n=e&&e.length||0,r=n?e[0]:e,i;if(!r)return this;do{switch(r.type){case"behavior":this.removeBehavior(r);break;case"integrator":r===this._integrator&&this.integrator(null);break;case"renderer":r===this._renderer&&this.renderer(null);break;case"body":this.removeBody(r);break;default:throw'Error: failed to remove item of unknown type "'+r.type+'" from world'}i={topic:"add:"+r.type},i[r.type]=r,this.publish(i)}while(++t<n&&(r=e[t]));return this},integrator:function(e){return e===undefined?this._integrator:(this._integrator&&this._integrator.setWorld(null),e&&(this._integrator=e,this._integrator.setWorld(this)),this)},renderer:function(e){return e===undefined?this._renderer:(this._renderer&&this._renderer.setWorld(null),e&&(this._renderer=e,this._renderer.setWorld(this)),this)},timeStep:function(e){return e?(this._dt=e,this._maxJump=e*this._opts.maxIPF,this):this._dt},addBehavior:function(e){return e.setWorld(this),this._behaviors.push(e),this},getBehaviors:function(){return[].concat(this._behaviors)},removeBehavior:function(e){var t=this._behaviors,n;if(e){for(var r=0,i=t.length;r<i;++r)if(e===t[r]){t.splice(r,1);break}n={topic:"remove:behavior"},n.behavior=e,this.publish(n)}return this},addBody:function(e){return e.setWorld(this),this._bodies.push(e),this},getBodies:function(){return[].concat(this._bodies)},removeBody:function(e){var t=this._bodies,n;if(e){for(var r=0,i=t.length;r<i;++r)if(e===t[r]){t.splice(r,1);break}n={topic:"remove:body"},n.body=e,this.publish(n)}return this},findOne:function(t){var n={check:function(e){var t=this;while(t=t.next)if(t(e))return!0;return!1}},r=n,i=this._bodies;t.$within,t.$at&&(r.next=function(n){var r=n.aabb();return e.aabb.contains(r,t.$at)});for(var s=0,o=i.length;s<o;++s)if(n.check(i[s]))return i[s];return!1},iterate:function(e){this._integrator.integrate(this._bodies,e)},step:function(e){if(this._paused)return this._time=!1,this;var t=this._time||(this._time=e),n=e-t,r=this._stats,i=this._dt;if(!n)return this;n>this._maxJump&&(this._time=e-this._maxJump,n=this._maxJump),r.fps=1e3/n,r.ipf=Math.ceil(n/this._dt);while(this._time<e)this._time+=i,this.iterate(i);return this.publish({topic:"step"}),this},render:function(){if(!this._renderer)throw"No renderer added to world";return this._renderer.render(this._bodies,this._stats),this.publish({topic:"render",bodies:this._bodies,stats:this._stats,renderer:this._renderer}),this},pause:function(){return this._paused=!0,this.publish({topic:"pause"}),this},unpause:function(){return this._paused=!1,this.publish({topic:"unpause"}),this},isPaused:function(){return!!this._paused},destroy:function(){var e=this;e.pause(),e.unsubscribe(!0),e.remove(e.getBodies()),e.remove(e.getBehaviors()),e.integrator(null),e.renderer(null)}}),e.world=i}(),e.integrator("verlet",function(t){return e.body.mixin({started:function(e){return e!==undefined&&(this._started=!0),!!this._started}}),{init:function(e){t.init.call(this,e)},integrateVelocities:function(e,t){var n=t*t,r=1-this.options.drag,i=null,s;for(var o=0,u=e.length;o<u;++o)i=e[o],s=i.state,i.fixed?(s.vel.zero(),s.acc.zero(),s.angular.vel=0,s.angular.acc=0):(s.vel.equals(s.old.vel)&&i.started()?s.vel.clone(s.pos).vsub(s.old.pos):(s.old.pos.clone(s.pos).vsub(s.vel),s.vel.mult(t)),r&&s.vel.mult(r),s.vel.vadd(s.acc.mult(n)),s.vel.mult(1/t),s.old.vel.clone(s.vel),s.acc.zero(),s.angular.vel===s.old.angular.vel&&i.started()?s.angular.vel=s.angular.pos-s.old.angular.pos:(s.old.angular.pos=s.angular.pos-s.angular.vel,s.angular.vel*=t),s.angular.vel+=s.angular.acc*n,s.angular.vel/=t,s.old.angular.vel=s.angular.vel,s.angular.acc=0,i.started(!0))},integratePositions:function(e,t){var n=t*t,r=null,i;for(var s=0,o=e.length;s<o;++s)r=e[s],i=r.state,r.fixed||(i.vel.mult(t),i.old.pos.clone(i.pos),i.pos.vadd(i.vel),i.vel.mult(1/t),i.old.vel.clone(i.vel),i.angular.vel*=t,i.old.angular.pos=i.angular.pos,i.angular.pos+=i.angular.vel,i.angular.vel/=t,i.old.angular.vel=i.angular.vel)}}}),e.geometry("point",function(e){}),e.geometry("circle",function(t){var n={radius:1};return{init:function(r){t.init.call(this,r),r=e.util.extend({},n,r),this.radius=r.radius,this._aabb=e.aabb()},aabb:function(e){var t=this.radius,n=this._aabb;return n.halfWidth()===t?n.get():n.set(-t,-t,t,t).get()},getFarthestHullPoint:function(t,n){return n=n||e.vector(),n.clone(t).normalize().mult(this.radius)},getFarthestCorePoint:function(t,n,r){return n=n||e.vector(),n.clone(t).normalize().mult(this.radius-r)}}}),e.geometry("convex-polygon",function(t){var n="Error: The vertices specified do not match that of a _convex_ polygon.",r={};return{init:function(n){t.init.call(this,n),n=e.util.extend({},r,n),this.setVertices(n.vertices||[])},setVertices:function(t){var r=e.scratchpad(),i=r.transform(),s=this.vertices=[];if(!e.geometry.isPolygonConvex(t))throw n;i.setRotation(0),i.setTranslation(e.geometry.getPolygonCentroid(t).negate());for(var o=0,u=t.length;o<u;++o)s.push(e.vector(t[o]).translate(i));return this._area=e.geometry.getPolygonArea(s),this._aabb=!1,r.done(),this},aabb:function(t){if(!t&&this._aabb)return this._aabb.get();var n=e.scratchpad(),r=n.vector(),i=n.transform().setRotation(t||0),s=n.vector().clone(e.vector.axis[0]).rotateInv(i),o=n.vector().clone(e.vector.axis[1]).rotateInv(i),u=this.getFarthestHullPoint(s,r).proj(s),a=-this.getFarthestHullPoint(s.negate(),r).proj(s),f=this.getFarthestHullPoint(o,r).proj(o),l=-this.getFarthestHullPoint(o.negate(),r).proj(o),c;return c=new e.aabb(a,l,u,f),t||(this._aabb=c),n.done(),c.get()},getFarthestHullPoint:function(t,n,r){var i=this.vertices,s,o,u=i.length,a=2,f;n=n||e.vector();if(u<2)return r&&(r.idx=0),n.clone(i[0]);o=i[0].dot(t),s=i[1].dot(t);if(u===2)return f=s>=o?1:0,r&&(r.idx=f),n.clone(i[f]);if(s>=o){while(a<u&&s>=o)o=s,s=i[a].dot(t),a++;return s>=o&&a++,f=a-2,r&&(r.idx=a-2),n.clone(i[f])}a=u;while(a>2&&o>=s)a--,s=o,o=i[a].dot(t);return f=(a+1)%u,r&&(r.idx=f),n.clone(i[f])},getFarthestCorePoint:function(t,n,r){var i,s=e.scratchpad(),o=s.vector(),u=s.vector(),a=this.vertices,f=a.length,l,c=this._area>0,h={};return n=this.getFarthestHullPoint(t,n,h),o.clone(a[(h.idx+1)%f]).vsub(n).normalize().perp(!c),u.clone(a[(h.idx-1+f)%f]).vsub(n).normalize().perp(c),l=r/(1+o.dot(u)),n.vadd(o.vadd(u).mult(l)),s.done(),n}}}),e.body("circle",function(t){var n={radius:1};return{init:function(r){t.init.call(this,r),r=e.util.extend({},n,r),this.geometry=e.geometry("circle",{radius:r.radius}),this.recalc()},recalc:function(){t.recalc.call(this),this.moi=this.mass*this.geometry.radius*this.geometry.radius/2}}}),e.body("convex-polygon",function(t){var n={};return{init:function(r){t.init.call(this,r),r=e.util.extend({},n,r),this.geometry=e.geometry("convex-polygon",{vertices:r.vertices}),this.recalc()},recalc:function(){t.recalc.call(this),this.moi=e.geometry.getPolygonMOI(this.geometry.vertices)}}}),e.body("point",function(){}),e.behavior("body-collision-detection",function(t){var n="collisions:candidates",r="collisions:detected",i=function(n,r){var i;return i=function(t){var s=e.scratchpad(),o=s.transform().setTranslation(n.state.pos).setRotation(n.state.angular.pos),u=s.transform().setTranslation(r.state.pos).setRotation(r.state.angular.pos),a=s.vector(),f=s.vector(),l=i.useCore?"getFarthestCorePoint":"getFarthestHullPoint",c=i.marginA,h=i.marginB,p;return a=n.geometry[l](t.rotateInv(o),a,c).transform(o),f=r.geometry[l](t.rotate(o).rotateInv(u).negate(),f,h).transform(u),t.negate().rotate(u),p={a:a.values(),b:f.values(),pt:a.vsub(f).values()},s.done(),p},i.useCore=!1,i.margin=0,i},s=function(n,r){var s=e.scratchpad(),o=s.vector(),u=s.vector(),a,f,l,c=!1,h=n.aabb(),p=Math.min(h.halfWidth,h.halfHeight),d=r.aabb(),v=Math.min(d.halfWidth,d.halfHeight);l=i(n,r),o.clone(n.state.pos).vsub(r.state.pos),f=e.gjk(l,o,!0);if(f.overlap){c={bodyA:n,bodyB:r},l.useCore=!0,l.marginA=0,l.marginB=0;while(f.overlap&&(l.marginA<p||l.marginB<v))l.marginA<p&&(l.marginA+=1),l.marginB<v&&(l.marginB+=1),f=e.gjk(l,o);if(f.overlap||f.maxIterationsReached)return s.done(),!1;a=Math.max(0,l.marginA+l.marginB-f.distance),c.overlap=a,c.norm=o.clone(f.closest.b).vsub(u.clone(f.closest.a)).normalize().values(),c.mtv=o.mult(a).values(),c.pos=o.clone(c.norm).mult(l.margin).vadd(u.clone(f.closest.a)).vsub(n.state.pos).values()}return s.done(),c},o=function(n,r){var i=e.scratchpad(),s=i.vector(),o=i.vector(),u,a=!1;return s.clone(r.state.pos).vsub(n.state.pos),u=s.norm()-(n.geometry.radius+r.geometry.radius),s.equals(e.vector.zero)&&s.set(1,0),u<=0&&(a={bodyA:n,bodyB:r,norm:s.normalize().values(),mtv:s.mult(-u).values(),pos:s.normalize().mult(n.geometry.radius).values(),overlap:-u}),i.done(),a},u=function(t,n){return t.geometry.name==="circle"&&n.geometry.name==="circle"?o(t,n):s(t,n)},a={checkAll:!1};return{init:function(n){t.init.call(this,n),this.options=e.util.extend({},this.options,a,n)},connect:function(e){this.options.checkAll?e.subscribe("integrate:velocities",this.checkAll,this):e.subscribe(n,this.check,this)},disconnect:function(e){this.options.checkAll?e.unsubscribe("integrate:velocities",this.checkAll):e.unsubscribe(n,this.check)},check:function(e){var t=e.candidates,n,i=[],s;for(var o=0,a=t.length;o<a;++o)n=t[o],s=u(n.bodyA,n.bodyB),s&&i.push(s);i.length&&this._world.publish({topic:r,collisions:i})},checkAll:function(e){var t=e.bodies,n=e.dt,i,s,o=[],a;for(var f=0,l=t.length;f<l;f++){i=t[f];for(var c=f+1;c<l;c++){s=t[c];if(!i.fixed||!s.fixed)a=u(i,s),a&&o.push(a)}}o.length&&this._world.publish({topic:r,collisions:o})}}}),e.behavior("body-impulse-response",function(t){var n={},r="collisions:detected";return{connect:function(e){e.subscribe(r,this.respond,this)},disconnect:function(e){e.unsubscribe(r,this.respond)},collideBodies:function(t,n,r,i,s,o){var u=t.fixed,a=n.fixed,f=e.scratchpad(),l=f.vector().clone(s);if(u&&a){f.done();return}u?n.state.pos.vadd(l):a?t.state.pos.vsub(l):(l.mult(.5),t.state.pos.vsub(l),n.state.pos.vadd(l));var c=u?0:1/t.moi,h=a?0:1/n.moi,p=u?0:1/t.mass,d=a?0:1/n.mass,v=o?0:t.restitution*n.restitution,m=t.cof*n.cof,g=f.vector().clone(r),y=f.vector().clone(g).perp(!0),b=f.vector().clone(i),w=f.vector().clone(i).vadd(t.state.pos).vsub(n.state.pos),E=f.vector(),S=t.state.angular.vel,x=n.state.angular.vel,T=f.vector().clone(n.state.vel).vadd(E.clone(w).perp(!0).mult(x)).vsub(t.state.vel).vsub(E.clone(b).perp(!0).mult(S)),N=b.proj(g),C=b.proj(y),k=w.proj(g),L=w.proj(y),A=T.proj(g),O=T.proj(y),M,_,D,P=!1;if(A>=0){f.done();return}M=-((1+v)*A)/(p+d+c*C*C+h*L*L),u?(n.state.vel.vadd(g.mult(M*d)),n.state.angular.vel-=M*h*L):a?(t.state.vel.vsub(g.mult(M*p)),t.state.angular.vel+=M*c*C):(n.state.vel.vadd(g.mult(M*d)),n.state.angular.vel-=M*h*L,t.state.vel.vsub(g.mult(p*n.mass)),t.state.angular.vel+=M*c*C),m&&O&&(D=O/(p+d+c*N*N+h*k*k),P?M=D:(_=O<0?-1:1,M*=_*m,M=_===1?Math.min(M,D):Math.max(M,D)),u?(n.state.vel.vsub(y.mult(M*d)),n.state.angular.vel-=M*h*k):a?(t.state.vel.vadd(y.mult(M*p)),t.state.angular.vel+=M*c*N):(n.state.vel.vsub(y.mult(M*d)),n.state.angular.vel-=M*h*k,t.state.vel.vadd(y.mult(p*n.mass)),t.state.angular.vel+=M*c*N)),f.done()},respond:function(t){var n=this,r,i=e.util.shuffle(t.collisions);for(var s=0,o=i.length;s<o;++s)r=i[s],n.collideBodies(r.bodyA,r.bodyB,r.norm,r.pos,r.mtv)}}}),e.behavior("constant-acceleration",function(t){var n={acc:{x:0,y:4e-4}};return{init:function(r){t.init.call(this,r),this.options=e.util.extend(this.options,n,r),this._acc=e.vector(),this.setAcceleration(this.options.acc)},setAcceleration:function(e){return this._acc.clone(e),this},behave:function(e){var t=e.bodies;for(var n=0,r=t.length;n<r;++n)t[n].accelerate(this._acc)}}}),e.behavior("edge-collision-detection",function(t){var n="collisions:detected",r=function(n,r,i){var s,o=n.aabb(),u=e.scratchpad(),a=u.transform(),f=u.vector(),l=u.vector(),c=!1,h=[];return s=o.pos.x+o.x-r.max.x,s>=0&&(f.set(1,0).rotateInv(a.setRotation(n.state.angular.pos)),c={bodyA:n,bodyB:i,overlap:s,norm:{x:1,y:0},mtv:{x:s,y:0},pos:n.geometry.getFarthestHullPoint(f,l).rotate(a).values()},h.push(c)),s=o.pos.y+o.y-r.max.y,s>=0&&(f.set(0,1).rotateInv(a.setRotation(n.state.angular.pos)),c={bodyA:n,bodyB:i,overlap:s,norm:{x:0,y:1},mtv:{x:0,y:s},pos:n.geometry.getFarthestHullPoint(f,l).rotate(a).values()},h.push(c)),s=r.min.x-(o.pos.x-o.x),s>=0&&(f.set(-1,0).rotateInv(a.setRotation(n.state.angular.pos)),c={bodyA:n,bodyB:i,overlap:s,norm:{x:-1,y:0},mtv:{x:-s,y:0},pos:n.geometry.getFarthestHullPoint(f,l).rotate(a).values()},h.push(c)),s=r.min.y-(o.pos.y-o.y),s>=0&&(f.set(0,-1).rotateInv(a.setRotation(n.state.angular.pos)),c={bodyA:n,bodyB:i,overlap:s,norm:{x:0,y:-1},mtv:{x:0,y:-s},pos:n.geometry.getFarthestHullPoint(f,l).rotate(a).values()},h.push(c)),u.done(),h},i=function(t,n,i){return r(t,n,i)},s={aabb:null,restitution:.99,cof:1};return{init:function(n){t.init.call(this,n),this.options=e.util.extend({},this.options,s,n),this.setAABB(n.aabb),this.restitution=n.restitution,this._dummy=e.body("_dummy",function(){},{fixed:!0,restitution:this.options.restitution,cof:this.options.cof})},setAABB:function(e){if(!e)throw"Error: aabb not set";e=e.get&&e.get()||e,this._edges={min:{x:e.pos.x-e.x,y:e.pos.y-e.y},max:{x:e.pos.x+e.x,y:e.pos.y+e.y}}},connect:function(e){e.subscribe("integrate:velocities",this.checkAll,this)},disconnect:function(e){e.unsubscribe("integrate:velocities",this.checkAll)},checkAll:function(e){var t=e.bodies,r=e.dt,s,o=[],u,a=this._edges,f=this._dummy;for(var l=0,c=t.length;l<c;l++)s=t[l],s.fixed||(u=i(s,a,f),u&&o.push.apply(o,u));o.length&&this._world.publish({topic:n,collisions:o})}}}),e.behavior("newtonian",function(t){var n={strength:1};return{init:function(r){t.init.call(this,r),r=e.util.extend({},n,r),this.strength=r.strength,this.tolerance=r.tolerance||100*this.strength},behave:function(t){var n=t.bodies,r,i,s=this.strength,o=this.tolerance,u=e.scratchpad(),a=u.vector(),f,l;for(var c=0,h=n.length;c<h;c++){r=n[c];for(var p=c+1;p<h;p++)i=n[p],a.clone(i.state.pos),a.vsub(r.state.pos),f=a.normSq(),f>o&&(l=s/f,r.accelerate(a.normalize().mult(l*i.mass)),i.accelerate(a.mult(r.mass/i.mass).negate()))}u.done()}}}),e.behavior("rigid-constraint-manager",function(t){var n={targetLength:20};return{init:function(r){t.init.call(this,r),e.util.extend(this.options,n,r),this._constraints=[]},connect:function(e){var t=e.integrator();if(t&&t.name.indexOf("verlet")<0)throw'The rigid constraint manager needs a world with a "verlet" compatible integrator.';e.subscribe("integrate:positions",this.resolve,this)},disconnect:function(e){e.unsubscribe("integrate:positions",this.resolve)},drop:function(){return this._constraints=[],this},constrain:function(t,n,r){var i;return!t||!n?!1:(this._constraints.push(i={id:e.util.uniqueId("rigid-constraint"),bodyA:t,bodyB:n,targetLength:r||this.options.targetLength}),i)},remove:function(t){var n=this._constraints,r;if(typeof t=="number")return n.splice(t,1),this;r=e.util.isObject(t);for(var i=0,s=n.length;i<s;++i)if(r&&n[i]===t||!r&&n[i].id===t)return n.splice(i,1),this;return this},resolve:function(){var t=this._constraints,n=e.scratchpad(),r=n.vector(),i=n.vector(),s,o,u,a;for(var f=0,l=t.length;f<l;++f)s=t[f],r.clone(s.bodyA.state.pos),i.clone(s.bodyB.state.pos).vsub(r),o=i.norm(),u=(o-s.targetLength)/o,i.mult(u),a=s.bodyB.mass/(s.bodyA.mass+s.bodyB.mass),s.bodyA.fixed||(i.mult(a),s.bodyA.state.pos.vadd(i),i.mult(1/a)),s.bodyB.fixed||(i.mult(1-a),s.bodyB.state.pos.vsub(i));n.done()},getConstraints:function(){return[].concat(this._constraints)}}}),e.behavior("sweep-prune",function(t){function o(e,t){return e===t?!1:e>t?e<<16|t&65535:t<<16|e&65535}var n="collisions:candidates",r=1,i=function(){return r++},s={x:0,y:1};return{init:function(e){t.init.call(this,e),this.clear()},clear:function(){this.tracked=[],this.pairs=[],this.intervalLists={};for(var e in s)this.intervalLists[e]=[]},connect:function(e){e.subscribe("add:body",this.trackBody,this),e.subscribe("remove:body",this.untrackBody,this),e.subscribe("integrate:velocities",this.sweep,this);var t=e.getBodies();for(var n=0,r=t.length;n<r;++n)this.trackBody({body:t[n]})},disconnect:function(e){e.unsubscribe("add:body",this.trackBody),e.unsubscribe("remove:body",this.untrackBody),e.unsubscribe("integrate:velocities",this.sweep),this.clear()},broadPhase:function(){return this.updateIntervals(),this.sortIntervalLists(),this.checkOverlaps()},sortIntervalLists:function(){var e,t,n,r,i,o,u,a,f;for(var l in s){e=this.intervalLists[l],n=0,t=e.length,f=s[l];while(++n<t){i=e[n],o=i.val.get(f),r=n,u=e[r-1],a=u&&u.val.get(f);while(r>0&&(a>o||a===o&&u.type&&!i.type))e[r]=u,r--,u=e[r-1],a=u&&u.val.get(f);e[r]=i}}},getPair:function(e,t,n){var r=o(e.id,t.id);if(r===!1)return null;var i=this.pairs[r];if(!i){if(!n)return null;i=this.pairs[r]={bodyA:e.body,bodyB:t.body,flag:0}}return i},checkOverlaps:function(){var e,t,n,r,i,o,u,a,f,l,c=s.z||s.y||s.x,h=[],p=0,d=[];for(var v in s){e=v==="x",o=this.intervalLists[v],a=-1,u=o.length;while(++a<u){i=o[a],n=i.tracker;if(i.type){f=p;while(--f>=0)r=h[f],r===n?(f<p-1?h[f]=h.pop():h.pop(),p--):(l=this.getPair(n,r,e),l&&(l.flag=e?0:l.flag+1,l.flag===c&&d.push(l)))}else p=h.push(n)}}return d},updateIntervals:function(){var t,n,r=e.scratchpad(),i=r.vector(),s=r.vector(),o=this.tracked,u=o.length;while(--u>=0)t=o[u],n=t.interval,i.clone(t.body.state.pos),s.clone(t.body.aabb()),n.min.val.clone(i).vsub(s),n.max.val.clone(i).vadd(s);r.done()},trackBody:function(t){var n=t.body,r={id:i(),body:n},o={min:{type:!1,val:e.vector(),tracker:r},max:{type:!0,val:e.vector(),tracker:r}};r.interval=o,this.tracked.push(r);for(var u in s)this.intervalLists[u].push(o.min,o.max)},untrackBody:function(e){var t=e.body,n,r,i=this.tracked,o,u;for(var a=0,f=i.length;a<f;++a){o=i[a];if(o.body===t){i.splice(a,1);for(var l in s){u=0,n=this.intervalLists[l];for(var c=0,h=n.length;c<h;++c){r=n[c];if(r===o.interval.min||r===o.interval.max){n.splice(c,1),c--,f--;if(u>0)break;u++}}}break}}},sweep:function(e){var t=this,r=e.bodies,i=e.dt,s;s=t.broadPhase(),s.length&&this._world.publish({topic:n,candidates:s})}}}),e.behavior("verlet-constraints",function(t){var n=2*Math.PI,r={iterations:2};return{init:function(n){t.init.call(this,n),e.util.extend(this.options,r,n),this._distanceConstraints=[],this._angleConstraints=[]},connect:function(e){var t=e.integrator();if(t&&t.name.indexOf("verlet")<0)throw'The rigid constraint manager needs a world with a "verlet" compatible integrator.';e.subscribe("integrate:positions",this.resolve,this)},disconnect:function(e){e.unsubscribe("integrate:positions",this.resolve)},drop:function(){return this._distanceConstraints=[],this._angleConstraints=[],this},distanceConstraint:function(t,n,r,i){var s;return!t||!n?!1:(s={id:e.util.uniqueId("dis-constraint"),type:"dis",bodyA:t,bodyB:n,stiffness:r||.5,targetLength:i||n.state.pos.dist(t.state.pos)},s.targetLengthSq=s.targetLength*s.targetLength,this._distanceConstraints.push(s),s)},angleConstraint:function(t,n,r,i,s){var o;return!t||!n?!1:(o={id:e.util.uniqueId("ang-constraint"),type:"ang",bodyA:t,bodyB:n,bodyC:r,stiffness:i||.5,targetAngle:s||n.state.pos.angle2(t.state.pos,r.state.pos)},this._angleConstraints.push(o),o)},remove:function(t){var n,r,i,s,o;i=e.util.isObject(t),r=i?t.type:t.substr(0,3),n=r==="ang"?this._angleConstraints:this._distanceConstraints;if(i){for(s=0,o=n.length;s<o;++s)if(n[s]===t)return n.splice(s,1),this}else for(s=0,o=n.length;s<o;++s)if(n[s].id===t)return n.splice(s,1),this;return this},resolveAngleConstraints:function(t){var r=this._angleConstraints,i=e.scratchpad(),s=i.transform(),o,u,a,f,l;for(var c=0,h=r.length;c<h;++c){o=r[c],u=o.bodyB.state.pos.angle2(o.bodyA.state.pos,o.bodyC.state.pos),a=u-o.targetAngle;if(!a)continue;a<=-Math.PI?a+=n:a>=Math.PI&&(a-=n),s.setTranslation(o.bodyB.state.pos),a*=-t*o.stiffness,!o.bodyA.fixed&&!o.bodyB.fixed&&!o.bodyC.fixed&&(l=1/(o.bodyA.mass+o.bodyB.mass+o.bodyC.mass)),o.bodyA.fixed||(!o.bodyB.fixed&&!o.bodyC.fixed?u=a*(o.bodyB.mass+o.bodyC.mass)*l:o.bodyB.fixed?u=a*o.bodyC.mass/(o.bodyC.mass+o.bodyA.mass):u=a*o.bodyB.mass/(o.bodyB.mass+o.bodyA.mass),s.setRotation(u),o.bodyA.state.pos.translateInv(s),o.bodyA.state.pos.rotate(s),o.bodyA.state.pos.translate(s)),o.bodyC.fixed||(!o.bodyA.fixed&&!o.bodyB.fixed?u=-a*(o.bodyB.mass+o.bodyA.mass)*l:o.bodyB.fixed?u=-a*o.bodyA.mass/(o.bodyC.mass+o.bodyA.mass):u=-a*o.bodyB.mass/(o.bodyB.mass+o.bodyC.mass),s.setRotation(u),o.bodyC.state.pos.translateInv(s),o.bodyC.state.pos.rotate(s),o.bodyC.state.pos.translate(s)),o.bodyB.fixed||(!o.bodyA.fixed&&!o.bodyC.fixed?u=a*(o.bodyA.mass+o.bodyC.mass)*l:o.bodyA.fixed?u=a*o.bodyC.mass/(o.bodyC.mass+o.bodyB.mass):u=a*o.bodyA.mass/(o.bodyA.mass+o.bodyC.mass),s.setRotation(u).setTranslation(o.bodyA.state.pos),o.bodyB.state.pos.translateInv(s),o.bodyB.state.pos.rotate(s),o.bodyB.state.pos.translate(s),s.setTranslation(o.bodyC.state.pos),o.bodyB.state.pos.translateInv(s),o.bodyB.state.pos.rotateInv(s),o.bodyB.state.pos.translate(s))}i.done()},resolveDistanceConstraints:function(t){var n=this._distanceConstraints,r=e.scratchpad(),i=r.vector(),s,o,u,a;for(var f=0,l=n.length;f<l;++f)s=n[f],i.clone(s.bodyB.state.pos).vsub(s.bodyA.state.pos),o=i.normSq()||Math.random()*1e-4,u=t*s.stiffness*(o-s.targetLengthSq)/o,i.mult(u),a=s.bodyA.fixed||s.bodyB.fixed?1:s.bodyB.mass/(s.bodyA.mass+s.bodyB.mass),s.bodyA.fixed||(s.bodyB.fixed||i.mult(a),s.bodyA.state.pos.vadd(i),s.bodyB.fixed||i.mult(1/a)),s.bodyB.fixed||(s.bodyA.fixed||i.mult(1-a),s.bodyB.state.pos.vsub(i));r.done()},shuffleConstraints:function(){this._distanceConstraints=e.util.shuffle(this._distanceConstraints),this._angleConstraints=e.util.shuffle(this._angleConstraints)},resolve:function(){var e=this.options.iterations,t=1/e;for(var n=0;n<e;n++)this.resolveDistanceConstraints(t),this.resolveAngleConstraints(t)},getConstraints:function(){return{distanceConstraints:[].concat(this._distanceConstraints),angleConstraints:[].concat(this._angleConstraints)}}}}),e.integrator("improved-euler",function(t){return{init:function(e){t.init.call(this,e)},integrateVelocities:function(e,t){var n=1-this.options.drag,r=null,i;for(var s=0,o=e.length;s<o;++s)r=e[s],i=r.state,r.fixed?(i.vel.zero(),i.acc.zero(),i.angular.vel=0,i.angular.acc=0):(i.old.vel.clone(i.vel),i.old.acc.clone(i.acc),i.vel.vadd(i.acc.mult(t)),n&&i.vel.mult(n),i.acc.zero(),i.old.angular.vel=i.angular.vel,i.angular.vel+=i.angular.acc*t,i.angular.acc=0)},integratePositions:function(t,n){var r=.5*n*n,i=null,s,o=e.scratchpad(),u=o.vector(),a;for(var f=0,l=t.length;f<l;++f)i=t[f],s=i.state,i.fixed||(s.old.pos.clone(s.pos),u.clone(s.old.vel),s.pos.vadd(u.mult(n)).vadd(s.old.acc.mult(r)),s.old.acc.zero(),s.old.angular.pos=s.angular.pos,s.angular.pos+=s.old.angular.vel*n+s.old.angular.acc*r,s.old.angular.acc=0);o.done()}}}),e.renderer("canvas",function(t){var n=Math.PI*2,r=function(e,t){var n=document.createElement(e||"div");return t&&(n.innerHTML=t),n},i={debug:!1,metaEl:null,styles:{point:"rgba(80, 50, 100, 0.7)",circle:{strokeStyle:"rgba(70, 50, 100, 0.7)",lineWidth:1,fillStyle:"rgba(44, 105, 44, 0.7)",angleIndicator:"rgba(69, 51, 78, 0.7)"},"convex-polygon":{strokeStyle:"rgba(80, 50, 100, 0.7)",lineWidth:1,fillStyle:"rgba(114, 105, 124, 0.7)",angleIndicator:"rgba(69, 51, 78, 0.7)"}},offset:{x:0,y:0}},s=function(t,n){return e.util.isPlainObject(n)?e.util.extend({},t,n,s):n!==undefined?n:t};return{init:function(n){t.init.call(this,n),this.options=e.util.extend({},i,this.options,s),this.options.offset=e.vector(this.options.offset),this.hiddenCanvas=document.createElement("canvas"),this.hiddenCanvas.width=this.hiddenCanvas.height=100;if(!this.hiddenCanvas.getContext)throw"Canvas not supported";this.hiddenCtx=this.hiddenCanvas.getContext("2d");var o=this.el;o.nodeName.toUpperCase()!=="CANVAS"&&(o=document.createElement("canvas"),this.el.appendChild(o),typeof this.options.el=="string"&&this.el===document.body&&(o.id=this.options.el),this.el=o),o.width=this.options.width,o.height=this.options.height,this.ctx=o.getContext("2d"),this.els={};if(this.options.meta){var u=this.options.metaEl||r();u.className="pjs-meta",this.els.fps=r("span"),this.els.ipf=r("span"),u.appendChild(r("span","fps: ")),u.appendChild(this.els.fps),u.appendChild(r("br")),u.appendChild(r("span","ipf: ")),u.appendChild(this.els.ipf),o.parentNode.insertBefore(u,o)}},setStyle:function(t,n){n=n||this.ctx,e.util.isObject(t)?(n.strokeStyle=t.strokeStyle,n.fillStyle=t.fillStyle,n.lineWidth=t.lineWidth):(n.fillStyle=n.strokeStyle=t,n.lineWidth=1)},drawCircle:function(e,t,r,i,s){s=s||this.ctx,s.beginPath(),this.setStyle(i,s),s.arc(e,t,r,0,n,!1),s.closePath(),s.stroke(),s.fill()},drawPolygon:function(e,t,n){var r=e[0],i=r.x===undefined?r.get(0):r.x,s=r.y===undefined?r.get(1):r.y,o=e.length;n=n||this.ctx,n.beginPath(),this.setStyle(t,n),n.moveTo(i,s);for(var u=1;u<o;++u)r=e[u],i=r.x===undefined?r.get(0):r.x,s=r.y===undefined?r.get(1):r.y,n.lineTo(i,s);o>2&&n.closePath(),n.stroke(),n.fill()},drawLine:function(e,t,n,r){var i=e.x===undefined?e.get(0):e.x,s=e.y===undefined?e.get(1):e.y;r=r||this.ctx,r.beginPath(),this.setStyle(n,r),r.moveTo(i,s),i=t.x===undefined?t.get(0):t.x,s=t.y===undefined?t.get(1):t.y,r.lineTo(i,s),r.stroke(),r.fill()},createView:function(e,t){var n=new Image,r=e.aabb(),i=r.halfWidth+Math.abs(r.pos.x),s=r.halfHeight+Math.abs(r.pos.y),o=i+1,u=s+1,a=this.hiddenCtx,f=this.hiddenCanvas,l=e.name;return t=t||this.options.styles[l],o+=t.lineWidth|0,u+=t.lineWidth|0,f.width=2*i+2+(2*t.lineWidth|0),f.height=2*s+2+(2*t.lineWidth|0),a.save(),a.translate(o,u),l==="circle"?this.drawCircle(0,0,e.radius,t,a):l==="convex-polygon"&&this.drawPolygon(e.vertices,t,a),t.angleIndicator&&(a.beginPath(),this.setStyle(t.angleIndicator,a),a.moveTo(0,0),a.lineTo(i,0),a.closePath(),a.stroke()),a.restore(),n.src=f.toDataURL("image/png"),n.width=f.width,n.height=f.height,n},drawMeta:function(e){this.els.fps.innerHTML=e.fps.toFixed(2),this.els.ipf.innerHTML=e.ipf},beforeRender:function(){this.ctx.clearRect(0,0,this.el.width,this.el.height)},drawBody:function(e,t){var n=this.ctx,r=e.state.pos,i=this.options.offset,s=e.aabb();n.save(),n.translate(r.get(0)+i.get(0),r.get(1)+i.get(1)),n.rotate(e.state.angular.pos),n.drawImage(t,-t.width/2,-t.height/2),n.restore(),this.options.debug&&(n.save(),n.translate(i.get(0),i.get(1)),this.drawPolygon([{x:s.pos.x-s.x,y:s.pos.y-s.y},{x:s.pos.x+s.x,y:s.pos.y-s.y},{x:s.pos.x+s.x,y:s.pos.y+s.y},{x:s.pos.x-s.x,y:s.pos.y+s.y}],"rgba(100, 255, 100, 0.3)"),n.restore())}}}),e.renderer("dom",function(e){var t={},n=document.createElement("div"),r=function(t){return t.replace(/(?:^|\s)\w/g,function(e){return e.toUpperCase()})},i=function(i){if(t[i])return t[i];var s=["Webkit","Moz","Ms","O"],o;for(var u=0,a=s.length;u<a;++u){o=s[u]+r(i);if(o in n.style)return t[i]=o}return o in n.style?t[i]=i:!1},s="pjs-",o="px",u=i("transform"),a=function(e,t){var n=document.createElement(e||"div");return t&&(n.innerHTML=t),n},f;return u?f=function(e,t){var n=e.state.pos;t.style[u]="translate("+n.get(0)+"px,"+n.get(1)+"px) rotate("+e.state.angular.pos+"rad)"}:f=function(e,t){var n=e.state.pos;t.style.left=n.get(0)+o,t.style.top=n.get(1)+o},{init:function(t){e.init.call(this,t);var n=this.el;n.style.position="relative",n.style.overflow="hidden",n.style[u]="translateZ(0)",n.style.width=this.options.width+o,n.style.height=this.options.height+o,this.els={};if(t.meta){var r=a();r.className="pjs-meta",this.els.fps=a("span"),this.els.ipf=a("span"),r.appendChild(a("span","fps: ")),r.appendChild(this.els.fps),r.appendChild(a("br")),r.appendChild(a("span","ipf: ")),r.appendChild(this.els.ipf),n.appendChild(r)}},circleProperties:function(e,t){var n=t.aabb();e.style.width=n.halfWidth*2+o,e.style.height=n.halfHeight*2+o,e.style.marginLeft=-n.halfWidth+o,e.style.marginTop=-n.halfHeight+o},createView:function(e){var t=a(),n=e.name+"Properties";return t.className=s+e.name,t.style.position="absolute",t.style.top="0px",t.style.left="0px",this[n]&&this[n](t,e),this.el.appendChild(t),t},drawMeta:function(e){this.els.fps.innerHTML=e.fps.toFixed(2),this.els.ipf.innerHTML=e.ipf},drawBody:f}}),e});
+// ---
+// inside: src/util/decorator.js
+
+/**
+ * Facilitates creation of decorator service functions
+ *
+ * @example
+ * 
+ * var service = Decorator('service', {
+ *      // prototype methods...
+ *      method: function( args ){
+ *      }
+ * });
+ *
+ * // define
+ * service( 'name', (optional)'parent-name', function decorator( parent ){
+ *
+ *      // extend further...
+ *      return {
+ *          // overrides
+ *          init: function( cfg ){
+ *              parent.init.call(this, cfg);
+ *          }
+ *      };
+ * });
+ * 
+ * // instantiate
+ * var options = { key: 'val' };
+ * var instance = service( 'name', options );
+ */
+var Decorator = Physics.util.decorator = function Decorator( type, baseProto ){
+
+    var registry = {}
+        ,proto = {}
+        ;
+
+    // extend callback that only extends functions
+    var copyFn = function copyFn( a, b ){
+
+        return Physics.util.isFunction( b ) ? b : a;
+    };
+
+    // http://ejohn.org/blog/objectgetprototypeof/
+    /* jshint -W103 */
+    var getProto = Object.getPrototypeOf;
+    if ( typeof getProto !== 'function' ) {
+        if ( typeof 'test'.__proto__ === 'object' ) {
+            getProto = function(object){
+                return object.__proto__;
+            };
+        } else {
+            getProto = function(object){
+                // May break if the constructor has been tampered with
+                return object.constructor.prototype;
+            };
+        }
+    }
+    /* jshint +W103 */
+
+    var objectCreate = Object.create;
+    if (typeof objectCreate !== 'function') {
+        objectCreate = function (o) {
+            function F() {}
+            F.prototype = o;
+            return new F();
+        };
+    }
+
+    /**
+     * Apply mixin methods to decorator base
+     * @param  {String|Object} key The method name. OR object with many key: fn pairs.
+     * @param  {Function} val The function to assign
+     * @return {void}
+     */
+    var mixin = function mixin( key, val ){
+
+        if ( typeof key === 'object' ){
+            proto = Physics.util.extend(proto, key, copyFn);
+            proto.type = type;
+            return;
+        }
+
+        if ( key !== 'type' && Physics.util.isFunction( val ) ){
+            proto[ key ] = val;
+        }
+    };
+
+    // @TODO: not sure of the best way to make the constructor names
+    // transparent and readable in debug consoles...
+    mixin( baseProto );
+
+    /**
+     * Factory function for definition and instantiation of subclasses.
+     * If class with "name" is not defined, the "decorator" parameter is required to define it first.
+     * @param  {String} name       The class name
+     * @param  {String} parentName (optional) The name of parent class to extend
+     * @param  {Function} decorator (optional) The decorator function that should define and return methods to extend (decorate) the base class
+     * @param  {Object} cfg        (optional) The configuration to pass to the class initializer
+     * @return {void|Object}       If defining without the "cfg" parameter, void will be returned. Otherwise the class instance will be returned
+     */
+    var factory = function factory( name, parentName, decorator, cfg ){
+
+        var instance
+            ,result
+            ,parent = proto
+            ,tmp
+            ;
+
+        // set parent if specified
+        if ( typeof parentName !== 'string' ){
+
+            // ... otherwise reassign parameters
+            cfg = decorator;
+            decorator = parentName;
+
+        } else {
+
+            // extend the specified module
+            parent = registry[ parentName ];
+
+            if ( !parent ){
+
+                throw 'Error: "' + parentName + '" ' + type + ' not defined';
+            }
+
+            parent = parent.prototype;
+        }
+
+        if ( typeof decorator === 'function' ){
+
+            result = registry[ name ];
+
+            if ( result ){
+
+                result.prototype = Physics.util.extend(result.prototype, decorator( getProto(result.prototype) ), copyFn);
+                
+            } else {
+                // newly defined
+                // store the new class
+                result = registry[ name ] = function constructor( opts ){
+                    if (this.init){
+                        this.init( opts );
+                    }
+                };
+
+                result.prototype = objectCreate( parent );
+                result.prototype = Physics.util.extend(result.prototype, decorator( parent ), copyFn);
+            }
+
+            result.prototype.type = type;
+            result.prototype.name = name;
+            
+        } else {
+
+            cfg = decorator || {};
+            result = registry[ name ];
+            if (!result){
+
+                throw 'Error: "' + name + '" ' + type + ' not defined';
+            }
+        }
+
+        if ( cfg ) {
+
+            // create a new instance from the provided decorator
+            return new result( cfg );
+        }
+    };
+
+    factory.mixin = mixin;
+
+    return factory;
+};
+
+// ---
+// inside: src/util/noconflict.js
+
+(function( window ){
+
+    var _Physics = window.Physics;
+
+    /**
+     * Restore the original reference to the global window.Physics variable.
+     * Does nothing if PhysicsJS doesn't have a reference in global scope
+     * @return {Physics} The PhysicsJS reference
+     */
+    Physics.noConflict = function(){
+
+        if ( window.Physics === Physics ) {
+            window.Physics = _Physics;
+        }
+        
+        return Physics;
+    };
+
+})( this );
+
+// ---
+// inside: src/util/pubsub.js
+
+(function(){
+
+    /**
+     * PubSub implementation (fast)
+     */
+    var PubSub = function PubSub( defaultScope ){
+
+        if (!(this instanceof PubSub)){
+            return new PubSub( defaultScope );
+        }
+
+        this.initPubsub( defaultScope );
+    };
+
+    PubSub.prototype = {
+
+        /**
+         * Initialize
+         * @param  {Object} defaultScope Default scope to bind events to
+         * @return {void}
+         */
+        initPubsub: function( defaultScope ){
+            this._topics = {};
+            this._defaultScope = defaultScope || this;
+        },
+
+        /**
+         * Subscribe a callback (or callbacks) to a topic (topics).
+         * 
+         * @param  {String|Object}   topic The topic name, or a config with key/value pairs of { topic: callbackFn, ... }
+         * @param  {Function} fn The callback function (if not using Object as previous argument)
+         * @param  {Object}   scope (optional) The scope to bind callback to
+         * @param  {Number}   priority (optional) The priority of the callback (higher = earlier)
+         * @return {this}
+         */
+        subscribe: function( topic, fn, scope, priority ){
+
+            var listeners = this._topics[ topic ] || (this._topics[ topic ] = [])
+                ,orig = fn
+                ,idx
+                ;
+
+            // check if we're subscribing to multiple topics
+            // with an object
+            if ( Physics.util.isObject( topic ) ){
+
+                for ( var t in topic ){
+                    
+                    this.subscribe( t, topic[ t ], fn, scope );
+                }
+
+                return this;
+            }
+
+            if ( Physics.util.isObject( scope ) ){
+                
+                fn = Physics.util.bind( fn, scope );
+                fn._bindfn_ = orig;
+
+            } else if (!priority) {
+
+                priority = scope;
+            }
+
+            fn._priority_ = priority;
+
+            idx = Physics.util.sortedIndex( listeners, fn, '_priority_' );
+
+            listeners.splice( idx, 0, fn );
+            return this;
+        },
+
+        /**
+         * Unsubscribe function from topic.
+         * @param  {String}   topic Topic name OR true to remove all listeners on all topics
+         * @param  {Function} fn The original callback function OR true to remove all listeners
+         * @return {this}
+         */
+        unsubscribe: function( topic, fn ){
+
+            if ( topic === true ){
+                this._topics = {};
+                return this;
+            }
+
+            var listeners = this._topics[ topic ]
+                ,listn
+                ;
+
+            if (!listeners){
+                return this;
+            }
+
+            if ( fn === true ){
+                this._topics[ topic ] = [];
+                return this;
+            }
+
+            for ( var i = 0, l = listeners.length; i < l; i++ ){
+                
+                listn = listeners[ i ];
+
+                if ( listn._bindfn_ === fn || listn === fn ){
+                    listeners.splice(i, 1);
+                    break;
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Publish data to a topic
+         * @param  {Object|String} data
+         * @param  {Object} scope The scope to be included in the data argument passed to callbacks
+         * @return {this}
+         */
+        publish: function( data, scope ){
+
+            if (typeof data !== 'object'){
+                data = { topic: data };
+            }
+
+            var topic = data.topic
+                ,listeners = this._topics[ topic ]
+                ,l = listeners && listeners.length
+                ;
+
+            if ( !topic ){
+                throw 'Error: No topic specified in call to world.publish()';
+            }
+
+            if ( !l ){
+                return this;
+            }
+            
+            data.scope = data.scope || this._defaultScope;
+
+            while ( l-- ){
+                
+                data.handler = listeners[ l ];
+                data.handler( data );
+            }
+
+            return this;
+        }
+    };
+    
+    Physics.util.pubsub = PubSub;
+})();
+
+// ---
+// inside: src/util/request-anim-frame.js
+
+// http://paulirish.com/2011/requestanimationframe-for-smart-animating/
+// http://my.opera.com/emoller/blog/2011/12/20/requestanimationframe-for-smart-er-animating
+ 
+// requestAnimationFrame polyfill by Erik Moller
+// fixes from Paul Irish and Tino Zijdel
+ 
+(function(window) {
+    var lastTime = 0;
+    var vendors = ['ms', 'moz', 'webkit', 'o'];
+    for(var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
+        window.requestAnimationFrame = window[vendors[x]+'RequestAnimationFrame'];
+        window.cancelAnimationFrame = window[vendors[x]+'CancelAnimationFrame'] || window[vendors[x]+'CancelRequestAnimationFrame'];
+    }
+ 
+    if (!window.requestAnimationFrame){
+        window.requestAnimationFrame = function(callback, element) {
+            var currTime = new Date().getTime();
+            var timeToCall = Math.max(0, 16 - (currTime - lastTime));
+            var id = window.setTimeout(function() { callback(currTime + timeToCall); }, 
+              timeToCall);
+            lastTime = currTime + timeToCall;
+            return id;
+        };
+    }
+ 
+    if (!window.cancelAnimationFrame){
+        window.cancelAnimationFrame = function(id) {
+            clearTimeout(id);
+        };
+    }
+}(this));
+
+// ---
+// inside: src/util/scratchpad.js
+
+/**
+ * scratchpad
+ * thread-safe management of temporary (voletile)
+ * objects for use in calculations
+ */
+(function(){
+
+    // constants
+    var SCRATCH_MAX_SCRATCHES = 100; // maximum number of scratches
+    var SCRATCH_MAX_INDEX = 10; // maximum number of any type of temp objects
+    var SCRATCH_USAGE_ERROR = 'Error: Scratchpad used after .done() called. (Could it be unintentionally scoped?)';
+    var SCRATCH_INDEX_OUT_OF_BOUNDS = 'Error: Scratchpad usage space out of bounds. (Did you forget to call .done()?)';
+    var SCRATCH_MAX_REACHED = 'Error: Too many scratchpads created. (Did you forget to call .done()?)';
+
+    // cache previously created scratches
+    var scratches = [];
+    var numScratches = 0;
+
+    var ScratchCls = function ScratchCls(){
+
+        // private variables
+        this.objIndex = 0;
+        this.arrayIndex = 0;
+        this.vectorIndex = 0;
+        this.aabbIndex = 0;
+        this.transformIndex = 0;
+        this.objectStack = [];
+        this.arrayStack = [];
+        this.vectorStack = [];
+        this.aabbStack = [];
+        this.transformStack = [];
+
+        if (++numScratches >= SCRATCH_MAX_SCRATCHES){
+            throw SCRATCH_MAX_REACHED;
+        }
+    };
+
+    ScratchCls.prototype = {
+
+        /**
+         * Declare that your work is finished. Release temp objects for use elsewhere. Must be called when immediate work is done.
+         */
+        done: function(){
+
+            this._active = false;
+            this.objIndex = this.arrayIndex = this.vectorIndex = this.aabbIndex = this.transformIndex = 0;
+            // add it back to the scratch stack for future use
+            scratches.push(this);
+        },
+
+        /**
+         * Get a temporary object (dirty)
+         * @return {Object} The temporary (dirty) object
+         */
+        object: function(){
+
+            var stack = this.objectStack;
+
+            if (!this._active){
+                throw SCRATCH_USAGE_ERROR;
+            }
+
+            if (this.objIndex >= SCRATCH_MAX_INDEX){
+                throw SCRATCH_INDEX_OUT_OF_BOUNDS;
+            }
+
+            return stack[ this.objIndex++ ] || stack[ stack.push({}) - 1 ];
+        },
+
+        /**
+         * Get a temporary array.
+         * @return {Array} Temporary (dirty) array
+         */
+        array: function(){
+
+            var stack = this.arrayStack;
+
+            if (!this._active){
+                throw SCRATCH_USAGE_ERROR;
+            }
+
+            if (this.arrIndex >= SCRATCH_MAX_INDEX){
+                throw SCRATCH_INDEX_OUT_OF_BOUNDS;
+            }
+
+            return stack[ this.arrIndex++ ] || stack[ stack.push([]) - 1 ];
+        },
+
+        /**
+         * Get a temporary Vector
+         * @return {Vector} The temporary (dirty) vector.
+         */
+        vector: function(){
+
+            var stack = this.vectorStack;
+
+            if (!this._active){
+                throw SCRATCH_USAGE_ERROR;
+            }
+
+            if (this.vectorIndex >= SCRATCH_MAX_INDEX){
+                throw SCRATCH_INDEX_OUT_OF_BOUNDS;
+            }
+
+            return stack[ this.vectorIndex++ ] || stack[ stack.push(Physics.vector()) - 1 ];
+        },
+
+        /**
+         * Get a temporary AABB
+         * @return {AABB} The temporary (dirty) AABB
+         */
+        aabb: function(){
+
+            var stack = this.aabbStack;
+
+            if (!this._active){
+                throw SCRATCH_USAGE_ERROR;
+            }
+
+            if (this.aabbIndex >= SCRATCH_MAX_INDEX){
+                throw SCRATCH_INDEX_OUT_OF_BOUNDS;
+            }
+
+            return stack[ this.aabbIndex++ ] || stack[ stack.push(Physics.aabb()) - 1 ];
+        },
+
+        /**
+         * Get a temporary Transform
+         * @return {Transform} The temporary (dirty) transform
+         */
+        transform: function(){
+
+            var stack = this.transformStack;
+
+            if (!this._active){
+                throw SCRATCH_USAGE_ERROR;
+            }
+
+            if (this.transformIndex >= SCRATCH_MAX_INDEX){
+                throw SCRATCH_INDEX_OUT_OF_BOUNDS;
+            }
+
+            return stack[ this.transformIndex++ ] || stack[ stack.push(Physics.transform()) - 1 ];
+        }
+    };
+    
+    /**
+     * Get a new scratchpad to work from. Call .done() when finished.
+     * @return {ScratchCls} The scratchpad
+     */
+    Physics.scratchpad = function(){
+
+        var scratch = scratches.pop() || new ScratchCls();
+        scratch._active = true;
+        return scratch;
+    };
+
+})();
+
+// ---
+// inside: src/util/ticker.js
+
+/**
+ * The Ticker singleton for easily binding callbacks to requestAnimationFrame
+ */
+(function(window){
+        
+    var lastTime = 0
+        ,active = false
+        ,listeners = []
+        ;
+
+    /**
+     * Publish a tick to subscribed callbacks
+     * @private
+     * @param  {Number} time The current time
+     * @return {void}
+     */
+    function step( time ){
+
+        var fns = listeners;
+
+        if (!active){
+            return;
+        }
+
+        window.requestAnimationFrame( step );
+        
+        for ( var i = 0, l = fns.length; i < l; ++i ){
+            
+            fns[ i ]( time, time - lastTime );
+        }
+
+        lastTime = time;
+    }
+
+    /**
+     * Start the ticker
+     * @return {this}
+     */
+    function start(){
+        
+        lastTime = (new Date()).getTime();
+        active = true;
+        step();
+
+        return this;
+    }
+
+    /**
+     * Stop the ticker
+     * @return {this}
+     */
+    function stop(){
+
+        active = false;
+        return this;
+    }
+
+    /**
+     * Subscribe a callback to the ticker
+     * @param  {Function} listener The callback function
+     * @return {this}
+     */
+    function subscribe( listener ){
+
+        // if function and not already in listeners...
+        if ( typeof listener === 'function' ){
+
+            for ( var i = 0, l = listeners.length; i < l; ++i ){
+                
+                if (listener === listeners[ i ]){
+                    return this;
+                }
+            }
+
+            // add it
+            listeners.push( listener );
+        }
+        
+        return this;
+    }
+
+    /**
+     * Unsubscribe a callback from the ticker
+     * @param  {Function} listener Original callback added
+     * @return {this}
+     */
+    function unsubscribe( listener ){
+
+        var fns = listeners;
+
+        for ( var i = 0, l = fns.length; i < l; ++i ){
+            
+            if ( fns[ i ] === listener ){
+
+                // remove it
+                fns.splice( i, 1 );
+                return this;
+            }
+        }
+
+        return this;
+    }
+
+    /**
+     * Determine if ticker is currently running
+     * @return {Boolean} True if running
+     */
+    function isActive(){
+
+        return !!active;
+    }
+
+    // API
+    Physics.util.ticker = {
+        start: start,
+        stop: stop,
+        subscribe: subscribe,
+        unsubscribe: unsubscribe,
+        isActive: isActive
+    };
+
+}(this));
+
+// ---
+// inside: src/math/aabb.js
+
+(function(){
+
+    /**
+     * Axis Aligned Bounding Box implementation
+     * @param {Object|Number} minX Either an object with the aabb values, or the minimum x value
+     * @param {Number} minY Minimum y value
+     * @param {Number} maxX Maximum x value
+     * @param {Number} maxY Maximum y value
+     */
+    var AABB = function AABB( minX, minY, maxX, maxY ){
+
+        // enforce instantiation
+        if ( !(this instanceof AABB) ){
+
+            return new AABB( minX, minY, maxX, maxY );
+        }
+
+        this._pos = Physics.vector();
+        
+        this.set( minX, minY, maxX, maxY );
+    };
+
+    /**
+     * Set the aabb values
+     * @param {Object|Number} minX Either an object with the aabb values, or the minimum x value
+     * @param {Number} minY Minimum y value
+     * @param {Number} maxX Maximum x value
+     * @param {Number} maxY Maximum y value
+     * @return {this}
+     */
+    AABB.prototype.set = function set( minX, minY, maxX, maxY ){
+
+        if ( Physics.util.isObject(minX) ){
+
+            this._pos.clone( minX.pos );
+            this._hw = minX.halfWidth;
+            this._hh = minX.halfHeight;
+            
+            return this;
+        }
+
+        this._pos.set( 0.5 * (maxX + minX), 0.5 * (maxY + minY) );
+        this._hw = 0.5 * (maxX - minX);
+        this._hh = 0.5 * (maxY - minY);
+        return this;
+    };
+
+    /**
+     * Get the aabb values as a plain object
+     * @return {Object} The aabb values
+     */
+    AABB.prototype.get = function get(){
+
+        var hw = this.halfWidth()
+            ,hh = this.halfHeight()
+            ;
+
+        return {
+            pos: this._pos.values(),
+            halfWidth: hw,
+            halfHeight: hh,
+            // useful for vector operations
+            x: hw,
+            y: hh
+        };
+    };
+
+    /**
+     * Get the half-width measurement of the aabb
+     * @return {Number} The half-width
+     */
+    AABB.prototype.halfWidth = function halfWidth(){
+
+        return this._hw;
+    };
+
+    /**
+     * Get the half-height measurement of the aabb
+     * @return {Number} The half-height
+     */
+    AABB.prototype.halfHeight = function halfHeight(){
+
+        return this._hh;
+    };
+
+    /**
+     * Check if point is inside bounds
+     * @param  {Vectorish} pt The point to check
+     * @return {Boolean}    True if point is inside aabb
+     */
+    AABB.prototype.contains = function contains( pt ){
+
+        var x = pt.x !== undefined ? pt.x : pt.get(0)
+            ,y = pt.y !== undefined ? pt.y : pt.get(1)
+            ;
+
+        return  (x > (this._pos.get(0) - this._hw)) && 
+                (x < (this._pos.get(0) + this._hw)) &&
+                (y > (this._pos.get(1) - this._hh)) &&
+                (y < (this._pos.get(1) + this._hh));
+    };
+
+    /**
+     * Apply a transformation to the aabb.
+     * Rotation origin is relative to the aabb's center.
+     * @param  {Transform} trans The transformation
+     * @return {this}
+     */
+    AABB.prototype.transform = function transform( trans ){
+
+        var hw = this._hw
+            ,hh = this._hh
+            ,scratch = Physics.scratchpad()
+            ,bottomRight = scratch.vector().set( hw, hh )
+            ,topRight = scratch.vector().set( hw, -hh )
+            ;
+
+        // translate the center
+        this._pos.translate( trans );
+
+        // rotate the corners
+        bottomRight.rotate( trans );
+        topRight.rotate( trans );
+
+        // we need to keep the box oriented with the axis, but expand it to
+        // accomodate the rotation
+        this._hw = Math.max( Math.abs(bottomRight.get(0)), Math.abs(topRight.get(0)) );
+        this._hh = Math.max( Math.abs(bottomRight.get(1)), Math.abs(topRight.get(1)) );
+
+        scratch.done();
+        return this;
+    };
+
+    // Static methods
+    /**
+     * Check if a point is inside an aabb
+     * @param  {AABB|Object} aabb The aabb instance or aabb values
+     * @param  {Vectorish} pt   The point to check
+     * @return {Boolean}      True if point is inside aabb
+     */
+    AABB.contains = function( aabb, pt ){
+
+        var x = pt.x !== undefined ? pt.x : pt.get(0)
+            ,y = pt.y !== undefined ? pt.y : pt.get(1)
+            ;
+
+        aabb = aabb.get ? aabb.get() : aabb;
+
+        return  (x > (aabb.pos.x - aabb.halfWidth)) && 
+                (x < (aabb.pos.x + aabb.halfWidth)) &&
+                (y > (aabb.pos.y - aabb.halfHeight)) &&
+                (y < (aabb.pos.y + aabb.halfHeight));
+    };
+
+    Physics.aabb = AABB;
+}());
+
+// ---
+// inside: src/math/gjk.js
+
+/**
+ * Gilbert–Johnson–Keerthi object collison algorithm
+ * For general information about GJK see: 
+ *  - http://www.codezealot.org/archives/88
+ *  - http://mollyrocket.com/849
+ */
+(function(){
+
+    // the algorithm doesn't always converge for curved shapes.
+    // need these constants to dictate how accurate we want to be.
+    var gjkAccuracy = 0.0001;
+    var gjkMaxIterations = 100;
+
+    // get the next search direction from two simplex points
+    var getNextSearchDir = function getNextSearchDir( ptA, ptB, dir ){
+
+        var ABdotB = ptB.normSq() - ptB.dot( ptA )
+            ,ABdotA = ptB.dot( ptA ) - ptA.normSq()
+            ;
+
+        // if the origin is farther than either of these points
+        // get the direction from one of those points to the origin
+        if ( ABdotB < 0 ){
+
+            return dir.clone( ptB ).negate();
+
+        } else if ( ABdotA > 0 ){
+
+            return dir.clone( ptA ).negate();
+
+        // otherwise, use the perpendicular direction from the simplex
+        } else {
+
+            // dir = AB = B - A
+            dir.clone( ptB ).vsub( ptA );
+            // if (left handed coordinate system) 
+            // A cross AB < 0 then get perpendicular counter clockwise 
+            return dir.perp( (ptA.cross( dir ) < 0) );
+        }
+    };
+
+    /**
+     * Figure out the closest points on the original objects
+     * from the last two entries of the simplex
+     * @param  {Array} simplex
+     * @return {Object}
+     */
+    var getClosestPoints = function getClosestPoints( simplex ){
+
+        // see http://www.codezealot.org/archives/153
+        // for algorithm details
+
+        // we know that the position of the last point 
+        // is very close to the previous. (by nature of the distance test)
+        // this won't give great results for the closest
+        // points algorithm, so let's use the previous two
+        var len = simplex.length
+            ,last = simplex[ len - 2 ]
+            ,prev = simplex[ len - 3 ]
+            ,scratch = Physics.scratchpad()
+            ,A = scratch.vector().clone( last.pt )
+            // L = B - A
+            ,L = scratch.vector().clone( prev.pt ).vsub( A )
+            ,lambdaB
+            ,lambdaA
+            ;
+
+        if ( L.equals(Physics.vector.zero) ){
+
+            // oh.. it's a zero vector. So A and B are both the closest.
+            // just use one of them
+            scratch.done();
+            return {
+
+                a: last.a,
+                b: last.b
+            };
+        }
+
+        lambdaB = - L.dot( A ) / L.normSq();
+        lambdaA = 1 - lambdaB;
+
+        if ( lambdaA <= 0 ){
+            // woops.. that means the closest simplex point
+            // isn't on the line it's point B itself
+            scratch.done();
+            return {
+                a: prev.a,
+                b: prev.b
+            };
+        } else if ( lambdaB <= 0 ){
+            // vice versa
+            scratch.done();
+            return {
+                a: last.a,
+                b: last.b
+            };
+        }
+
+        // guess we'd better do the math now...
+        var ret = {
+            // a closest = lambdaA * Aa + lambdaB * Ba
+            a: A.clone( last.a ).mult( lambdaA ).vadd( L.clone( prev.a ).mult( lambdaB ) ).values(),
+            // b closest = lambdaA * Ab + lambdaB * Bb
+            b: A.clone( last.b ).mult( lambdaA ).vadd( L.clone( prev.b ).mult( lambdaB ) ).values()
+        };
+
+        scratch.done();
+        return ret;
+    };
+
+    /**
+     * Implementation agnostic GJK function.
+     * @param  {Function} support The support function. Must return an object containing 
+     *                            the witness points (.a, .b) and the support point (.pt).
+     *                            Recommended to use simple objects. Eg: return { a: {x: 1, y:2}, b: {x: 3, y: 4}, pt: {x: 2, y: 2} }
+     *                            Signature: function(<Physics.vector> axis).
+     *                            axis: The axis to use
+     * @param {Physics.vector} seed The starting direction for the simplex
+     * @return {Object} The algorithm information containing properties: .overlap (bool), and .simplex (Array)
+     */
+    var gjk = function gjk( support, seed, checkOverlapOnly, debugFn ){
+
+        var overlap = false
+            ,noOverlap = false // if we're sure we're not overlapping
+            ,distance = false
+            ,simplex = []
+            ,simplexLen = 1
+            // setup a scratchpad of temporary cheap objects
+            ,scratch = Physics.scratchpad()
+            // use seed as starting direction or use x axis
+            ,dir = scratch.vector().clone(seed || Physics.vector.axis[ 0 ])
+            ,last = scratch.vector()
+            ,lastlast = scratch.vector()
+            // some temp vectors
+            ,v1 = scratch.vector()
+            ,v2 = scratch.vector()
+            ,ab
+            ,ac
+            ,sign
+            ,tmp
+            ,iterations = 0
+            ;
+
+        // get the first Minkowski Difference point
+        tmp = support( dir );
+        simplexLen = simplex.push( tmp );
+        last.clone( tmp.pt );
+        // negate d for the next point
+        dir.negate();
+
+        // start looping
+        while ( ++iterations ) {
+
+            // swap last and lastlast, to save on memory/speed
+            last.swap(lastlast);
+            // push a new point to the simplex because we haven't terminated yet
+            tmp = support( dir );
+            simplexLen = simplex.push( tmp );
+            last.clone( tmp.pt );
+
+            if ( debugFn ){
+                debugFn( simplex );
+            }
+
+            if ( last.equals(Physics.vector.zero) ){
+                // we happened to pick the origin as a support point... lucky.
+                overlap = true;
+                break;
+            }
+            
+            // check if the last point we added actually passed the origin
+            if ( !noOverlap && last.dot( dir ) <= 0.0 ) {
+                // if the point added last was not past the origin in the direction of d
+                // then the Minkowski difference cannot possibly contain the origin since
+                // the last point added is on the edge of the Minkowski Difference
+
+                // if we just need the overlap...
+                if ( checkOverlapOnly ){
+                    break;
+                }
+
+                noOverlap = true;
+            }
+
+            // if it's a line...
+            if ( simplexLen === 2 ){
+
+                // otherwise we need to determine if the origin is in
+                // the current simplex and act accordingly
+
+                dir = getNextSearchDir( last, lastlast, dir );
+                // continue...
+
+            // if it's a triangle... and we're looking for the distance
+            } else if ( noOverlap ){
+
+                // if we know there isn't any overlap and
+                // we're just trying to find the distance...
+                // make sure we're getting closer to the origin
+                dir.normalize();
+                tmp = lastlast.dot( dir );
+                if ( Math.abs(tmp - last.dot( dir )) < gjkAccuracy ){
+
+                    distance = -tmp;
+                    break;
+                }
+
+                // if we are still getting closer then only keep
+                // the points in the simplex that are closest to
+                // the origin (we already know that last is closer
+                // than the previous two)
+                // the norm is the same as distance(origin, a)
+                // use norm squared to avoid the sqrt operations
+                if (lastlast.normSq() < v1.clone(simplex[ 0 ].pt).normSq()) {
+                    
+                    simplex.shift();
+
+                } else {
+                    
+                    simplex.splice(1, 1);
+                }
+
+                dir = getNextSearchDir( v1.clone(simplex[ 1 ].pt), v2.clone(simplex[ 0 ].pt), dir );
+                // continue...
+
+            // if it's a triangle
+            } else {
+
+                // we need to trim the useless point...
+
+                ab = ab || scratch.vector();
+                ac = ac || scratch.vector();
+
+                // get the edges AB and AC
+                ab.clone( lastlast ).vsub( last );
+                ac.clone( simplex[ 0 ].pt ).vsub( last );
+
+                // here normally people think about this as getting outward facing
+                // normals and checking dot products. Since we're in 2D
+                // we can be clever...
+                sign = ab.cross( ac ) > 0;
+                
+                if ( sign ^ (last.cross( ab ) > 0) ){
+
+                    // ok... so there's an XOR here... don't freak out
+                    // remember last = A = -AO
+                    // if AB cross AC and AO cross AB have the same sign
+                    // then the origin is along the outward facing normal of AB
+                    // so if AB cross AC and A cross AB have _different_ (XOR) signs
+                    // then this is also the case... so we proceed...
+
+                    // point C is dead to us now...
+                    simplex.shift();
+
+                    // if we haven't deduced that we've enclosed the origin
+                    // then we know which way to look...
+                    // morph the ab vector into its outward facing normal
+                    ab.perp( sign );
+                    
+                    // swap
+                    dir.swap( ab );
+                    
+                    // continue...
+
+                    // if we get to this if, then it means we can continue to look along
+                    // the other outward normal direction (ACperp)
+                    // if we don't see the origin... then we must have it enclosed
+                } else if ( sign ^ (ac.cross( last ) > 0) ){
+                    // then the origin is along the outward facing normal 
+                    // of AC; (ACperp)
+
+                    // point B is dead to us now...
+                    simplex.splice(1, 1);
+
+                    ac.perp( !sign );
+                    
+                    // swap
+                    dir.swap( ab );
+                    
+                    // continue...
+
+                } else {
+
+                    // we have enclosed the origin!
+                    overlap = true;
+                    // fewf... take a break
+                    break;
+                }
+            }
+
+            // woah nelly... that's a lot of iterations.
+            // Stop it!
+            if (iterations > gjkMaxIterations){
+                scratch.done();
+                return {
+                    simplex: simplex,
+                    iterations: iterations,
+                    distance: 0,
+                    maxIterationsReached: true
+                };
+            }
+        }
+
+        // free workspace
+        scratch.done();
+
+        tmp = {
+            overlap: overlap,
+            simplex: simplex,
+            iterations: iterations
+        };
+
+        if ( distance !== false ){
+
+            tmp.distance = distance;
+            tmp.closest = getClosestPoints( simplex );
+        }
+
+        return tmp;
+    };
+
+    Physics.gjk = gjk;
+
+})();
+
+// ---
+// inside: src/math/transform.js
+
+(function(){
+    
+    /**
+     * Vector Transformations class for rotating and translating vectors
+     * @class Transform
+     */
+
+    /**
+     * Transform Constructor / Factory
+     * @param {Physics.vector|Physics.transform} vect (optional) vector to use for translation or a transform to copy
+     * @param {Number} angle (optional) Angle (radians) to use for rotation
+     * @param {Vectorish} origin (optional) Origin of the rotation
+     */
+    var Transform = function Transform( vect, angle, origin ) {
+
+        if (!(this instanceof Transform)){
+            return new Transform( vect, angle );
+        }
+
+        this.v = Physics.vector();
+        this.o = Physics.vector(); // origin of rotation
+        
+        if ( vect instanceof Transform ){
+
+            this.clone( vect );
+            return;
+        }
+
+        if (vect){
+            this.setTranslation( vect );
+        }
+
+        this.setRotation( angle || 0, origin );
+    };
+
+    /**
+     * Set the translation portion of the transform
+     * @param {Physics.vector} vect
+     */
+    Transform.prototype.setTranslation = function( vect ){
+
+        this.v.clone( vect );
+        return this;
+    };
+
+    /**
+     * Set the rotation portion of the transform
+     * @param {Number} angle
+     * @param {Vectorish} origin (optional) Origin of the rotation
+     */
+    Transform.prototype.setRotation = function( angle, origin ){
+
+        this.cosA = Math.cos( angle );
+        this.sinA = Math.sin( angle );
+
+        if ( origin ){
+            this.o.clone( origin );
+        } else {
+            this.o.zero();
+        }
+
+        return this;
+    };
+
+    /**
+     * Clone another transform. Or clone self into new transform.
+     * @param  {Physics.transform} t (optional) the transform to clone
+     * @return {Physics.transform|this}
+     */
+    Transform.prototype.clone = function( t ){
+
+        if ( t ){
+
+            this.setTranslation( t.v );
+            this.cosA = t.cosA;
+            this.sinA = t.sinA;
+            this.o.clone( t.o );
+
+            return this;
+        }
+
+        return new Transform( this );
+    };
+
+    Physics.transform = Transform;
+
+})();
+
+// ---
+// inside: src/math/vector.js
+
+(function(window){
+
+    // http://jsperf.com/vector-storage-test/2
+
+    // cached math functions
+    // TODO: might be faster not to do this???
+    var sqrt = Math.sqrt
+        ,min = Math.min
+        ,max = Math.max
+        ,acos = Math.acos
+        ,atan2 = Math.atan2
+        ,TWOPI = Math.PI * 2
+        ,typedArrays = !!window.Float64Array
+        ;
+
+    /**
+     * Vector Constructor / Factory
+     * @param {Number|Physics.vector} x (optional) Either the x coord. Or a vector to copy.
+     * @param {Number} y (optional) The y coord.
+     */
+    var Vector = function Vector(x, y) {
+
+        // enforce instantiation
+        if ( !(this instanceof Vector) ){
+
+            return new Vector( x, y );
+        }
+
+        // arrays to store values
+        // x = _[0]
+        // y = _[1]
+        // norm = _[3]
+        // normsq = _[4]
+        
+
+        if (typedArrays){
+            this._ = new Float64Array(5);
+        } else {
+            this._ = [];
+        }
+
+        if (x && (x.x !== undefined || x._ && x._.length)){
+
+            this.clone( x );
+
+        } else {
+
+            this.recalc = true; //whether or not recalculate norms
+            this.set( x || 0.0, y || 0.0 );
+        }
+    };
+
+    /**
+     * Methods
+     */
+
+    /**
+     * Sets the components of this Vector.
+     */
+    Vector.prototype.set = function(x, y) {
+
+        this.recalc = true;
+
+        this._[0] = x || 0.0;
+        this._[1] = y || 0.0;
+        return this;
+    };
+
+    /**
+     * Get component
+     * @param  {Integer} n The nth component. x is 1, y is 2, ...
+     * @return {Integer} component value
+     */
+    Vector.prototype.get = function( n ){
+
+        return this._[ n ];
+    };
+
+    /**
+     * Add Vector to this
+     */
+    Vector.prototype.vadd = function(v) {
+
+        this.recalc = true;
+
+        this._[0] += v._[0];
+        this._[1] += v._[1];
+        return this;
+    };
+
+    /**
+     * Subtract Vector from this
+     */
+    Vector.prototype.vsub = function(v) {
+
+        this.recalc = true;
+
+        this._[0] -= v._[0];
+        this._[1] -= v._[1];
+        return this;
+    };
+
+    /**
+     * Add scalars to Vector's components
+     */
+    Vector.prototype.add = function(x, y){
+        
+        this.recalc = true;
+
+        this._[0] += x;
+        this._[1] += y === undefined? x : y;
+        return this;
+    };
+
+    /**
+     * Subtract scalars to Vector's components
+     */
+    Vector.prototype.sub = function(x, y){
+        
+        this.recalc = true;
+
+        this._[0] -= x;
+        this._[1] -= y === undefined? x : y;
+        return this;
+    };
+
+    /* 
+     * Multiply by a scalar
+     */
+    Vector.prototype.mult = function(m) {
+        
+        if ( !this.recalc ){
+
+            this._[4] *= m * m;
+            this._[3] *= m;
+        }
+
+        this._[0] *= m;
+        this._[1] *= m;
+        return this;
+    };
+
+    /* 
+     * Get the dot product
+     */
+    Vector.prototype.dot = function(v) {
+
+        return (this._[0] * v._[0]) + (this._[1] * v._[1]);
+    };
+
+    /** 
+     * Get the cross product (in a left handed coordinate system)
+     */
+    Vector.prototype.cross = function(v) {
+
+        return ( - this._[0] * v._[1]) + (this._[1] * v._[0]);
+    };
+
+    /**
+     * Scalar projection of this along v
+     */
+    Vector.prototype.proj = function(v){
+
+        return this.dot( v ) / v.norm();
+    };
+
+
+    /**
+     * Vector project this along v
+     */
+    Vector.prototype.vproj = function(v){
+
+        var m = this.dot( v ) / v.normSq();
+        return this.clone( v ).mult( m );
+    };
+
+    /**
+     * Angle between this and vector. Or this and x axis.
+     * @param  {Vector} v (optional) other vector
+     * @return {Number} Angle in radians
+     */
+    Vector.prototype.angle = function(v){
+
+        var ang;
+
+        if ( this.equals( Vector.zero ) ){
+            
+            if ( v ){
+                return v.angle();
+            } else {
+                return NaN;
+            }
+
+        } else {
+
+            if ( v && !v.equals( Vector.zero ) ){
+                ang = atan2( this._[1] * v._[0] - this._[0] * v._[1], this._[0] * v._[0] + this._[1] * v._[1]);
+            } else {
+                ang = atan2( this._[ 1 ], this._[ 0 ] );    
+            }
+        }
+        
+        while (ang > Math.PI){
+            ang -= TWOPI;
+        }
+
+        while (ang < -Math.PI){
+            ang += TWOPI;
+        }
+
+        return ang;
+    };
+
+    /**
+     * Angle created between three points; left -> this -> right.
+     * @param  {Vector} v (optional) other vector
+     * @return {Number} Angle in radians
+     */
+    Vector.prototype.angle2 = function( left, right ){
+
+        var x1 = left._[0] - this._[0]
+            ,y1 = left._[1] - this._[1]
+            ,x2 = right._[0] - this._[0]
+            ,y2 = right._[1] - this._[1]
+            ,ang = atan2( y1 * x2 - x1 * y2, x1 * x2 + y1 * y2)
+            ;
+
+        while (ang > Math.PI){
+            ang -= TWOPI;
+        }
+
+        while (ang < -Math.PI){
+            ang += TWOPI;
+        }
+
+        return ang;
+    };
+
+    /**
+     * Get the norm (length)
+     */
+    Vector.prototype.norm = function() {
+
+        if (this.recalc){
+            this.recalc = false;
+            this._[4] = (this._[0] * this._[0] + this._[1] * this._[1]);
+            this._[3] = sqrt( this._[4] );
+        }
+        
+        return this._[3];
+    };
+
+    /**
+     * Get the norm squared
+     */
+    Vector.prototype.normSq = function() {
+
+        if (this.recalc){
+            this.recalc = false;
+            this._[4] = (this._[0] * this._[0] + this._[1] * this._[1]);
+            this._[3] = sqrt( this._[4] );
+        }
+
+        return this._[4];
+    };
+
+    /** 
+     * Get distance to other Vector
+     */
+    Vector.prototype.dist = function(v) {
+      
+        var dx, dy;
+        return sqrt(
+            (dx = (v._[0] - this._[0])) * dx + 
+            (dy = (v._[1] - this._[1])) * dy
+        );
+    };
+
+    /**
+     * Get distance squared to other Vector
+     */
+    Vector.prototype.distSq = function(v) {
+
+        var dx, dy;
+        return (
+            (dx = (v._[0] - this._[0])) * dx + 
+            (dy = (v._[1] - this._[1])) * dy
+        );
+    };
+
+    /**
+     * Change vector into a vector perpendicular
+     * @param {Boolean} neg Set to true if want to go in the negative direction
+     * @return {this}
+     */
+    Vector.prototype.perp = function( neg ) {
+
+        var tmp = this._[0]
+            ;
+
+        if ( neg ){
+
+            // x <-> y
+            // negate x
+            this._[0] = -this._[1];
+            this._[1] = tmp;
+            
+        } else {
+
+            // x <-> y
+            // negate y
+            this._[0] = this._[1];
+            this._[1] = -tmp;
+        }
+
+        return this;
+    };
+
+    /**
+     * Normalises this Vector, making it a unit Vector
+     */
+    Vector.prototype.normalize = function() {
+
+        var m = this.norm();
+
+        // means it's a zero Vector
+        if ( m === 0 ){
+            return this;
+        }
+
+        m = 1/m;
+
+        this._[0] *= m;
+        this._[1] *= m;
+
+        this._[3] = 1.0;
+        this._[4] = 1.0;
+
+        return this;
+    };
+
+    /**
+     * Apply a transform to this vector
+     * @param  {Physics.transform} t The transform
+     */
+    Vector.prototype.transform = function( t ){
+
+        var sinA = t.sinA
+            ,cosA = t.cosA
+            ,x = t.o._[ 0 ]
+            ,y = t.o._[ 1 ]
+            ;
+
+        this._[ 0 ] -= x;
+        this._[ 1 ] -= y;
+
+        // rotate about origin "o" then translate
+        return this.set(
+            this._[ 0 ] * cosA - this._[ 1 ] * sinA + x + t.v._[ 0 ], 
+            this._[ 0 ] * sinA + this._[ 1 ] * cosA + y + t.v._[ 1 ]
+        );
+    };
+
+    /**
+     * Apply an inverse transform to this vector
+     * @param  {Physics.transform} t The transform
+     */
+    Vector.prototype.transformInv = function( t ){
+
+        var sinA = t.sinA
+            ,cosA = t.cosA
+            ,x = t.o._[ 0 ]
+            ,y = t.o._[ 1 ]
+            ;
+
+        this._[ 0 ] -= x + t.v._[ 0 ];
+        this._[ 1 ] -= y + t.v._[ 1 ];
+
+        // inverse translate then inverse rotate about origin "o"
+        return this.set(
+            this._[ 0 ] * cosA + this._[ 1 ] * sinA + x, 
+            - this._[ 0 ] * sinA + this._[ 1 ] * cosA + y
+        );
+    };
+
+    /**
+     * Apply the rotation portion of transform to this vector
+     * @param  {Physics.transform|Number} t The transform OR a number representing the angle to rotate by
+     * @param  {Vector} o If number is specified for rotation angle, then this is a vector representing the rotation origin
+     */
+    Vector.prototype.rotate = function( t, o ){
+
+        var sinA
+            ,cosA
+            ,x = 0
+            ,y = 0
+            ;
+
+        if ( typeof t === 'number' ){
+            sinA = Math.sin( t );
+            cosA = Math.cos( t );
+
+            if ( o ){
+                x = (o.x || o._[ 0 ]) | 0;
+                y = (o.y || o._[ 1 ]) | 0;
+            }
+        } else {
+            sinA = t.sinA;
+            cosA = t.cosA;
+        
+            x = t.o._[ 0 ];
+            y = t.o._[ 1 ];
+        }
+            
+        this._[ 0 ] -= x;
+        this._[ 1 ] -= y;
+
+        return this.set(
+            this._[ 0 ] * cosA - this._[ 1 ] * sinA + x, 
+            this._[ 0 ] * sinA + this._[ 1 ] * cosA + y
+        );
+    };
+
+    /**
+     * Apply an inverse rotation portion of transform to this vector
+     * @param  {Physics.transform} t The transform
+     */
+    Vector.prototype.rotateInv = function( t ){
+
+        return this.set(
+            (this._[ 0 ] - t.o._[ 0 ]) * t.cosA + (this._[ 1 ] - t.o._[ 1 ]) * t.sinA + t.o._[ 0 ], 
+            -(this._[ 0 ] - t.o._[ 0 ]) * t.sinA + (this._[ 1 ] - t.o._[ 1 ]) * t.cosA + t.o._[ 1 ]
+        );
+    };
+
+    /**
+     * Apply the translation portion of transform to this vector
+     * @param  {Physics.transform} t The transform
+     */
+    Vector.prototype.translate = function( t ){
+
+        return this.vadd( t.v );
+    };
+
+    /**
+     * Apply an inverse translation portion of transform to this vector
+     * @param  {Physics.transform} t The transform
+     */
+    Vector.prototype.translateInv = function( t ){
+
+        return this.vsub( t.v );
+    };
+
+
+    /**
+     * Returns clone of current Vector
+     * Or clones provided Vector to this one
+     */
+    Vector.prototype.clone = function(v) {
+        
+        // http://jsperf.com/vector-storage-test
+
+        if (v){
+
+            if (!v._){
+
+                return this.set( v.x, v.y );
+            }
+            
+            this.recalc = v.recalc;
+
+            if (!v.recalc){
+                this._[3] = v._[3];
+                this._[4] = v._[4];
+            }
+
+            this._[0] = v._[0];
+            this._[1] = v._[1];
+
+            return this;
+        }
+
+        return new Vector( this );
+    };
+
+    /**
+     * Swap values with other vector
+     * @param  {Vector} v
+     * @return {this}
+     */
+    Vector.prototype.swap = function(v){
+
+        var _ = this._;
+        this._ = v._;
+        v._ = _;
+
+        _ = this.recalc;
+        this.recalc = v.recalc;
+        v.recalc = _;
+        return this;
+    };
+
+    /**
+     * Create a litteral object
+     */
+    Vector.prototype.values = function(){
+
+        return {
+            x: this._[0],
+            y: this._[1]
+        };
+    };
+
+
+    /**
+     * Zero the Vector
+     */
+    Vector.prototype.zero = function() {
+
+        this._[3] = 0.0;
+        this._[4] = 0.0;
+
+        this._[0] = 0.0;
+        this._[1] = 0.0;
+        return this;
+    };
+
+    /**
+     * Make this a Vector in the opposite direction
+     */
+    Vector.prototype.negate = function( component ){
+
+        if (component !== undefined){
+
+            this._[ component ] = -this._[ component ];
+            return this;
+        }
+
+        this._[0] = -this._[0];
+        this._[1] = -this._[1];
+        return this;
+    };
+
+    /**
+     * Constrain Vector components to minima and maxima
+     */
+    Vector.prototype.clamp = function(minV, maxV){
+
+        minV = minV.values ? minV.values() : minV;
+        maxV = maxV.values ? maxV.values() : maxV;
+
+        this._[0] = min(max(this._[0], minV.x), maxV.x);
+        this._[1] = min(max(this._[1], minV.y), maxV.y);
+        this.recalc = true;
+        return this;
+    };
+
+    /**
+     * Render string
+     */
+    Vector.prototype.toString = function(){
+
+        return '('+this._[0] + ', ' + this._[1]+')';
+    };
+
+
+    /**
+     * Determine if equal
+     * @param  {Vector} v
+     * @return {boolean}
+     */
+    Vector.prototype.equals = function(v){
+
+        return this._[0] === v._[0] &&
+            this._[1] === v._[1] &&
+            this._[2] === v._[2];
+    };
+
+
+    /**
+     * Static functions
+     */
+
+    /** 
+     * Return sum of two Vectors
+     */
+    Vector.vadd = function(v1, v2) {
+
+        return new Vector( v1._[0] + v2._[0], v1._[1] + v2._[1] );
+    };
+
+    /** 
+     * Subtract v2 from v1
+     */
+    Vector.vsub = function(v1, v2) {
+
+        return new Vector( v1._[0] - v2._[0], v1._[1] - v2._[1] );
+    };
+
+    /**
+     * Multiply v1 by a scalar m
+     */
+    Vector.mult = function(m, v1){
+
+        return new Vector( v1._[0]*m, v1._[1]*m );
+    };
+
+    /** 
+     * Project v1 onto v2
+     */
+    Vector.vproj = function(v1, v2) {
+
+        return Vector.mult( v1.dot(v2) / v2.normSq(), v2 );
+    };
+
+    /**
+     * Axis vectors for general reference
+     * @type {Array}
+     */
+    Vector.axis = [
+        new Vector(1.0, 0.0),
+        new Vector(0.0, 1.0)
+    ];
+
+    /**
+     * Zero vector for reference
+     */
+    Vector.zero = new Vector(0, 0);
+
+    // assign
+    Physics.vector = Vector;
+
+}(this)); // end Vector class
+
+
+// ---
+// inside: src/core/behavior.js
+
+(function(){
+
+    // Service
+    Physics.behavior = Physics.behaviour = Decorator('behavior', {
+
+        /**
+         * Priority for behavior pubsub event
+         * @type {Number}
+         */
+        priority: 0,
+
+        /**
+         * Initialization
+         * @param  {Object} options Config options passed by initializer
+         * @return {void}
+         */
+        init: function(){
+            
+            this.options = {};
+        },
+
+        /**
+         * Connect to world. Automatically called when added to world by the setWorld method
+         * @param  {Object} world The world to connect to
+         * @return {void}
+         */
+        connect: function( world ){
+
+            if (this.behave){
+                world.subscribe('integrate:positions', this.behave, this, this.priority);
+            }
+        },
+
+        /**
+         * Disconnect from world
+         * @param  {Object} world The world to disconnect from
+         * @return {void}
+         */
+        disconnect: function( world ){
+
+            if (this.behave){
+                world.unsubscribe('integrate:positions', this.behave);
+            }
+        },
+
+        /**
+         * Default method run on every world integration
+         * @abstract
+         * @param  {Object} data Object containing event data, including: data.bodies = Array of world bodies to act on, data.dt = the timestep size
+         * @return {void}
+         */
+        behave: null
+    });
+
+}());
+
+// ---
+// inside: src/core/body.js
+
+(function(){
+
+    var defaults = {
+
+        // is the body fixed and imovable?
+        fixed: false,
+        // body mass
+        mass: 1.0,
+        // body restitution. How "bouncy" is it?
+        restitution: 1.0,
+        // what is its coefficient of friction with another surface with COF = 1?
+        cof: 0.8,
+        // what is the view object (mixed) that should be used when rendering?
+        view: null
+    };
+
+    Physics.body = Decorator('body', {
+
+        /**
+         * Initialization
+         * @param  {Object} options Config options passed by initializer
+         * @return {void}
+         */
+        init: function( options ){
+
+            var vector = Physics.vector;
+
+            this.options = Physics.util.extend({}, defaults, options);
+
+            // properties
+            this.fixed = this.options.fixed;
+            this.hidden = this.options.hidden;
+            this.mass = this.options.mass;
+            this.restitution = this.options.restitution;
+            this.cof = this.options.cof;
+
+            // placeholder for renderers
+            this.view = this.options.view;
+
+            // physical properties
+            this.state = {
+                pos: vector( options.x, options.y ),
+                vel: vector( options.vx, options.vy ),
+                acc: vector(),
+                angular: {
+                    pos: options.angle || 0.0,
+                    vel: options.angularVelocity || 0.0,
+                    acc: 0.0
+                },
+                old: {
+                    pos: vector(),
+                    vel: vector(),
+                    acc: vector(),
+                    angular: {
+                        pos: 0.0,
+                        vel: 0.0,
+                        acc: 0.0
+                    }
+                }
+            };
+
+            if (this.mass === 0){
+                throw "Error: Bodies must have non-zero mass";
+            }
+
+            // shape
+            this.geometry = Physics.geometry('point');
+        },
+
+        /**
+         * Accelerate the body by adding supplied vector to its current acceleration
+         * @param  {Vector} acc The acceleration vector
+         * @return {this}
+         */
+        accelerate: function( acc ){
+
+            this.state.acc.vadd( acc );
+            return this;
+        },
+
+        /**
+         * Apply a force at center of mass, or at point "p" relative to the center of mass
+         * @param  {Vector} force The force vector
+         * @param  {Vector} p     (optional) The point vector from the COM at which to apply the force
+         * @return {this}
+         */
+        applyForce: function( force, p ){
+
+            var scratch = Physics.scratchpad()
+                ,r = scratch.vector()
+                ,state
+                ;
+                
+            // if no point at which to apply the force... apply at center of mass
+            if ( !p ){
+                
+                this.accelerate( r.clone( force ).mult( 1/this.mass ) );
+
+            } else if ( this.moi ) {
+
+                // apply torques
+                state = this.state;
+                r.clone( p );
+                // r cross F
+                this.state.angular.acc -= r.cross( force ) / this.moi;
+                // projection of force towards center of mass
+                this.applyForce( force );
+
+            }
+
+            scratch.done();
+
+            return this;
+        },
+
+        /**
+         * Get the Axis aligned bounding box for the body in its current position and rotation
+         * @return {Object} The aabb values
+         */
+        aabb: function(){
+
+            var scratch = Physics.scratchpad()
+                ,trans = scratch.transform()
+                ,angle = this.state.angular.pos
+                ,aabb = scratch.aabb().set( this.geometry.aabb( angle ) )
+                ;
+
+            trans.setRotation( 0 ).setTranslation(this.state.pos);
+            aabb.transform( trans );
+
+            aabb = aabb.get();
+            scratch.done();
+            return aabb;
+        },
+
+        /**
+         * Recalculate properties. Call when body physical properties are changed.
+         * @abstract
+         * @return {this}
+         */
+        recalc: function(){
+            // override to recalculate properties
+        }
+    });
+
+}());
+
+// ---
+// inside: src/core/geometry.js
+
+(function(){
+
+    Physics.geometry = Decorator('geometry', {
+
+        /**
+         * Initialization
+         * @param  {Object} options Config options passed by initializer
+         * @return {void}
+         */
+        init: function( options ){
+
+            this._aabb = new Physics.aabb();
+        },
+        
+        /**
+         * Get axis-aligned bounding box for this object (rotated by angle if specified).
+         * @param  {Number} angle (optional) The angle to rotate the geometry.
+         * @return {Object}       Bounding box values
+         */
+        aabb: function( angle ){
+
+            return this._aabb.get();
+        },
+
+        /**
+         * Get farthest point on the hull of this geometry
+         * along the direction vector "dir"
+         * returns local coordinates
+         * replaces result if provided
+         * @param {Vector} dir Direction to look
+         * @param {Vector} result (optional) A vector to write result to
+         * @return {Vector} The farthest hull point in local coordinates
+         */
+        getFarthestHullPoint: function( dir, result ){
+
+            result = result || Physics.vector();
+
+            // not implemented.
+            return result.set( 0, 0 );
+        },
+
+        /**
+         * Get farthest point on the core of this geometry
+         * along the direction vector "dir"
+         * returns local coordinates
+         * replaces result if provided
+         * @param {Vector} dir Direction to look
+         * @param {Vector} result (optional) A vector to write result to
+         * @return {Vector} The farthest core point in local coordinates
+         */
+        getFarthestCorePoint: function( dir, result, margin ){
+
+            result = result || Physics.vector();
+
+            // not implemented.
+            return result.set( 0, 0 );
+        }
+    });
+
+}());
+
+// ---
+// inside: src/core/geometry-helpers.js
+
+/**
+ * Geometry helper functions
+ */
+
+/**
+ * Determine if polygon hull is convex
+ * @param  {Array}  hull Array of vertices (Vectorish)
+ * @return {Boolean}
+ */
+Physics.geometry.isPolygonConvex = function( hull ){
+
+    var scratch = Physics.scratchpad()
+        ,prev = scratch.vector()
+        ,next = scratch.vector()
+        ,tmp = scratch.vector()
+        ,ret = true
+        ,sign = false
+        ,l = hull.length
+        ;
+
+    if ( !hull || !l ){
+        return false;
+    }
+
+    if ( l < 3 ){
+        // it must be a point or a line...
+        // which are convex
+        scratch.done();
+        return ret;
+    }
+
+    prev.clone( hull[ 0 ] ).vsub( tmp.clone( hull[ l - 1 ] ) );
+
+    // loop over the edges of the hull and construct vectors of the current
+    // edge and retain the last edge
+    // add two to the length to do a full cycle
+    for ( var i = 1; i <= l; ++i ){
+        
+        next.clone( hull[ i % l ] ).vsub( tmp.clone( hull[ (i - 1) % l ] ) );
+
+        if ( sign === false ){
+
+            // first check the sign of the first cross product
+            sign = prev.cross( next );
+
+        } else if ( (sign > 0) ^ (prev.cross( next ) > 0) ){
+        
+            // if the cross products are different signs it's not convex
+            ret = false;
+            break;
+        }
+
+        // remember the last edge
+        next.swap( prev );
+    }
+
+    scratch.done();
+    return ret;
+};
+
+/**
+ * Gets the moment of inertia of a convex polygon
+ * @see: http://en.wikipedia.org/wiki/List_of_moments_of_inertia
+ * assumptions: 
+ *  * mass is unitary
+ *  * axis of rotation is the origin
+ * @param  {Array} hull Array of vertices (vectorish)
+ * @return {Number} The polygon MOI
+ */
+Physics.geometry.getPolygonMOI = function( hull ){
+
+    var scratch = Physics.scratchpad()
+        ,prev = scratch.vector()
+        ,next = scratch.vector()
+        ,num = 0
+        ,denom = 0
+        ,tmp
+        ,l = hull.length
+        ;
+
+    if ( l < 2 ){
+        // it must be a point
+        // moi = 0
+        scratch.done();
+        return 0;
+    }
+
+    if ( l === 2 ){
+        // it's a line
+        // get length squared
+        tmp = next.clone( hull[ 1 ] ).distSq( prev.clone( hull[ 0 ] ) );
+        scratch.done();
+        return tmp / 12;
+    }
+
+    prev.clone( hull[ 0 ] );
+
+    for ( var i = 1; i < l; ++i ){
+        
+        next.clone( hull[ i ] );
+
+        tmp = Math.abs( next.cross( prev ) );
+        num += tmp * ( next.normSq() + next.dot( prev ) + prev.normSq() );
+        denom += tmp;
+
+        prev.swap( next );
+    }
+
+    scratch.done();
+    return num / ( 6 * denom );
+};
+
+/**
+ * Check if point is inside polygon hull
+ * @param  {Vectorish}  pt
+ * @param  {Array}  hull Array of vertices (Vectorish)
+ * @return {Boolean}
+ */
+Physics.geometry.isPointInPolygon = function( pt, hull ){
+
+    var scratch = Physics.scratchpad()
+        ,point = scratch.vector().clone( pt )
+        ,prev = scratch.vector()
+        ,next = scratch.vector()
+        ,ang = 0
+        ,l = hull.length
+        ;
+
+    if ( l < 2 ){
+        // it's a point...
+        ang = point.equals( prev.clone( hull[ 0 ] ));
+        scratch.done();
+        return ang;
+    }
+
+    if ( l === 2 ){
+        // it's a line
+        ang = point.angle( prev.clone( hull[ 0 ] ));
+        ang += point.angle( prev.clone( hull[ 1 ] ));
+        scratch.done();
+        return ( Math.abs(ang) === Math.PI );
+    }
+
+    prev.clone( hull[ 0 ] ).vsub( point );
+
+    // calculate the sum of angles between vector pairs
+    // from point to vertices
+    for ( var i = 1; i <= l; ++i ){
+        
+        next.clone( hull[ i % l ] ).vsub( point );
+        ang += next.angle( prev );
+        prev.swap( next );
+    }
+
+    scratch.done();
+    return ( Math.abs(ang) > 0 );
+};
+
+/**
+ * Get the signed area of the polygon
+ * @param  {Array} hull Array of vertices
+ * @return {Number} Area (positive for clockwise ordering)
+ */
+Physics.geometry.getPolygonArea = function getPolygonArea( hull ){
+
+    var scratch = Physics.scratchpad()
+        ,prev = scratch.vector()
+        ,next = scratch.vector()
+        ,ret = 0
+        ,l = hull.length
+        ;
+
+    if ( l < 3 ){
+        // it must be a point or a line
+        // area = 0
+        scratch.done();
+        return 0;
+    }
+
+    prev.clone( hull[ l - 1 ] );
+
+    for ( var i = 0; i < l; ++i ){
+        
+        next.clone( hull[ i ] );
+
+        ret += prev.cross( next );
+
+        prev.swap( next );
+    }
+
+    scratch.done();
+    return ret / 2;
+};
+
+/**
+ * Get the coordinates of the centroid
+ * @param  {Array} hull Polygon hull definition
+ * @return {Vector} centroid
+ */
+Physics.geometry.getPolygonCentroid = function getPolygonCentroid( hull ){
+
+    var scratch = Physics.scratchpad()
+        ,prev = scratch.vector()
+        ,next = scratch.vector()
+        ,ret = Physics.vector()
+        ,tmp
+        ,l = hull.length
+        ;
+
+    if ( l < 2 ){
+        // it must be a point
+        scratch.done();
+        return Physics.vector( hull[0] );
+    }
+
+    if ( l === 2 ){
+        // it's a line
+        // get the midpoint
+        scratch.done();
+        return Physics.vector((hull[ 1 ].x + hull[ 0 ].x)/2, (hull[ 1 ].y + hull[ 0 ].y)/2 );
+    }
+
+    prev.clone( hull[ l - 1 ] );
+
+    for ( var i = 0; i < l; ++i ){
+        
+        next.clone( hull[ i ] );
+
+        tmp = prev.cross( next );
+        prev.vadd( next ).mult( tmp );
+        ret.vadd( prev );
+
+        prev.swap( next );
+    }
+
+    tmp = 1 / (6 * Physics.geometry.getPolygonArea( hull ));
+
+    scratch.done();
+    return ret.mult( tmp );
+};
+
+/**
+ * Get the closest point on a discrete line to specified point.
+ * @param  {Vectorish} pt The point
+ * @param  {Vectorish} linePt1 The first endpoint of the line
+ * @param  {Vectorish} linePt2 The second endpoint of the line
+ * @return {Vector} The closest point
+ */
+Physics.geometry.nearestPointOnLine = function nearestPointOnLine( pt, linePt1, linePt2 ){
+
+    var scratch = Physics.scratchpad()
+        ,p = scratch.vector().clone( pt )
+        ,A = scratch.vector().clone( linePt1 ).vsub( p )
+        ,L = scratch.vector().clone( linePt2 ).vsub( p ).vsub( A )
+        ,lambdaB
+        ,lambdaA
+        ;
+
+    if ( L.equals(Physics.vector.zero) ){
+        // oh.. it's a zero vector. So A and B are both the closest.
+        // just use one of them
+        scratch.done();
+        return Physics.vector( linePt1 );
+    }
+
+    lambdaB = - L.dot( A ) / L.normSq();
+    lambdaA = 1 - lambdaB;
+
+    if ( lambdaA <= 0 ){
+        // woops.. that means the closest simplex point
+        // isn't on the line it's point B itself
+        scratch.done();
+        return Physics.vector( linePt2 );
+    } else if ( lambdaB <= 0 ){
+        // vice versa
+        scratch.done();
+        return Physics.vector( linePt1 );
+    }
+
+    // guess we'd better do the math now...
+    p = Physics.vector( linePt2 ).mult( lambdaB ).vadd( A.clone( linePt1 ).mult( lambdaA ) );
+    scratch.done();
+    return p;
+};
+
+
+
+// ---
+// inside: src/core/integrator.js
+
+/**
+ * Base integrator definition
+ */
+(function(){
+
+    var defaults = {
+
+        // drag applied during integration
+        // 0 means vacuum
+        // 0.9 means molasses
+        drag: 0
+    };
+
+    Physics.integrator = Decorator('integrator', {
+
+        /**
+         * Initialization
+         * @param  {Object} options Config options passed by initializer
+         * @return {void}
+         */
+        init: function( options ){
+            
+            this.options = Physics.util.extend({}, defaults, options);
+        },
+
+        /**
+         * Integrate bodies by timestep
+         * @param  {Array} bodies List of bodies to integrate
+         * @param  {Number} dt     Timestep size
+         * @return {this}
+         */
+        integrate: function( bodies, dt ){
+
+            var world = this._world;
+
+            this.integrateVelocities( bodies, dt );
+            
+            if ( world ){
+                world.publish({
+                    topic: 'integrate:velocities',
+                    bodies: bodies,
+                    dt: dt
+                });
+            }
+
+            this.integratePositions( bodies, dt );
+            
+            if ( world ){
+                world.publish({
+                    topic: 'integrate:positions',
+                    bodies: bodies,
+                    dt: dt
+                });
+            }
+
+            return this;
+        },
+
+        /**
+         * Just integrate the velocities
+         * @abstract
+         * @param  {Array} bodies List of bodies to integrate
+         * @param  {Number} dt     Timestep size
+         */
+        integrateVelocities: function( bodies, dt ){
+
+            throw 'The integrator.integrateVelocities() method must be overriden';
+        },
+
+        /**
+         * Just integrate the positions
+         * @abstract
+         * @param  {Array} bodies List of bodies to integrate
+         * @param  {Number} dt     Timestep size
+         */
+        integratePositions: function( bodies, dt ){
+
+            throw 'The integrator.integratePositions() method must be overriden';
+        }
+    });
+
+}());
+
+// ---
+// inside: src/core/renderer.js
+
+/**
+ * Base renderer class definition
+ */
+(function(){
+
+    var defaults = {
+        // draw meta data (fps, steps, etc)
+        meta: false,
+        // refresh rate of meta info
+        metaRefresh: 200,
+
+        // width of viewport
+        width: 600,
+        // height of viewport
+        height: 600
+    };
+
+    // Service
+    Physics.renderer = Decorator('renderer', {
+
+        /**
+         * Initialization
+         * @param  {Object} options Options passed to the initializer
+         * @return {void}
+         */
+        init: function( options ){
+
+            var el = typeof options.el === 'string' ? document.getElementById(options.el) : options.el
+                ;
+
+            this.options = Physics.util.extend({}, defaults, options);
+
+            this.el = el ? el : document.body;
+
+            this.drawMeta = Physics.util.throttle( Physics.util.bind(this.drawMeta, this), this.options.metaRefresh );
+        },
+
+        /**
+         * Render the world bodies and meta. Called by world.render()
+         * @param  {Array} bodies Array of bodies in the world (reference!)
+         * @param  {Object} meta  meta object
+         * @return {this}
+         */
+        render: function( bodies, meta ){
+
+            var body
+                ,view
+                ,pos
+                ;
+
+            if (this.beforeRender){
+
+                this.beforeRender();
+            }
+
+            this._world.publish({
+                topic: 'beforeRender',
+                renderer: this,
+                bodies: bodies,
+                stats: meta
+            });
+
+            if (this.options.meta){
+                this.drawMeta( meta );
+            }
+
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+                
+                body = bodies[ i ];
+                view = body.view || ( body.view = this.createView(body.geometry) );
+
+                if ( !body.hidden ){
+                    this.drawBody( body, view );
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Create a view for the specified geometry
+         * @abstract
+         * @param  {Object} geometry The geometry
+         * @return {Mixed} Whatever the renderer needs to render the body.
+         */
+        createView: function( geometry ){
+
+            // example:
+            // var el = document.createElement('div');
+            // el.style.height = geometry.height + 'px';
+            // el.style.width = geometry.width + 'px';
+            // return el;
+            throw 'You must overried the renderer.createView() method.';
+        },
+
+        /**
+         * Draw the meta data.
+         * @abstract
+         * @param  {Object} meta The meta data
+         */
+        drawMeta: function( meta ){
+            
+            // example:
+            // this.els.fps.innerHTML = meta.fps.toFixed(2);
+            // this.els.steps.innerHTML = meta.steps;
+            throw 'You must overried the renderer.drawMeta() method.';
+        },
+
+        /**
+         * Draw specified body using specified view
+         * @abstract
+         * @param  {Object} body The body
+         * @param  {Object} view The view
+         */
+        drawBody: function( body, view ){
+
+            // example (pseudocode):
+            // view.angle = body.state.angle
+            // view.position = body.state.position
+            throw 'You must overried the renderer.drawBody() method.';
+        }
+
+        
+    });
+
+}());
+
+// ---
+// inside: src/core/world.js
+
+/**
+ * The world class
+ */
+(function(){
+
+    // bodies, behaviors, integrators, and renderers all need the setWorld method
+    var setWorld = function( world ){
+
+        if ( this.disconnect && this._world ){
+            this.disconnect( this._world );
+        }
+
+        this._world = world;
+
+        if ( this.connect && world ){
+            this.connect( world );
+        }
+    };
+
+    Physics.util.each('body,behavior,integrator,renderer'.split(','), function( key, val ){
+
+        // add a setWorld method to all of these types
+        Physics[ key ].mixin('setWorld', setWorld);
+    });
+
+    var execCallbacks = function execCallbacks( fns, scope, args ){
+        
+        var fn
+            ,ret
+            ,cb = function(){
+                return execCallbacks( fns, scope, args );
+            }
+            ;
+
+        while ( fn = fns.shift() ){
+
+            ret = fn.apply(scope, args);
+
+            if (ret && ret.then){
+                return ret.then( cb );
+            }
+        }
+    };
+
+    var defaults = {
+
+        // default timestep
+        timestep: 1000.0 / 160,
+        // maximum number of iterations per step
+        maxIPF: 16,
+        webworker: false, // NOT YET IMPLEMENTED
+
+        // default integrator
+        integrator: 'verlet'
+    };
+
+    // begin world definitions
+    /**
+     * World Constructor.
+     * 
+     * If called with an array of functions, and any functions 
+     * return a promise-like object, the remaining callbacks will 
+     * be called only when that promise is resolved.
+     * @param {Object}   cfg (optional) Configuration options
+     * @param {Function|Array} fn  (optional) Callback function or array of callbacks called with "this" === world
+     */
+    var World = function World( cfg, fn ){
+
+        // allow creation of world without "new"
+        if (!(this instanceof World)){
+            return new World( cfg, fn );
+        }
+        
+        this.init( cfg, fn );
+    };
+
+    // extend pubsub
+    World.prototype = Physics.util.extend({}, Physics.util.pubsub.prototype, {
+
+        /**
+         * Initialization
+         * @param {Object}   cfg (optional) Configuration options
+         * @param {Function} fn  (optional) Callback function or array of callbacks called with "this" === world
+         * @return {void}
+         */
+        init: function( cfg, fn ){
+
+            if ( Physics.util.isFunction( cfg ) || Physics.util.isArray( cfg ) ){
+                fn = cfg;
+                cfg = {};
+            }
+
+            this._stats = {
+               // statistics (fps, etc)
+               fps: 0,
+               ipf: 0 
+            }; 
+            this._bodies = [];
+            this._behaviors = [];
+            this._integrator = null;
+            this._renderer = null;
+            this._paused = false;
+            this._opts = {};
+            this.initPubsub( this );
+
+            // set options
+            this.options( cfg || {} );
+
+            // apply the callback function
+            if ( Physics.util.isFunction( fn ) ){
+
+                execCallbacks([ fn ], this, [this, Physics] );
+
+            } else if ( Physics.util.isArray( fn ) ){
+
+                execCallbacks(fn, this, [this, Physics] );
+            }
+        },
+
+        /**
+         * Get or set options
+         * @param  {Object} cfg Config options to set
+         * @return {Object|this}     Options or this
+         */
+        options: function( cfg ){
+
+            if (cfg){
+
+                // extend the defaults
+                Physics.util.extend(this._opts, defaults, cfg);
+                // set timestep
+                this.timeStep(this._opts.timestep);
+                // add integrator
+                this.add(Physics.integrator(this._opts.integrator));
+
+                return this;
+            }
+
+            return Physics.util.clone(this._opts);
+        },
+
+        /**
+         * Multipurpose add method. Add one or many bodies, behaviors, integrators, renderers...
+         * @param {Object|Array} arg The thing to add, or array of things to add
+         * @return {this}
+         */
+        add: function( arg ){
+
+            var i = 0
+                ,len = arg && arg.length || 0
+                ,thing = len ? arg[ 0 ] : arg
+                ,notify
+                ;
+
+            if ( !thing ){
+                return this;
+            }
+
+            // we'll either cycle through an array
+            // or just run this on the arg itself
+            do {
+                switch (thing.type){
+
+                    case 'behavior':
+                        this.addBehavior(thing);
+                    break; // end behavior
+
+                    case 'integrator':
+                        this.integrator(thing);
+                    break; // end integrator
+
+                    case 'renderer':
+                        this.renderer(thing);
+                    break; // end renderer
+
+                    case 'body':
+                        this.addBody(thing);
+                    break; // end body
+                    
+                    default:
+                        throw 'Error: failed to add item of unknown type "'+ thing.type +'" to world';
+                    // end default
+                }
+
+                // notify
+                notify = {
+                    topic: 'add:' + thing.type
+                };
+
+                notify[ thing.type ] = thing;
+
+                this.publish( notify );
+
+            } while ( ++i < len && (thing = arg[ i ]) );
+
+            return this;
+        },
+
+        /**
+         * Multipurpose remove method. Remove one or many bodies, behaviors, integrators, renderers...
+         * @param {Object|Array} arg The thing to remove, or array of things to remove
+         * @return {this}
+         */
+        remove: function( arg ){
+
+            var i = 0
+                ,len = arg && arg.length || 0
+                ,thing = len ? arg[ 0 ] : arg
+                ,notify
+                ;
+
+            if ( !thing ){
+                return this;
+            }
+
+            // we'll either cycle through an array
+            // or just run this on the arg itself
+            do {
+                switch (thing.type){
+
+                    case 'behavior':
+                        this.removeBehavior(thing);
+                    break; // end behavior
+
+                    case 'integrator':
+                        if (thing === this._integrator){
+                            this.integrator( null );
+                        }
+                    break; // end integrator
+
+                    case 'renderer':
+                        if (thing === this._renderer){
+                            this.renderer( null );
+                        }
+                    break; // end renderer
+
+                    case 'body':
+                        this.removeBody(thing);
+                    break; // end body
+                    
+                    default:
+                        throw 'Error: failed to remove item of unknown type "'+ thing.type +'" from world';
+                    // end default
+                }
+
+                // notify
+                notify = {
+                    topic: 'add:' + thing.type
+                };
+
+                notify[ thing.type ] = thing;
+
+                this.publish( notify );
+
+            } while ( ++i < len && (thing = arg[ i ]) );
+
+            return this;
+        },
+
+        /**
+         * Get or Set the integrator
+         * @param {Object} integrator Integrator instance to use
+         * @return {this|Object} This or Integrator
+         */
+        integrator: function( integrator ){
+
+            if ( integrator === undefined ){
+                return this._integrator;
+            }
+
+            if ( this._integrator ){
+
+                this._integrator.setWorld( null );
+            }
+
+            if ( integrator ){
+                this._integrator = integrator;
+                this._integrator.setWorld( this );
+            }
+
+            return this;
+        },
+
+        /**
+         * Get or Set renderer
+         * @param  {Object} renderer The renderer to set
+         * @return {this|Object}          This or Renderer
+         */
+        renderer: function( renderer ){
+
+            if (renderer === undefined){
+                return this._renderer;
+            }
+
+            if ( this._renderer ){
+
+                this._renderer.setWorld( null );
+            }
+
+            if (renderer){
+                this._renderer = renderer;
+                this._renderer.setWorld( this );
+            }
+
+            return this;
+        },
+
+        /**
+         * Get or Set timestep
+         * @param  {Number} dt The timestep size
+         * @return {this|Number}    This or the timestep
+         */
+        timeStep: function( dt ){
+
+            if ( dt ){
+
+                this._dt = dt;
+                // calculate the maximum jump in time over which to do iterations
+                this._maxJump = dt * this._opts.maxIPF;
+
+                return this;
+            }
+
+            return this._dt;
+        },
+
+        /**
+         * Add behavior to the world
+         * @param {Object} behavior The behavior to add
+         * @return {this} 
+         */
+        addBehavior: function( behavior ){
+
+            behavior.setWorld( this );
+            this._behaviors.push( behavior );
+            return this;
+        },
+
+        /**
+         * Get copied list of behaviors in the world
+         * @return {Array} Array of behaviors
+         */
+        getBehaviors: function(){
+
+            // return the copied array
+            return [].concat(this._behaviors);
+        },
+
+        /**
+         * Remove behavior from the world
+         * @param {Object} behavior The behavior to remove
+         * @return {this} 
+         */
+        removeBehavior: function( behavior ){
+
+            var behaviors = this._behaviors
+                ,notify
+                ;
+
+            if (behavior){
+                
+                for ( var i = 0, l = behaviors.length; i < l; ++i ){
+                    
+                    if (behavior === behaviors[ i ]){
+                        
+                        behaviors.splice( i, 1 );
+                        break;
+                    }
+                }
+
+                // notify
+                notify = {
+                    topic: 'remove:behavior'
+                };
+
+                notify.behavior = behavior;
+
+                this.publish( notify );
+            }
+
+            return this;
+        },
+
+        /**
+         * Add body to the world
+         * @param {Object} body The body to add
+         * @return {this} 
+         */
+        addBody: function( body ){
+
+            body.setWorld( this );
+            this._bodies.push( body );
+            return this;
+        },
+
+        /**
+         * Get copied list of bodies in the world
+         * @return {Array} Array of bodies
+         */
+        getBodies: function(){
+
+            // return the copied array
+            return [].concat(this._bodies);
+        },
+
+        /**
+         * Remove body from the world
+         * @param {Object} body The body to remove
+         * @return {this} 
+         */
+        removeBody: function( body ){
+
+            var bodies = this._bodies
+                ,notify
+                ;
+
+            if (body){
+                
+                for ( var i = 0, l = bodies.length; i < l; ++i ){
+                    
+                    if (body === bodies[ i ]){
+                        
+                        bodies.splice( i, 1 );
+                        break;
+                    }
+                }
+
+                // notify
+                notify = {
+                    topic: 'remove:body'
+                };
+
+                notify.body = body;
+
+                this.publish( notify );
+            }
+
+            return this;
+        },
+
+        /**
+         * Find first matching body based on query parameters
+         * @param  {Object} query The query
+         * @return {Object|false}       Body or false if no match
+         */
+        findOne: function( query ){
+
+            // @TODO: refactor to use a new Query object helper
+            // @TODO: make $and the default. not $or.
+            var list = {
+                    check: function( arg ){
+                        var fn = this;
+                        while ( fn = fn.next ){
+
+                            if ( fn( arg ) ){
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                }
+                ,test = list
+                ,bodies = this._bodies
+                ;
+
+            // init tests
+            if ( query.$within ){
+                //aabb
+            }
+            if ( query.$at ){
+
+                test.next = function( body ){
+
+                    var aabb = body.aabb();
+                    return Physics.aabb.contains( aabb, query.$at );
+                };
+            }
+
+            // do search
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+                
+                if (list.check( bodies[ i ] )){
+                    return bodies[ i ];
+                }
+            }
+
+            return false;
+        },
+
+        /**
+         * Do a single iteration
+         * @private
+         * @param  {Number} dt The timestep size
+         * @return {void}
+         */
+        iterate: function( dt ){
+
+            this._integrator.integrate( this._bodies, dt );
+        },
+
+        /**
+         * Do a single step
+         * @param  {Number} now Current unix timestamp
+         * @return {this}
+         */
+        step: function( now ){
+            
+            if ( this._paused ){
+
+                this._time = false;
+                return this;
+            }
+
+            var time = this._time || (this._time = now)
+                ,diff = now - time
+                ,stats = this._stats
+                ,dt = this._dt
+                ;
+
+            if ( !diff ){
+                return this;
+            }
+            
+            // limit number of iterations in each step
+            if ( diff > this._maxJump ){
+
+                this._time = now - this._maxJump;
+                diff = this._maxJump;
+            }
+
+            // set some stats
+            stats.fps = 1000/diff;
+            stats.ipf = Math.ceil(diff/this._dt);
+
+            while ( this._time < now ){
+                this._time += dt;
+                this.iterate( dt );
+            }
+
+            this.publish({
+                topic: 'step'
+            });
+            return this;
+        },
+
+        /**
+         * Render current world state using the renderer
+         * @return {this}
+         */
+        render: function(){
+
+            if ( !this._renderer ){
+                throw "No renderer added to world";
+            }
+            
+            this._renderer.render( this._bodies, this._stats );
+            this.publish({
+                topic: 'render',
+                bodies: this._bodies,
+                stats: this._stats,
+                renderer: this._renderer
+            });
+            return this;
+        },
+
+        /**
+         * Pause the world. (step calls do nothing)
+         * @return {this}
+         */
+        pause: function(){
+
+            this._paused = true;
+            this.publish({
+                topic: 'pause'
+            });
+            return this;
+        },
+
+        /**
+         * Unpause the world. (step calls continue as usual)
+         * @return {this}
+         */
+        unpause: function(){
+
+            this._paused = false;
+            this.publish({
+                topic: 'unpause'
+            });
+            return this;
+        },
+
+        /**
+         * Determine if world is paused
+         * @return {Boolean} Is the world paused?
+         */
+        isPaused: function(){
+
+            return !!this._paused;
+        },
+
+        /**
+         * Destroy the world.
+         * (Bwahahahahaha!)
+         * @return {void}
+         */
+        destroy: function(){
+
+            var self = this;
+            self.pause();
+            // remove all listeners
+            self.unsubscribe( true );
+            // remove everything
+            self.remove( self.getBodies() );
+            self.remove( self.getBehaviors() );
+            self.integrator( null );
+            self.renderer( null );
+        }
+
+    });
+
+    Physics.world = World;
+    
+}());
+
+// ---
+// inside: src/integrators/verlet.js
+
+Physics.integrator('verlet', function( parent ){
+
+    // for this integrator we need to know if the object has been integrated before
+    // so let's add a mixin to bodies
+
+    Physics.body.mixin({
+
+        started: function( val ){
+            if ( val !== undefined ){
+                this._started = true;
+            }
+
+            return !!this._started;
+        }
+    });
+
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration options
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call parent init
+            parent.init.call(this, options);
+        },
+
+        /**
+         * Velocity integration
+         * @param  {Array} bodies Array of bodies to integrate
+         * @param  {Number} dt     Timestep size
+         * @return {void}
+         */
+        integrateVelocities: function( bodies, dt ){
+
+            // half the timestep
+            var dtdt = dt * dt
+                ,drag = 1 - this.options.drag
+                ,body = null
+                ,state
+                ;
+
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+
+                body = bodies[ i ];
+                state = body.state;
+
+                // only integrate if the body isn't fixed
+                if ( !body.fixed ){
+
+                    // Inspired from https://github.com/soulwire/Coffee-Physics
+                    // @licence MIT
+                    // 
+                    // v = x - ox
+                    // x = x + (v + a * dt * dt)
+
+                    // use the velocity in vel if the velocity has been changed manually
+                    if (state.vel.equals( state.old.vel ) && body.started()){
+                            
+                        // Get velocity by subtracting old position from curr position
+                        state.vel.clone( state.pos ).vsub( state.old.pos );
+
+                    } else {
+
+                        state.old.pos.clone( state.pos ).vsub( state.vel );
+                        // so we need to scale the value by dt so it 
+                        // complies with other integration methods
+                        state.vel.mult( dt );
+                    }
+
+                    // Apply "air resistance".
+                    if ( drag ){
+
+                        state.vel.mult( drag );
+                    }
+
+                    // Apply acceleration
+                    // v += a * dt * dt
+                    state.vel.vadd( state.acc.mult( dtdt ) );
+
+                    // normalize velocity 
+                    state.vel.mult( 1/dt );
+
+                    // store calculated velocity
+                    state.old.vel.clone( state.vel );
+
+                    // Reset accel
+                    state.acc.zero();
+
+                    //
+                    // Angular components
+                    // 
+
+                    if (state.angular.vel === state.old.angular.vel && body.started()){
+
+                        state.angular.vel = (state.angular.pos - state.old.angular.pos);
+
+                    } else {
+
+                        state.old.angular.pos = state.angular.pos - state.angular.vel;
+                        state.angular.vel *= dt;
+                    }
+
+                    state.angular.vel += state.angular.acc * dtdt;
+                    state.angular.vel /= dt;
+                    state.old.angular.vel = state.angular.vel;
+                    state.angular.acc = 0;
+
+                    body.started( true );
+
+                } else {
+                    // set the velocity and acceleration to zero!
+                    state.vel.zero();
+                    state.acc.zero();
+                    state.angular.vel = 0;
+                    state.angular.acc = 0;
+                }
+            }
+        },
+
+        /**
+         * Position integration
+         * @param  {Array} bodies Array of bodies to integrate
+         * @param  {Number} dt     Timestep size
+         * @return {void}
+         */
+        integratePositions: function( bodies, dt ){
+
+            // half the timestep
+            var dtdt = dt * dt
+                ,body = null
+                ,state
+                ;
+
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+
+                body = bodies[ i ];
+                state = body.state;
+
+                // only integrate if the body isn't fixed
+                if ( !body.fixed ){
+
+                    // so we need to scale the value by dt so it 
+                    // complies with other integration methods
+                    state.vel.mult( dt );
+                
+                    // Store old position.
+                    // xold = x
+                    state.old.pos.clone( state.pos );
+
+                    state.pos.vadd( state.vel );
+
+                    // normalize velocity 
+                    state.vel.mult( 1/dt );
+
+                    // store calculated velocity
+                    state.old.vel.clone( state.vel );
+
+                    //
+                    // Angular components
+                    // 
+
+                    
+                    state.angular.vel *= dt;
+                
+                    state.old.angular.pos = state.angular.pos;
+
+                    state.angular.pos += state.angular.vel;
+                    state.angular.vel /= dt;
+                    state.old.angular.vel = state.angular.vel;
+                }
+            }
+        }
+    };
+});
+
+
+
+// ---
+// inside: src/geometries/point.js
+
+/**
+ * Point geometry
+ * @module geometries/point
+ */
+Physics.geometry('point', function( parent ){
+
+    // alias of default
+});
+
+
+// ---
+// inside: src/geometries/circle.js
+
+/**
+ * Circle geometry
+ * @module geometries/circle
+ */
+Physics.geometry('circle', function( parent ){
+
+    var defaults = {
+
+        radius: 1.0
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration options
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call parent init method
+            parent.init.call(this, options);
+
+            options = Physics.util.extend({}, defaults, options);
+            this.radius = options.radius;
+            this._aabb = Physics.aabb();
+        },
+                
+        /**
+         * Get axis-aligned bounding box for this object (rotated by angle if specified).
+         * @param  {Number} angle (optional) The angle to rotate the geometry.
+         * @return {Object}       Bounding box values
+         */
+        aabb: function( angle ){
+
+            var r = this.radius
+                ,aabb = this._aabb
+                ;
+
+            // circles are symetric... so angle has no effect
+            if ( aabb.halfWidth() === r ){
+                // don't recalculate
+                return aabb.get();
+            }
+
+            return aabb.set( -r, -r, r, r ).get();
+        },
+
+        /**
+         * Get farthest point on the hull of this geometry
+         * along the direction vector "dir"
+         * returns local coordinates
+         * replaces result if provided
+         * @param {Vector} dir Direction to look
+         * @param {Vector} result (optional) A vector to write result to
+         * @return {Vector} The farthest hull point in local coordinates
+         */
+        getFarthestHullPoint: function( dir, result ){
+
+            result = result || Physics.vector();
+
+            return result.clone( dir ).normalize().mult( this.radius );
+        },
+
+        /**
+         * Get farthest point on the core of this geometry
+         * along the direction vector "dir"
+         * returns local coordinates
+         * replaces result if provided
+         * @param {Vector} dir Direction to look
+         * @param {Vector} result (optional) A vector to write result to
+         * @return {Vector} The farthest core point in local coordinates
+         */
+        getFarthestCorePoint: function( dir, result, margin ){
+
+            result = result || Physics.vector();
+
+            // we can use the center of the circle as the core object
+            // because we can project a point to the hull in any direction
+            // ... yay circles!
+            // but since the caller is expecting a certain margin... give it
+            // to them
+            return result.clone( dir ).normalize().mult( this.radius - margin );
+        }
+    };
+});
+
+
+// ---
+// inside: src/geometries/convex-polygon.js
+
+/**
+ * Convex polygon geometry
+ * @module geometries/convex-polygon
+ */
+Physics.geometry('convex-polygon', function( parent ){
+
+    var ERROR_NOT_CONVEX = 'Error: The vertices specified do not match that of a _convex_ polygon.';
+
+    var defaults = {
+
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration options
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call parent init method
+            parent.init.call(this, options);
+            options = Physics.util.extend({}, defaults, options);
+
+            this.setVertices( options.vertices || [] );
+        },
+
+        /**
+         * Set the vertices of the polygon shape. Vertices will be converted to be relative to the calculated centroid
+         * @param {Array} hull The hull definition. Array of vectorish objects
+         * @return {self}
+         */
+        setVertices: function( hull ){
+
+            var scratch = Physics.scratchpad()
+                ,transl = scratch.transform()
+                ,verts = this.vertices = []
+                ;
+
+            if ( !Physics.geometry.isPolygonConvex( hull ) ){
+                throw ERROR_NOT_CONVEX;
+            }
+
+            transl.setRotation( 0 );
+            transl.setTranslation( Physics.geometry.getPolygonCentroid( hull ).negate() );
+
+            // translate each vertex so that the centroid is at the origin
+            // then add the vertex as a vector to this.vertices
+            for ( var i = 0, l = hull.length; i < l; ++i ){
+                
+                verts.push( Physics.vector( hull[ i ] ).translate( transl ) );
+            }
+
+            this._area = Physics.geometry.getPolygonArea( verts );
+
+            this._aabb = false;
+            scratch.done();
+            return this;
+        },
+        
+        /**
+         * Get axis-aligned bounding box for this object (rotated by angle if specified).
+         * @param  {Number} angle (optional) The angle to rotate the geometry.
+         * @return {Object}       Bounding box values
+         */
+        aabb: function( angle ){
+
+            if (!angle && this._aabb){
+                return this._aabb.get();
+            }
+
+            var scratch = Physics.scratchpad()
+                ,p = scratch.vector()
+                ,trans = scratch.transform().setRotation( angle || 0 )
+                ,xaxis = scratch.vector().clone(Physics.vector.axis[0]).rotateInv( trans )
+                ,yaxis = scratch.vector().clone(Physics.vector.axis[1]).rotateInv( trans )
+                ,xmax = this.getFarthestHullPoint( xaxis, p ).proj( xaxis )
+                ,xmin = - this.getFarthestHullPoint( xaxis.negate(), p ).proj( xaxis )
+                ,ymax = this.getFarthestHullPoint( yaxis, p ).proj( yaxis )
+                ,ymin = - this.getFarthestHullPoint( yaxis.negate(), p ).proj( yaxis )
+                ,aabb
+                ;
+
+            aabb = new Physics.aabb( xmin, ymin, xmax, ymax );
+
+            if (!angle){
+                this._aabb = aabb;
+            }
+
+            scratch.done();
+            return aabb.get();
+        },
+
+        /**
+         * Get farthest point on the hull of this geometry
+         * along the direction vector "dir"
+         * returns local coordinates
+         * replaces result if provided
+         * @param {Vector} dir Direction to look
+         * @param {Vector} result (optional) A vector to write result to
+         * @return {Vector} The farthest hull point in local coordinates
+         */
+        getFarthestHullPoint: function( dir, result, data ){
+
+            var verts = this.vertices
+                ,val
+                ,prev
+                ,l = verts.length
+                ,i = 2
+                ,idx
+                ;
+
+            result = result || Physics.vector();
+
+            if ( l < 2 ){
+                if ( data ){
+                    data.idx = 0;
+                }
+                return result.clone( verts[0] );
+            }
+
+            prev = verts[ 0 ].dot( dir );
+            val = verts[ 1 ].dot( dir );
+
+            if ( l === 2 ){
+                idx = (val >= prev) ? 1 : 0;
+                if ( data ){
+                    data.idx = idx;
+                }
+                return result.clone( verts[ idx ] );
+            }
+
+            if ( val >= prev ){
+                // go up
+                // search until the next dot product 
+                // is less than the previous
+                while ( i < l && val >= prev ){
+                    prev = val;
+                    val = verts[ i ].dot( dir );
+                    i++;
+                }
+
+                if (val >= prev){
+                    i++;
+                }
+
+                // return the previous (furthest with largest dot product)
+                idx = i - 2;
+                if ( data ){
+                    data.idx = i - 2;
+                }
+                return result.clone( verts[ idx ] );
+
+            } else {
+                // go down
+
+                i = l;
+                while ( i > 2 && prev >= val ){
+                    i--;
+                    val = prev;
+                    prev = verts[ i ].dot( dir );
+                }
+
+                // return the previous (furthest with largest dot product)
+                idx = (i + 1) % l;
+                if ( data ){
+                    data.idx = idx;
+                }
+                return result.clone( verts[ idx ] );                
+            }
+        },
+
+        /**
+         * Get farthest point on the core of this geometry
+         * along the direction vector "dir"
+         * returns local coordinates
+         * replaces result if provided
+         * @param {Vector} dir Direction to look
+         * @param {Vector} result (optional) A vector to write result to
+         * @return {Vector} The farthest core point in local coordinates
+         */
+        getFarthestCorePoint: function( dir, result, margin ){
+
+            var norm
+                ,scratch = Physics.scratchpad()
+                ,next = scratch.vector()
+                ,prev = scratch.vector()
+                ,verts = this.vertices
+                ,l = verts.length
+                ,mag
+                ,sign = this._area > 0
+                ,data = {}
+                ;
+
+            result = this.getFarthestHullPoint( dir, result, data );
+
+            // get normalized directions to next and previous vertices
+            next.clone( verts[ (data.idx + 1) % l ] ).vsub( result ).normalize().perp( !sign );
+            prev.clone( verts[ (data.idx - 1 + l) % l ] ).vsub( result ).normalize().perp( sign );
+
+            // get the magnitude of a vector from the result vertex 
+            // that splits down the middle
+            // creating a margin of "m" to each edge
+            mag = margin / (1 + next.dot(prev));
+
+            result.vadd( next.vadd( prev ).mult( mag ) );
+            scratch.done();
+            return result;
+        }
+    };
+});
+
+
+// ---
+// inside: src/bodies/circle.js
+
+/**
+ * Circle body definition
+ * @module bodies/circle
+ * @requires geometries/circle
+ */
+Physics.body('circle', function( parent ){
+
+    var defaults = {
+        radius: 1.0
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration options
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call parent init method
+            parent.init.call(this, options);
+
+            options = Physics.util.extend({}, defaults, options);
+
+            this.geometry = Physics.geometry('circle', {
+                radius: options.radius
+            });
+
+            this.recalc();
+        },
+
+        /**
+         * Recalculate properties. Call when body physical properties are changed.
+         * @return {this}
+         */
+        recalc: function(){
+            parent.recalc.call(this);
+            // moment of inertia
+            this.moi = this.mass * this.geometry.radius * this.geometry.radius / 2;
+        }
+    };
+});
+
+
+// ---
+// inside: src/bodies/convex-polygon.js
+
+/**
+ * Convex Polygon Body
+ * @module bodies/convex-polygon
+ * @requires geometries/convex-polygon
+ */
+Physics.body('convex-polygon', function( parent ){
+
+    var defaults = {
+        
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration options
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call parent init method
+            parent.init.call(this, options);
+
+            options = Physics.util.extend({}, defaults, options);
+
+            this.geometry = Physics.geometry('convex-polygon', {
+                vertices: options.vertices
+            });
+
+            this.recalc();
+        },
+
+        /**
+         * Recalculate properties. Call when body physical properties are changed.
+         * @return {this}
+         */
+        recalc: function(){
+            parent.recalc.call(this);
+            // moment of inertia
+            this.moi = Physics.geometry.getPolygonMOI( this.geometry.vertices );
+        }
+    };
+});
+
+
+// ---
+// inside: src/bodies/point.js
+
+/**
+ * Point body
+ * @module bodies/point
+ */
+Physics.body('point', function(){});
+
+// ---
+// inside: src/behaviors/body-collision-detection.js
+
+/**
+ * Body collision detection
+ * @module behaviors/body-collision-detection
+ */
+Physics.behavior('body-collision-detection', function( parent ){
+
+    var PUBSUB_CANDIDATES = 'collisions:candidates';
+    var PUBSUB_COLLISION = 'collisions:detected';
+
+    /**
+     * Get a general support function for use with GJK algorithm
+     * @param  {Object} bodyA First body
+     * @param  {Object} bodyB Second body
+     * @return {Function}       The support function
+     */
+    var getSupportFn = function getSupportFn( bodyA, bodyB ){
+
+        var fn;
+
+        fn = function( searchDir ){
+
+            var scratch = Physics.scratchpad()
+                ,tA = scratch.transform().setTranslation( bodyA.state.pos ).setRotation( bodyA.state.angular.pos )
+                ,tB = scratch.transform().setTranslation( bodyB.state.pos ).setRotation( bodyB.state.angular.pos )
+                ,vA = scratch.vector()
+                ,vB = scratch.vector()
+                ,method = fn.useCore? 'getFarthestCorePoint' : 'getFarthestHullPoint'
+                ,marginA = fn.marginA
+                ,marginB = fn.marginB
+                ,ret
+                ;
+
+            vA = bodyA.geometry[ method ]( searchDir.rotateInv( tA ), vA, marginA ).transform( tA );
+            vB = bodyB.geometry[ method ]( searchDir.rotate( tA ).rotateInv( tB ).negate(), vB, marginB ).transform( tB );
+
+            searchDir.negate().rotate( tB );
+
+            ret = {
+                a: vA.values(),
+                b: vB.values(),
+                pt: vA.vsub( vB ).values() 
+            };
+            scratch.done();
+            return ret;
+        };
+
+        fn.useCore = false;
+        fn.margin = 0;
+
+        return fn;
+    };
+
+    /**
+     * Use GJK algorithm to check arbitrary bodies for collisions
+     * @param  {Object} bodyA First body
+     * @param  {Object} bodyB Second body
+     * @return {Object}       Collision result
+     */
+    var checkGJK = function checkGJK( bodyA, bodyB ){
+
+        var scratch = Physics.scratchpad()
+            ,d = scratch.vector()
+            ,tmp = scratch.vector()
+            ,overlap
+            ,result
+            ,support
+            ,collision = false
+            ,aabbA = bodyA.aabb()
+            ,dimA = Math.min( aabbA.halfWidth, aabbA.halfHeight )
+            ,aabbB = bodyB.aabb()
+            ,dimB = Math.min( aabbB.halfWidth, aabbB.halfHeight )
+            ;
+
+        // just check the overlap first
+        support = getSupportFn( bodyA, bodyB );
+        d.clone( bodyA.state.pos ).vsub( bodyB.state.pos );
+        result = Physics.gjk(support, d, true);
+
+        if ( result.overlap ){
+
+            // there is a collision. let's do more work.
+            collision = {
+                bodyA: bodyA,
+                bodyB: bodyB
+            };
+
+            // first get the min distance of between core objects
+            support.useCore = true;
+            support.marginA = 0;
+            support.marginB = 0;
+
+            while ( result.overlap && (support.marginA < dimA || support.marginB < dimB) ){
+                if ( support.marginA < dimA ){
+                    support.marginA += 1;
+                }
+                if ( support.marginB < dimB ){
+                    support.marginB += 1;
+                }
+
+                result = Physics.gjk(support, d);
+            }
+
+            if ( result.overlap || result.maxIterationsReached ){
+                scratch.done();
+                // This implementation can't deal with a core overlap yet
+                return false;
+            }
+
+            // calc overlap
+            overlap = Math.max(0, (support.marginA + support.marginB) - result.distance);
+            collision.overlap = overlap;
+            // @TODO: for now, just let the normal be the mtv
+            collision.norm = d.clone( result.closest.b ).vsub( tmp.clone( result.closest.a ) ).normalize().values();
+            collision.mtv = d.mult( overlap ).values();
+            // get a corresponding hull point for one of the core points.. relative to body A
+            collision.pos = d.clone( collision.norm ).mult( support.margin ).vadd( tmp.clone( result.closest.a ) ).vsub( bodyA.state.pos ).values();
+        }
+
+        scratch.done();
+        return collision;
+    };
+
+    /**
+     * Check two circles for collisions
+     * @param  {Object} bodyA First circle
+     * @param  {Object} bodyB Second circle
+     * @return {Object}       Collision result
+     */
+    var checkCircles = function checkCircles( bodyA, bodyB ){
+
+        var scratch = Physics.scratchpad()
+            ,d = scratch.vector()
+            ,tmp = scratch.vector()
+            ,overlap
+            ,collision = false
+            ;
+        
+        d.clone( bodyB.state.pos ).vsub( bodyA.state.pos );
+        overlap = d.norm() - (bodyA.geometry.radius + bodyB.geometry.radius);
+
+        // hmm... they overlap exactly... choose a direction
+        if ( d.equals( Physics.vector.zero ) ){
+
+            d.set( 1, 0 );
+        }
+
+        // if ( overlap > 0 ){
+        //     // check the future
+        //     d.vadd( tmp.clone(bodyB.state.vel).mult( dt ) ).vsub( tmp.clone(bodyA.state.vel).mult( dt ) );
+        //     overlap = d.norm() - (bodyA.geometry.radius + bodyB.geometry.radius);
+        // }
+
+        if ( overlap <= 0 ){
+
+            collision = {
+                bodyA: bodyA,
+                bodyB: bodyB,
+                norm: d.normalize().values(),
+                mtv: d.mult( -overlap ).values(),
+                pos: d.normalize().mult( bodyA.geometry.radius ).values(),
+                overlap: -overlap
+            };
+        }
+    
+        scratch.done();
+        return collision;
+    };
+
+    /**
+     * Check a pair for collisions
+     * @param  {Object} bodyA First body
+     * @param  {Object} bodyB Second body
+     * @return {Object}       Collision result
+     */
+    var checkPair = function checkPair( bodyA, bodyB ){
+
+        if ( bodyA.geometry.name === 'circle' && bodyB.geometry.name === 'circle' ){
+
+            return checkCircles( bodyA, bodyB );
+
+        } else {
+
+            return checkGJK( bodyA, bodyB );
+        }
+    };
+
+    var defaults = {
+
+        // force check every pair of bodies in the world
+        checkAll: false
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration options
+         * @return {void}
+         */
+        init: function( options ){
+
+            parent.init.call(this, options);
+
+            this.options = Physics.util.extend({}, this.options, defaults, options);
+        },
+
+        /**
+         * Connect to world. Automatically called when added to world by the setWorld method
+         * @param  {Object} world The world to connect to
+         * @return {void}
+         */
+        connect: function( world ){
+
+            if ( this.options.checkAll ){
+
+                world.subscribe( 'integrate:velocities', this.checkAll, this );
+
+            } else {
+
+                world.subscribe( PUBSUB_CANDIDATES, this.check, this );
+            }
+        },
+
+        /**
+         * Disconnect from world
+         * @param  {Object} world The world to disconnect from
+         * @return {void}
+         */
+        disconnect: function( world ){
+
+            if ( this.options.checkAll ){
+
+                world.unsubscribe( 'integrate:velocities', this.checkAll );
+
+            } else {
+
+                world.unsubscribe( PUBSUB_CANDIDATES, this.check );
+            }
+        },
+
+        /**
+         * Check pairs of objects that have been flagged by broad phase for possible collisions.
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        check: function( data ){
+
+            var candidates = data.candidates
+                ,pair
+                ,collisions = []
+                ,ret
+                ;
+
+            for ( var i = 0, l = candidates.length; i < l; ++i ){
+                
+                pair = candidates[ i ];
+
+                ret = checkPair( pair.bodyA, pair.bodyB );
+
+                if ( ret ){
+                    collisions.push( ret );
+                }
+            }
+
+            if ( collisions.length ){
+
+                this._world.publish({
+                    topic: PUBSUB_COLLISION,
+                    collisions: collisions
+                });
+            }
+        },
+
+        /**
+         * Check all pairs of objects in the list for collisions
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        checkAll: function( data ){
+
+            var bodies = data.bodies
+                ,dt = data.dt
+                ,bodyA
+                ,bodyB
+                ,collisions = []
+                ,ret
+                ;
+
+            for ( var j = 0, l = bodies.length; j < l; j++ ){
+                
+                bodyA = bodies[ j ];
+
+                for ( var i = j + 1; i < l; i++ ){
+
+                    bodyB = bodies[ i ];
+
+                    // don't detect two fixed bodies
+                    if ( !bodyA.fixed || !bodyB.fixed ){
+                        
+                        ret = checkPair( bodyA, bodyB );
+
+                        if ( ret ){
+                            collisions.push( ret );
+                        }
+                    }
+                }
+            }
+
+            if ( collisions.length ){
+
+                this._world.publish({
+                    topic: PUBSUB_COLLISION,
+                    collisions: collisions
+                });
+            }
+        }
+    };
+
+});
+
+// ---
+// inside: src/behaviors/body-impulse-response.js
+
+/**
+ * Body collision response
+ * @module behaviors/body-collision-response
+ */
+Physics.behavior('body-impulse-response', function( parent ){
+    
+    var defaults = {
+
+    };
+
+    var PUBSUB_COLLISION = 'collisions:detected';
+
+    return {
+
+        /**
+         * Connect to world. Automatically called when added to world by the setWorld method
+         * @param  {Object} world The world to connect to
+         * @return {void}
+         */
+        connect: function( world ){
+
+            world.subscribe( PUBSUB_COLLISION, this.respond, this );
+        },
+
+        /**
+         * Disconnect from world
+         * @param  {Object} world The world to disconnect from
+         * @return {void}
+         */
+        disconnect: function( world ){
+
+            world.unsubscribe( PUBSUB_COLLISION, this.respond );
+        },
+
+        /**
+         * Collide two bodies by modifying their positions and velocities to conserve momentum
+         * @param  {Object} bodyA   First Body
+         * @param  {Object} bodyB   Second body
+         * @param  {Vector} normal  Normal vector of the collision surface
+         * @param  {Vector} point   Contact point of the collision
+         * @param  {Vector} mtrans  Minimum transit vector that is the smallest displacement to separate the bodies
+         * @param  {Boolean} contact Are the bodies in resting contact relative to each other
+         * @return {void}
+         */
+        collideBodies: function(bodyA, bodyB, normal, point, mtrans, contact){
+
+            var fixedA = bodyA.fixed
+                ,fixedB = bodyB.fixed
+                ,scratch = Physics.scratchpad()
+                // minimum transit vector for each body
+                ,mtv = scratch.vector().clone( mtrans )
+                ;
+
+            // do nothing if both are fixed
+            if ( fixedA && fixedB ){
+                scratch.done();
+                return;
+            }
+
+            if ( fixedA ){
+
+                // extract bodies
+                bodyB.state.pos.vadd( mtv );
+                
+            } else if ( fixedB ){
+
+                // extract bodies
+                bodyA.state.pos.vsub( mtv );
+
+            } else {
+
+                // extract bodies
+                mtv.mult( 0.5 );
+                bodyA.state.pos.vsub( mtv );
+                bodyB.state.pos.vadd( mtv );
+            }
+
+            // inverse masses and moments of inertia.
+            // give fixed bodies infinite mass and moi
+            var invMoiA = fixedA ? 0 : 1 / bodyA.moi
+                ,invMoiB = fixedB ? 0 : 1 / bodyB.moi
+                ,invMassA = fixedA ? 0 : 1 / bodyA.mass
+                ,invMassB = fixedB ? 0 : 1 / bodyB.mass
+                // coefficient of restitution between bodies
+                ,cor = contact ? 0 : bodyA.restitution * bodyB.restitution
+                // coefficient of friction between bodies
+                ,cof = bodyA.cof * bodyB.cof
+                // normal vector
+                ,n = scratch.vector().clone( normal )
+                // vector perpendicular to n
+                ,perp = scratch.vector().clone( n ).perp( true )
+                // collision point from A's center
+                ,rA = scratch.vector().clone( point )
+                // collision point from B's center
+                ,rB = scratch.vector().clone( point ).vadd( bodyA.state.pos ).vsub( bodyB.state.pos )
+                ,tmp = scratch.vector()
+                ,angVelA = bodyA.state.angular.vel
+                ,angVelB = bodyB.state.angular.vel
+                // relative velocity towards B at collision point
+                ,vAB = scratch.vector().clone( bodyB.state.vel )
+                        .vadd( tmp.clone(rB).perp( true ).mult( angVelB ) )
+                        .vsub( bodyA.state.vel )
+                        .vsub( tmp.clone(rA).perp( true ).mult( angVelA ) )
+                // break up components along normal and perp-normal directions
+                ,rAproj = rA.proj( n )
+                ,rAreg = rA.proj( perp )
+                ,rBproj = rB.proj( n )
+                ,rBreg = rB.proj( perp )
+                ,vproj = vAB.proj( n ) // projection of vAB along n
+                ,vreg = vAB.proj( perp ) // rejection of vAB along n (perp of proj)
+                ,impulse
+                ,sign
+                ,max
+                ,inContact = false
+                ;
+
+            // if moving away from each other... don't bother.
+            if (vproj >= 0){
+                scratch.done();
+                return;
+            }
+
+            impulse =  - ((1 + cor) * vproj) / ( invMassA + invMassB + (invMoiA * rAreg * rAreg) + (invMoiB * rBreg * rBreg) );
+            // vproj += impulse * ( invMass + (invMoi * rreg * rreg) );
+            // angVel -= impulse * rreg * invMoi;
+
+            
+            if ( fixedA ){
+
+                // apply impulse
+                bodyB.state.vel.vadd( n.mult( impulse * invMassB ) );
+                bodyB.state.angular.vel -= impulse * invMoiB * rBreg;
+                
+            } else if ( fixedB ){
+
+                // apply impulse
+                bodyA.state.vel.vsub( n.mult( impulse * invMassA ) );
+                bodyA.state.angular.vel += impulse * invMoiA * rAreg;
+
+            } else {
+
+                // apply impulse
+                bodyB.state.vel.vadd( n.mult( impulse * invMassB ) );
+                bodyB.state.angular.vel -= impulse * invMoiB * rBreg;
+                bodyA.state.vel.vsub( n.mult( invMassA * bodyB.mass ) );
+                bodyA.state.angular.vel += impulse * invMoiA * rAreg;
+            }
+
+            // inContact = (impulse < 0.004);
+            
+            // if we have friction and a relative velocity perpendicular to the normal
+            if ( cof && vreg ){
+
+
+                // TODO: here, we could first assume static friction applies
+                // and that the tangential relative velocity is zero.
+                // Then we could calculate the impulse and check if the
+                // tangential impulse is less than that allowed by static
+                // friction. If not, _then_ apply kinetic friction.
+
+                // instead we're just applying kinetic friction and making
+                // sure the impulse we apply is less than the maximum
+                // allowed amount
+
+                // maximum impulse allowed by kinetic friction
+                max = vreg / ( invMassA + invMassB + (invMoiA * rAproj * rAproj) + (invMoiB * rBproj * rBproj) );
+
+                if (!inContact){
+                    // the sign of vreg ( plus or minus 1 )
+                    sign = vreg < 0 ? -1 : 1;
+
+                    // get impulse due to friction
+                    impulse *= sign * cof;
+                    // make sure the impulse isn't giving the system energy
+                    impulse = (sign === 1) ? Math.min( impulse, max ) : Math.max( impulse, max );
+                    
+                } else {
+
+                    impulse = max;
+                }
+
+                if ( fixedA ){
+
+                    // apply frictional impulse
+                    bodyB.state.vel.vsub( perp.mult( impulse * invMassB ) );
+                    bodyB.state.angular.vel -= impulse * invMoiB * rBproj;
+                    
+                } else if ( fixedB ){
+
+                    // apply frictional impulse
+                    bodyA.state.vel.vadd( perp.mult( impulse * invMassA ) );
+                    bodyA.state.angular.vel += impulse * invMoiA * rAproj;
+
+                } else {
+
+                    // apply frictional impulse
+                    bodyB.state.vel.vsub( perp.mult( impulse * invMassB ) );
+                    bodyB.state.angular.vel -= impulse * invMoiB * rBproj;
+                    bodyA.state.vel.vadd( perp.mult( invMassA * bodyB.mass ) );
+                    bodyA.state.angular.vel += impulse * invMoiA * rAproj;
+                }  
+            }
+
+            scratch.done();
+        },
+
+        /**
+         * Respond to collision event
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        respond: function( data ){
+
+            var self = this
+                ,col
+                ,collisions = Physics.util.shuffle(data.collisions)
+                ;
+
+            for ( var i = 0, l = collisions.length; i < l; ++i ){
+                
+                col = collisions[ i ];
+                self.collideBodies( 
+                    col.bodyA,
+                    col.bodyB,
+                    col.norm,
+                    col.pos,
+                    col.mtv
+                );
+            }
+        }
+    };
+});
+
+
+// ---
+// inside: src/behaviors/constant-acceleration.js
+
+/**
+ * Constant acceleration behavior
+ * @module behaviors/constant-acceleration
+ */
+Physics.behavior('constant-acceleration', function( parent ){
+
+    var defaults = {
+
+        acc: { x : 0, y: 0.0004 }
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration object
+         * @return {void}
+         */
+        init: function( options ){
+
+            parent.init.call(this, options);
+
+            // extend options
+            this.options = Physics.util.extend(this.options, defaults, options);
+            this._acc = Physics.vector();
+            this.setAcceleration( this.options.acc );
+        },
+
+        /**
+         * Set the acceleration of the behavior
+         * @param {Vectorish} acc The acceleration vector
+         * @return {self}
+         */
+        setAcceleration: function( acc ){
+
+            this._acc.clone( acc );
+            return this;
+        },
+
+        /**
+         * Callback run on integrate:positions event
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        behave: function( data ){
+
+            var bodies = data.bodies;
+
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+                
+                bodies[ i ].accelerate( this._acc );
+            }
+        }
+    };
+});
+
+// ---
+// inside: src/behaviors/edge-collision-detection.js
+
+/**
+ * Edge collision detection.
+ * Used to detect collisions with the boundaries of an AABB
+ * @module behaviors/edge-collision-detection
+ */
+Physics.behavior('edge-collision-detection', function( parent ){
+
+    var PUBSUB_COLLISION = 'collisions:detected';
+
+    /**
+     * Check if a body collides with the boundary
+     * @param  {Object} body   The body to check
+     * @param  {AABB} bounds The aabb representing the boundary
+     * @param  {Object} dummy  Dummy body supplied to the collision event
+     * @return {Object}        Collision data
+     */
+    var checkGeneral = function checkGeneral( body, bounds, dummy ){
+
+        var overlap
+            ,aabb = body.aabb()
+            ,scratch = Physics.scratchpad()
+            ,trans = scratch.transform()
+            ,dir = scratch.vector()
+            ,result = scratch.vector()
+            ,collision = false
+            ,collisions = []
+            ;
+
+        // right
+        overlap = (aabb.pos.x + aabb.x) - bounds.max.x;
+
+        if ( overlap >= 0 ){
+
+            dir.set( 1, 0 ).rotateInv( trans.setRotation( body.state.angular.pos ) );
+
+            collision = {
+                bodyA: body,
+                bodyB: dummy,
+                overlap: overlap,
+                norm: {
+                    x: 1,
+                    y: 0
+                },
+                mtv: {
+                    x: overlap,
+                    y: 0
+                },
+                pos: body.geometry.getFarthestHullPoint( dir, result ).rotate( trans ).values()
+            };
+
+            collisions.push(collision);
+        }
+
+        // bottom
+        overlap = (aabb.pos.y + aabb.y) - bounds.max.y;
+
+        if ( overlap >= 0 ){
+
+            dir.set( 0, 1 ).rotateInv( trans.setRotation( body.state.angular.pos ) );
+
+            collision = {
+                bodyA: body,
+                bodyB: dummy,
+                overlap: overlap,
+                norm: {
+                    x: 0,
+                    y: 1
+                },
+                mtv: {
+                    x: 0,
+                    y: overlap
+                },
+                pos: body.geometry.getFarthestHullPoint( dir, result ).rotate( trans ).values()
+            };
+
+            collisions.push(collision);
+        }
+
+        // left
+        overlap = bounds.min.x - (aabb.pos.x - aabb.x);
+
+        if ( overlap >= 0 ){
+
+            dir.set( -1, 0 ).rotateInv( trans.setRotation( body.state.angular.pos ) );
+
+            collision = {
+                bodyA: body,
+                bodyB: dummy,
+                overlap: overlap,
+                norm: {
+                    x: -1,
+                    y: 0
+                },
+                mtv: {
+                    x: -overlap,
+                    y: 0
+                },
+                pos: body.geometry.getFarthestHullPoint( dir, result ).rotate( trans ).values()
+            };
+
+            collisions.push(collision);
+        }
+
+        // top
+        overlap = bounds.min.y - (aabb.pos.y - aabb.y);
+
+        if ( overlap >= 0 ){
+
+            dir.set( 0, -1 ).rotateInv( trans.setRotation( body.state.angular.pos ) );
+
+            collision = {
+                bodyA: body,
+                bodyB: dummy,
+                overlap: overlap,
+                norm: {
+                    x: 0,
+                    y: -1
+                },
+                mtv: {
+                    x: 0,
+                    y: -overlap
+                },
+                pos: body.geometry.getFarthestHullPoint( dir, result ).rotate( trans ).values()
+            };
+
+            collisions.push(collision);
+        }
+
+        scratch.done();
+        return collisions;
+    };
+
+    /**
+     * Check if a body collides with the boundary
+     * @param  {Object} body   The body to check
+     * @param  {AABB} bounds The aabb representing the boundary
+     * @param  {Object} dummy  Dummy body supplied to the collision event
+     * @return {Object}        Collision data
+     */
+    var checkEdgeCollide = function checkEdgeCollide( body, bounds, dummy ){
+
+        return checkGeneral( body, bounds, dummy );
+    };
+
+    var defaults = {
+
+        aabb: null,
+        restitution: 0.99,
+        cof: 1.0
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration object
+         * @return {void}
+         */
+        init: function( options ){
+
+            parent.init.call(this, options);
+
+            this.options = Physics.util.extend({}, this.options, defaults, options);
+
+            this.setAABB( options.aabb );
+            this.restitution = options.restitution;
+            
+            this._dummy = Physics.body('_dummy', function(){}, { 
+                fixed: true,
+                restitution: this.options.restitution,
+                cof: this.options.cof
+            });
+        },
+
+        /**
+         * Set the boundaries of the edge
+         * @param {AABB} aabb The aabb of the boundary
+         * @return {void}
+         */
+        setAABB: function( aabb ){
+
+            if (!aabb) {
+                throw 'Error: aabb not set';
+            }
+
+            aabb = aabb.get && aabb.get() || aabb;
+
+            this._edges = {
+                min: {
+                    x: (aabb.pos.x - aabb.x),
+                    y: (aabb.pos.y - aabb.y)
+                },
+                max: {
+                    x: (aabb.pos.x + aabb.x),
+                    y: (aabb.pos.y + aabb.y)  
+                }
+            };
+        },
+
+        /**
+         * Connect to world. Automatically called when added to world by the setWorld method
+         * @param  {Object} world The world to connect to
+         * @return {void}
+         */
+        connect: function( world ){
+
+            world.subscribe( 'integrate:velocities', this.checkAll, this );
+        },
+
+        /**
+         * Disconnect from world
+         * @param  {Object} world The world to disconnect from
+         * @return {void}
+         */
+        disconnect: function( world ){
+
+            world.unsubscribe( 'integrate:velocities', this.checkAll );
+        },
+
+        /**
+         * Check all bodies for collisions with the edge
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        checkAll: function( data ){
+            
+            var bodies = data.bodies
+                ,dt = data.dt
+                ,body
+                ,collisions = []
+                ,ret
+                ,bounds = this._edges
+                ,dummy = this._dummy
+                ;
+
+            for ( var i = 0, l = bodies.length; i < l; i++ ){
+
+                body = bodies[ i ];
+
+                // don't detect fixed bodies
+                if ( !body.fixed ){
+                    
+                    ret = checkEdgeCollide( body, bounds, dummy );
+
+                    if ( ret ){
+                        collisions.push.apply( collisions, ret );
+                    }
+                }
+            }
+
+            if ( collisions.length ){
+
+                this._world.publish({
+                    topic: PUBSUB_COLLISION,
+                    collisions: collisions
+                });
+            }
+        }
+    };
+
+});
+
+// ---
+// inside: src/behaviors/newtonian.js
+
+/**
+ * Newtonian attraction between bodies (inverse square law)
+ * @module behaviors/newtonian
+ */
+Physics.behavior('newtonian', function( parent ){
+
+    var defaults = {
+
+        strength: 1
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration object
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call parent init method
+            parent.init.call(this, options);
+
+            options = Physics.util.extend({}, defaults, options);
+
+            this.strength = options.strength;
+            this.tolerance = options.tolerance || 100 * this.strength;
+        },
+        
+        /**
+         * Apply newtonian acceleration between all bodies
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        behave: function( data ){
+
+            var bodies = data.bodies
+                ,body
+                ,other
+                ,strength = this.strength
+                ,tolerance = this.tolerance
+                ,scratch = Physics.scratchpad()
+                ,pos = scratch.vector()
+                ,normsq
+                ,g
+                ;
+
+            for ( var j = 0, l = bodies.length; j < l; j++ ){
+                
+                body = bodies[ j ];
+
+                for ( var i = j + 1; i < l; i++ ){
+                    
+                    other = bodies[ i ];
+                    // clone the position
+                    pos.clone( other.state.pos );
+                    pos.vsub( body.state.pos );
+                    // get the square distance
+                    normsq = pos.normSq();
+
+                    if (normsq > tolerance){
+
+                        g = strength / normsq;
+
+                        body.accelerate( pos.normalize().mult( g * other.mass ) );
+                        other.accelerate( pos.mult( body.mass/other.mass ).negate() );
+                    }
+                }
+            }
+
+            scratch.done();
+        }
+    };
+});
+
+
+// ---
+// inside: src/behaviors/rigid-constraint-manager.js
+
+/**
+ * Rigid constraints manager.
+ * Handles distance constraints
+ * @module behaviors/rigid-constraint-manager
+ */
+Physics.behavior('rigid-constraint-manager', function( parent ){
+
+    var defaults = {
+
+        // set a default target length
+        targetLength: 20
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration object
+         * @return {void}
+         */
+        init: function( options ){
+
+            parent.init.call(this, options);
+
+            Physics.util.extend(this.options, defaults, options);
+
+            this._constraints = [];
+        },
+
+        /**
+         * Connect to world. Automatically called when added to world by the setWorld method
+         * @param  {Object} world The world to connect to
+         * @return {void}
+         */
+        connect: function( world ){
+
+            var intg = world.integrator();
+
+            if ( intg && intg.name.indexOf('verlet') < 0 ){
+
+                throw 'The rigid constraint manager needs a world with a "verlet" compatible integrator.';
+            }
+
+            world.subscribe('integrate:positions', this.resolve, this);
+        },
+
+        /**
+         * Disconnect from world
+         * @param  {Object} world The world to disconnect from
+         * @return {void}
+         */
+        disconnect: function( world ){
+
+            world.unsubscribe('integrate:positions', this.resolve);
+        },
+
+        /**
+         * Remove all constraints
+         * @return {self}
+         */
+        drop: function(){
+
+            // drop the current constraints
+            this._constraints = [];
+            return this;
+        },
+
+        /**
+         * Constrain two bodies to a target relative distance
+         * @param  {Object} bodyA        First body
+         * @param  {Object} bodyB        Second body
+         * @param  {Number} targetLength (optional) Target length. defaults to target length specified in configuration options
+         * @return {object}              The constraint object, which holds .bodyA and .bodyB references to the bodies, .id the string ID of the constraint, .targetLength the target length
+         */
+        constrain: function( bodyA, bodyB, targetLength ){
+
+            var cst;
+
+            if (!bodyA || !bodyB){
+
+                return false;
+            }
+
+            this._constraints.push(cst = {
+                id: Physics.util.uniqueId('rigid-constraint'),
+                bodyA: bodyA,
+                bodyB: bodyB,
+                targetLength: targetLength || this.options.targetLength
+            });
+
+            return cst;
+        },
+
+        /**
+         * Remove a constraint
+         * @param  {Mixed} indexCstrOrId Either the constraint object, the constraint id, or the numeric index of the constraint
+         * @return {self}
+         */
+        remove: function( indexCstrOrId ){
+
+            var constraints = this._constraints
+                ,isObj
+                ;
+
+            if (typeof indexCstrOrId === 'number'){
+
+                constraints.splice( indexCstrOrId, 1 );
+                return this;   
+            }
+
+            isObj = Physics.util.isObject( indexCstrOrId );
+            
+            for ( var i = 0, l = constraints.length; i < l; ++i ){
+                
+                if ( (isObj && constraints[ i ] === indexCstrOrId) ||
+                    ( !isObj && constraints[ i ].id === indexCstrOrId) ){
+
+                    constraints.splice( i, 1 );
+                    return this;
+                }
+            }
+
+            return this;
+        },
+
+        /**
+         * Resolve constraints
+         * @return {void}
+         */
+        resolve: function(){
+
+            var constraints = this._constraints
+                ,scratch = Physics.scratchpad()
+                ,A = scratch.vector()
+                ,BA = scratch.vector()
+                ,con
+                ,len
+                ,corr
+                ,proportion
+                ;
+
+            for ( var i = 0, l = constraints.length; i < l; ++i ){
+            
+                con = constraints[ i ];
+
+                // move constrained bodies to target length based on their
+                // mass proportions
+                A.clone( con.bodyA.state.pos );
+                BA.clone( con.bodyB.state.pos ).vsub( A );
+                len = BA.norm();
+                corr = ( len - con.targetLength ) / len;
+                
+                BA.mult( corr );
+                proportion = con.bodyB.mass / (con.bodyA.mass + con.bodyB.mass);
+
+                if ( !con.bodyA.fixed ){
+
+                    BA.mult( proportion );
+                    con.bodyA.state.pos.vadd( BA );
+                    BA.mult( 1 / proportion );
+                }
+
+                if ( !con.bodyB.fixed ){
+
+                    BA.mult( 1 - proportion );
+                    con.bodyB.state.pos.vsub( BA );
+                }
+            }
+
+            scratch.done();
+        },
+
+        /**
+         * Get an array of all constraints
+         * @return {Array} The array of constraint objects
+         */
+        getConstraints: function(){
+
+            return [].concat(this._constraints);
+        }
+    };
+});
+
+
+// ---
+// inside: src/behaviors/sweep-prune.js
+
+/**
+ * Sweep and Prune implementation for broad phase collision detection
+ * @module behaviors/sweep-prune
+ */
+Physics.behavior('sweep-prune', function( parent ){
+
+    var PUBSUB_CANDIDATES = 'collisions:candidates';
+    var uid = 1;
+
+    /**
+     * Get a unique numeric id for internal use
+     * @return {Number} Unique id
+     */
+    var getUniqueId = function getUniqueId(){
+
+        return uid++;
+    };
+
+    // add z: 2 to get this to work in 3D
+    var dof = { x: 0, y: 1 }; // degrees of freedom
+
+    /**
+     * return hash for a pair of ids
+     * @param  {Number} id1 First id
+     * @param  {Number} id2 Second id
+     * @return {Number}     Hash id
+     */
+    function pairHash( id1, id2 ){
+
+        if ( id1 === id2 ){
+
+            return false;
+        }
+
+        // valid for values < 2^16
+        return id1 > id2? 
+            (id1 << 16) | (id2 & 0xFFFF) : 
+            (id2 << 16) | (id1 & 0xFFFF)
+            ;
+    }
+    
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration object
+         * @return {void}
+         */
+        init: function( options ){
+
+            parent.init.call(this, options);
+
+            this.clear();
+        },
+
+        /**
+         * Refresh tracking data
+         * @return {void}
+         */
+        clear: function(){
+
+            this.tracked = [];
+            this.pairs = []; // pairs selected as candidate collisions by broad phase
+            this.intervalLists = {}; // stores lists of aabb projection intervals to be sorted
+            
+            // init intervalLists
+            for ( var xyz in dof ){
+
+                this.intervalLists[ xyz ] = [];
+            }
+        },
+
+        /**
+         * Connect to world. Automatically called when added to world by the setWorld method
+         * @param  {Object} world The world to connect to
+         * @return {void}
+         */
+        connect: function( world ){
+
+            world.subscribe( 'add:body', this.trackBody, this );
+            world.subscribe( 'remove:body', this.untrackBody, this );
+            world.subscribe( 'integrate:velocities', this.sweep, this );
+
+            // add current bodies
+            var bodies = world.getBodies();
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+                
+                this.trackBody({ body: bodies[ i ] });
+            }
+        },
+
+        /**
+         * Disconnect from world
+         * @param  {Object} world The world to disconnect from
+         * @return {void}
+         */
+        disconnect: function( world ){
+
+            world.unsubscribe( 'add:body', this.trackBody );
+            world.unsubscribe( 'remove:body', this.untrackBody );
+            world.unsubscribe( 'integrate:velocities', this.sweep );
+            this.clear();
+        },
+
+        /**
+         * Execute the broad phase and get candidate collisions
+         * @return {Array} List of candidates
+         */
+        broadPhase: function(){
+
+            this.updateIntervals();
+            this.sortIntervalLists();
+            return this.checkOverlaps();
+        },
+
+        /**
+         * Simple insertion sort for each axis
+         * @return {void}
+         */
+        sortIntervalLists: function(){
+
+            var list
+                ,len
+                ,i
+                ,hole
+                ,bound
+                ,boundVal
+                ,left
+                ,leftVal
+                ,axis
+                ;
+
+            // for each axis...
+            for ( var xyz in dof ){
+
+                // get the intervals for that axis
+                list = this.intervalLists[ xyz ];
+                i = 0;
+                len = list.length;
+                axis = dof[ xyz ];
+
+                // for each interval bound...
+                while ( (++i) < len ){
+
+                    // store bound
+                    bound = list[ i ];
+                    boundVal = bound.val.get( axis );
+                    hole = i;
+
+                    left = list[ hole - 1 ];
+                    leftVal = left && left.val.get( axis );
+
+                    // while others are greater than bound...
+                    while ( 
+                        hole > 0 && 
+                        (
+                            leftVal > boundVal ||
+                            // if it's an equality, only move it over if 
+                            // the hole was created by a minimum
+                            // and the previous is a maximum
+                            // so that we detect contacts also
+                            leftVal === boundVal &&
+                            ( left.type && !bound.type )
+                        )
+                    ) {
+
+                        // move others greater than bound to the right
+                        list[ hole ] = left;
+                        hole--;
+                        left = list[ hole - 1 ];
+                        leftVal = left && left.val.get( axis );
+                    }
+
+                    // insert bound in the hole
+                    list[ hole ] = bound;
+                }
+            }
+        },
+
+        /**
+         * Get a pair object for the tracker objects
+         * @param  {Object} tr1      First tracker
+         * @param  {Object} tr2      Second tracker
+         * @param  {Boolean} doCreate Create if not already found
+         * @return {Mixed}          Pair object or null if not found
+         */
+        getPair: function(tr1, tr2, doCreate){
+
+            var hash = pairHash( tr1.id, tr2.id );
+
+            if ( hash === false ){
+                return null;
+            }
+
+            var c = this.pairs[ hash ];
+
+            if ( !c ){
+
+                if ( !doCreate ){
+                    return null;
+                }
+
+                c = this.pairs[ hash ] = {
+                    bodyA: tr1.body,
+                    bodyB: tr2.body,
+                    flag: 0
+                };
+            }
+
+            return c;
+        },
+
+        /**
+         * Check each axis for overlaps of bodies AABBs
+         * @return {Array} List of candidate collisions 
+         */
+        checkOverlaps: function(){
+
+            var isX
+                ,hash
+                ,tr1
+                ,tr2
+                ,bound
+                ,list
+                ,len
+                ,i
+                ,j
+                ,c
+                // determine which axis is the last we need to check
+                ,collisionFlag = ( dof.z || dof.y || dof.x )
+                ,encounters = []
+                ,enclen = 0
+                ,candidates = []
+                ;
+
+            for ( var xyz in dof ){
+
+                // is the x coord
+                isX = (xyz === 'x');
+                // get the interval list for this axis
+                list = this.intervalLists[ xyz ];
+                i = -1;
+                len = list.length;
+
+                // for each interval bound
+                while ( (++i) < len ){
+                    
+                    bound = list[ i ];
+                    tr1 = bound.tracker;
+
+                    if ( bound.type ){
+
+                        // is a max
+
+                        j = enclen;
+
+                        while ( (--j) >= 0 ){
+
+                            tr2 = encounters[ j ];
+
+                            // if they are the same tracked interval
+                            if ( tr2 === tr1 ){
+
+                                // remove the interval from the encounters list
+                                // faster than .splice()
+                                if ( j < enclen - 1 ) {
+                                    
+                                    encounters[ j ] = encounters.pop();
+
+                                } else {
+
+                                    // encountered a max right after a min... no overlap
+                                    encounters.pop();
+                                }
+
+                                enclen--;
+
+                            } else {
+
+                                // check if we have flagged this pair before
+                                // if it's the x axis, create a pair
+                                c = this.getPair( tr1, tr2, isX );
+
+                                if ( c ){
+                                    
+                                    // if it's the x axis, set the flag
+                                    // to = 1.
+                                    // if not, increment the flag by one.
+                                    c.flag = isX? 0 : c.flag + 1;
+
+                                    // c.flag will equal collisionFlag 
+                                    // if we've incremented the flag
+                                    // enough that all axes are overlapping
+                                    if ( c.flag === collisionFlag ){
+
+                                        // overlaps on all axes.
+                                        // add it to possible collision
+                                        // candidates list for narrow phase
+
+                                        candidates.push( c );
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+
+                        // is a min
+                        // just add this minimum to the encounters list
+                        enclen = encounters.push( tr1 );
+                    }
+                }
+            }
+
+            return candidates;
+        },
+
+        /**
+         * Update position intervals on each axis
+         * @return {[type]} [description]
+         */
+        updateIntervals: function(){
+
+            var tr
+                ,intr
+                ,scratch = Physics.scratchpad()
+                ,pos = scratch.vector()
+                ,aabb = scratch.vector()
+                ,list = this.tracked
+                ,i = list.length
+                ;
+
+            // for all tracked bodies
+            while ( (--i) >= 0 ){
+
+                tr = list[ i ];
+                intr = tr.interval;
+                pos.clone( tr.body.state.pos );
+                aabb.clone( tr.body.aabb() );
+
+                // copy the position (plus or minus) the aabb bounds
+                // into the min/max intervals
+                intr.min.val.clone( pos ).vsub( aabb );
+                intr.max.val.clone( pos ).vadd( aabb );
+            }
+
+            scratch.done();
+        },
+
+        /**
+         * Add body to list of those tracked by sweep and prune
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        trackBody: function( data ){
+
+            var body = data.body
+                ,tracker = {
+
+                    id: getUniqueId(),
+                    body: body
+                }
+                ,intr = {
+
+                    min: {
+                        type: false, //min
+                        val: Physics.vector(),
+                        tracker: tracker
+                    },
+
+                    max: {
+                        type: true, //max
+                        val: Physics.vector(),
+                        tracker: tracker
+                    }
+                }
+                ;
+
+            tracker.interval = intr;
+            this.tracked.push( tracker );
+            
+            for ( var xyz in dof ){
+
+                this.intervalLists[ xyz ].push( intr.min, intr.max );
+            }
+        },
+
+        /**
+         * Remove body from list of those tracked
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        untrackBody: function( data ){
+
+            var body = data.body
+                ,list
+                ,minmax
+                ,trackedList = this.tracked
+                ,tracker
+                ,count
+                ;
+
+            for ( var i = 0, l = trackedList.length; i < l; ++i ){
+
+                tracker = trackedList[ i ];
+                
+                if ( tracker.body === body ){
+
+                    // remove the tracker at this index
+                    trackedList.splice(i, 1);
+
+                    for ( var xyz in dof ){
+
+                        count = 0;
+                        list = this.intervalLists[ xyz ];
+
+                        for ( var j = 0, m = list.length; j < m; ++j ){
+                                
+                            minmax = list[ j ];
+
+                            if ( minmax === tracker.interval.min || minmax === tracker.interval.max ){
+
+                                // remove interval from list
+                                list.splice(j, 1);
+                                j--;
+                                l--;
+
+                                if (count > 0){
+                                    break;
+                                }
+
+                                count++;
+                            }
+                        }
+                    }
+
+                    break;
+                }
+            }            
+        },
+
+        /**
+         * Sweep and publish event if any candidate collisions are found
+         * @param  {Object} data Event data
+         * @return {void}
+         */
+        sweep: function( data ){
+
+            var self = this
+                ,bodies = data.bodies
+                ,dt = data.dt
+                ,candidates
+                ;
+
+            candidates = self.broadPhase();
+            
+            if ( candidates.length ){
+
+                this._world.publish({
+                    topic: PUBSUB_CANDIDATES,
+                    candidates: candidates
+                });
+            }
+        }
+    };
+});
+
+// ---
+// inside: src/behaviors/verlet-constraints.js
+
+/**
+ * Verlet constraints manager.
+ * Handles distance constraints, and angle constraints
+ * @module behaviors/rigid-constraint-manager
+ */
+Physics.behavior('verlet-constraints', function( parent ){
+
+    var TWOPI = 2 * Math.PI;
+
+    var defaults = {
+
+        // number of iterations to resolve constraints
+        iterations: 2
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration object
+         * @return {void}
+         */
+        init: function( options ){
+
+            parent.init.call(this, options);
+
+            Physics.util.extend(this.options, defaults, options);
+
+            this._distanceConstraints = [];
+            this._angleConstraints = [];
+        },
+
+        /**
+         * Connect to world. Automatically called when added to world by the setWorld method
+         * @param  {Object} world The world to connect to
+         * @return {void}
+         */
+        connect: function( world ){
+
+            var intg = world.integrator();
+
+            if ( intg && intg.name.indexOf('verlet') < 0 ){
+
+                throw 'The rigid constraint manager needs a world with a "verlet" compatible integrator.';
+            }
+
+            world.subscribe('integrate:positions', this.resolve, this);
+        },
+
+        /**
+         * Disconnect from world
+         * @param  {Object} world The world to disconnect from
+         * @return {void}
+         */
+        disconnect: function( world ){
+
+            world.unsubscribe('integrate:positions', this.resolve);
+        },
+
+        /**
+         * Remove all constraints
+         * @return {self}
+         */
+        drop: function(){
+
+            // drop the current constraints
+            this._distanceConstraints = [];
+            this._angleConstraints = [];
+            return this;
+        },
+
+        /**
+         * Constrain two bodies to a target relative distance
+         * @param  {Object} bodyA        First body
+         * @param  {Object} bodyB        Second body
+         * @param  {Number} targetLength (optional) Target length. defaults to target length specified in configuration options
+         * @return {object}              The constraint object, which holds .bodyA and .bodyB references to the bodies, .id the string ID of the constraint, .targetLength the target length
+         */
+        distanceConstraint: function( bodyA, bodyB, stiffness, targetLength ){
+
+            var cst;
+
+            if (!bodyA || !bodyB){
+
+                return false;
+            }
+
+            cst = {
+                id: Physics.util.uniqueId('dis-constraint'),
+                type: 'dis',
+                bodyA: bodyA,
+                bodyB: bodyB,
+                stiffness: stiffness || 0.5,
+                targetLength: targetLength || bodyB.state.pos.dist( bodyA.state.pos )
+            };
+
+            cst.targetLengthSq = cst.targetLength * cst.targetLength;
+
+            this._distanceConstraints.push( cst );
+            return cst;
+        },
+
+        /**
+         * Constrain three bodies to a target relative angle
+         * @param  {Object} bodyA        First body
+         * @param  {Object} bodyB        Second body
+         * @param  {Object} bodyC        Third body
+         * @param  {Number} targetLength (optional) Target length. defaults to target length specified in configuration options
+         * @return {object}              The constraint object, which holds .bodyA and .bodyB references to the bodies, .id the string ID of the constraint, .targetLength the target length
+         */
+        angleConstraint: function( bodyA, bodyB, bodyC, stiffness, targetAngle ){
+
+            var cst;
+
+            if (!bodyA || !bodyB){
+
+                return false;
+            }
+
+            cst = {
+                id: Physics.util.uniqueId('ang-constraint'),
+                type: 'ang',
+                bodyA: bodyA,
+                bodyB: bodyB,
+                bodyC: bodyC,
+                stiffness: stiffness || 0.5,
+                targetAngle: targetAngle || bodyB.state.pos.angle2( bodyA.state.pos, bodyC.state.pos )
+            };
+
+            this._angleConstraints.push( cst );
+            return cst;
+        },
+
+        /**
+         * Remove a constraint
+         * @param  {Mixed} indexCstrOrId Either the constraint object or the constraint id
+         * @return {self}
+         */
+        remove: function( cstrOrId ){
+
+            var constraints
+                ,type
+                ,isObj
+                ,i
+                ,l
+                ;
+
+            isObj = Physics.util.isObject( cstrOrId );
+
+            type = (isObj) ? cstrOrId.type : cstrOrId.substr(0, 3);
+            constraints = ( type === 'ang' ) ? this._angleConstraints : this._distanceConstraints;
+
+            if ( isObj ){
+
+                for ( i = 0, l = constraints.length; i < l; ++i ){
+                    
+                    if ( constraints[ i ] === cstrOrId ){
+
+                        constraints.splice( i, 1 );
+                        return this;
+                    }
+                }
+            } else {
+
+                for ( i = 0, l = constraints.length; i < l; ++i ){
+                    
+                    if ( constraints[ i ].id === cstrOrId ){
+
+                        constraints.splice( i, 1 );
+                        return this;
+                    }
+                }
+            }
+
+            return this;
+        },
+
+        resolveAngleConstraints: function( coef ){
+
+            var constraints = this._angleConstraints
+                ,scratch = Physics.scratchpad()
+                ,trans = scratch.transform()
+                ,con
+                ,ang
+                ,corr
+                ,proportion
+                ,invMassSum
+                ;
+
+            for ( var i = 0, l = constraints.length; i < l; ++i ){
+            
+                con = constraints[ i ];
+
+                ang = con.bodyB.state.pos.angle2( con.bodyA.state.pos, con.bodyC.state.pos );
+                corr = ang - con.targetAngle;
+
+                if (!corr){
+
+                    continue;
+
+                } else if (corr <= -Math.PI){
+                
+                    corr += TWOPI;
+
+                } else if (corr >= Math.PI){
+                
+                    corr -= TWOPI;
+                }
+
+                trans.setTranslation( con.bodyB.state.pos );
+
+                corr *= -coef * con.stiffness;
+
+                if ( !con.bodyA.fixed && !con.bodyB.fixed && !con.bodyC.fixed ){
+                    invMassSum = 1 / (con.bodyA.mass + con.bodyB.mass + con.bodyC.mass);
+                }
+
+                if ( !con.bodyA.fixed ){
+
+                    if ( !con.bodyB.fixed && !con.bodyC.fixed ){
+                        
+                        ang = corr * (con.bodyB.mass + con.bodyC.mass) * invMassSum;
+
+                    } else if ( con.bodyB.fixed ){
+
+                        ang = corr * con.bodyC.mass / ( con.bodyC.mass + con.bodyA.mass );
+
+                    } else {
+
+                        ang = corr * con.bodyB.mass / ( con.bodyB.mass + con.bodyA.mass );
+                    }
+
+                    // ang = corr;
+
+                    trans.setRotation( ang );
+                    con.bodyA.state.pos.translateInv( trans );
+                    con.bodyA.state.pos.rotate( trans );
+                    con.bodyA.state.pos.translate( trans );
+                }
+
+                if ( !con.bodyC.fixed ){
+
+                    if ( !con.bodyA.fixed && !con.bodyB.fixed ){
+                        
+                        ang = -corr * (con.bodyB.mass + con.bodyA.mass) * invMassSum;
+
+                    } else if ( con.bodyB.fixed ){
+
+                        ang = -corr * con.bodyA.mass / ( con.bodyC.mass + con.bodyA.mass );
+                        
+                    } else {
+
+                        ang = -corr * con.bodyB.mass / ( con.bodyB.mass + con.bodyC.mass );
+                    }
+
+                    // ang = -corr;
+
+                    trans.setRotation( ang );
+                    con.bodyC.state.pos.translateInv( trans );
+                    con.bodyC.state.pos.rotate( trans );
+                    con.bodyC.state.pos.translate( trans );
+                }
+
+                if ( !con.bodyB.fixed ){
+
+                    if ( !con.bodyA.fixed && !con.bodyC.fixed ){
+                        
+                        ang = corr * (con.bodyA.mass + con.bodyC.mass) * invMassSum;
+
+                    } else if ( con.bodyA.fixed ){
+
+                        ang = corr * con.bodyC.mass / ( con.bodyC.mass + con.bodyB.mass );
+                        
+                    } else {
+
+                        ang = corr * con.bodyA.mass / ( con.bodyA.mass + con.bodyC.mass );
+                    }
+
+                    // ang = corr;
+
+                    trans.setRotation( ang ).setTranslation( con.bodyA.state.pos );
+                    con.bodyB.state.pos.translateInv( trans );
+                    con.bodyB.state.pos.rotate( trans );
+                    con.bodyB.state.pos.translate( trans );
+
+                    trans.setTranslation( con.bodyC.state.pos );
+                    con.bodyB.state.pos.translateInv( trans );
+                    con.bodyB.state.pos.rotateInv( trans );
+                    con.bodyB.state.pos.translate( trans );
+                }
+            }
+
+            scratch.done();
+        },
+
+        resolveDistanceConstraints: function( coef ){
+
+            var constraints = this._distanceConstraints
+                ,scratch = Physics.scratchpad()
+                ,BA = scratch.vector()
+                ,con
+                ,len
+                ,corr
+                ,proportion
+                ;
+
+            for ( var i = 0, l = constraints.length; i < l; ++i ){
+            
+                con = constraints[ i ];
+
+                // move constrained bodies to target length based on their
+                // mass proportions
+                BA.clone( con.bodyB.state.pos ).vsub( con.bodyA.state.pos );
+                len = BA.normSq() || Math.random() * 0.0001;
+                corr = coef * con.stiffness * ( len - con.targetLengthSq ) / len;
+                
+                BA.mult( corr );
+                proportion = (con.bodyA.fixed || con.bodyB.fixed) ? 1 : con.bodyB.mass / (con.bodyA.mass + con.bodyB.mass);
+
+                if ( !con.bodyA.fixed ){
+
+                    if ( !con.bodyB.fixed ){
+                        BA.mult( proportion );
+                    }
+
+                    con.bodyA.state.pos.vadd( BA );
+
+                    if ( !con.bodyB.fixed ){
+                        BA.mult( 1 / proportion );
+                    }
+                }
+
+                if ( !con.bodyB.fixed ){
+
+                    if ( !con.bodyA.fixed ){
+                        BA.mult( 1 - proportion );
+                    }
+
+                    con.bodyB.state.pos.vsub( BA );
+                }
+            }
+
+            scratch.done();
+        },
+
+        shuffleConstraints: function(){
+
+            this._distanceConstraints = Physics.util.shuffle( this._distanceConstraints );
+            this._angleConstraints = Physics.util.shuffle( this._angleConstraints );
+        },
+
+        /**
+         * Resolve constraints
+         * @return {void}
+         */
+        resolve: function(){
+
+            var its = this.options.iterations
+                ,coef = 1 / its
+                ;
+
+            for (var i = 0; i < its; i++){
+
+                // this.shuffleConstraints();
+                this.resolveDistanceConstraints( coef );
+                this.resolveAngleConstraints( coef );
+            }
+        },
+
+        /**
+         * Get all constraints
+         * @return {Object} The object containing copied arrays of the constraints
+         */
+        getConstraints: function(){
+
+            return {
+                distanceConstraints: [].concat(this._distanceConstraints),
+                angleConstraints: [].concat(this._angleConstraints)
+            };
+        }
+    };
+});
+
+
+// ---
+// inside: src/integrators/improved-euler.js
+
+Physics.integrator('improved-euler', function( parent ){
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Configuration options
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call parent init
+            parent.init.call(this, options);
+        },
+
+        /**
+         * Velocity integration
+         * @param  {Array} bodies Array of bodies to integrate
+         * @param  {Number} dt     Timestep size
+         * @return {void}
+         */
+        integrateVelocities: function( bodies, dt ){
+
+            // half the timestep squared
+            var drag = 1 - this.options.drag
+                ,body = null
+                ,state
+                ;
+
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+
+                body = bodies[ i ];
+                state = body.state;
+
+                // only integrate if the body isn't fixed
+                if ( !body.fixed ){
+
+                    // Inspired from https://github.com/soulwire/Coffee-Physics
+                    // @licence MIT
+                    // 
+                    // x += (v * dt) + (a * 0.5 * dt * dt)
+                    // v += a * dt
+
+                    
+                    // Scale force to mass.
+                    // state.acc.mult( body.massInv );
+
+                    // Remember velocity for future use.
+                    state.old.vel.clone( state.vel );
+
+                    // remember original acc
+                    state.old.acc.clone( state.acc );
+
+                    // Update velocity first so we can reuse the acc vector.
+                    // a *= dt
+                    // v += a ...
+                    state.vel.vadd( state.acc.mult( dt ) );
+
+                    // Apply "air resistance".
+                    if ( drag ){
+
+                        state.vel.mult( drag );
+                    }
+
+                    // Reset accel
+                    state.acc.zero();
+
+                    //
+                    // Angular components
+                    // 
+
+                    state.old.angular.vel = state.angular.vel;
+                    state.angular.vel += state.angular.acc * dt;
+                    state.angular.acc = 0;
+
+                } else {
+                    // set the velocity and acceleration to zero!
+                    state.vel.zero();
+                    state.acc.zero();
+                    state.angular.vel = 0;
+                    state.angular.acc = 0;
+                }
+            }
+        },
+
+        /**
+         * Position integration
+         * @param  {Array} bodies Array of bodies to integrate
+         * @param  {Number} dt     Timestep size
+         * @return {void}
+         */
+        integratePositions: function( bodies, dt ){
+
+            // half the timestep squared
+            var halfdtdt = 0.5 * dt * dt
+                ,body = null
+                ,state
+                // use cached vector instances
+                // so we don't need to recreate them in a loop
+                ,scratch = Physics.scratchpad()
+                ,vel = scratch.vector()
+                ,angVel
+                ;
+
+            for ( var i = 0, l = bodies.length; i < l; ++i ){
+
+                body = bodies[ i ];
+                state = body.state;
+
+                // only integrate if the body isn't fixed
+                if ( !body.fixed ){
+
+
+                    // Store previous location.
+                    state.old.pos.clone( state.pos );
+
+                    // Update position.
+                    // ...
+                    // oldV *= dt
+                    // a *= 0.5 * dt
+                    // x += oldV + a
+                    vel.clone( state.old.vel );
+                    state.pos.vadd( vel.mult( dt ) ).vadd( state.old.acc.mult( halfdtdt ) );
+
+                    state.old.acc.zero();
+
+                    //
+                    // Angular components
+                    // 
+
+                    state.old.angular.pos = state.angular.pos;
+                    state.angular.pos += state.old.angular.vel * dt + state.old.angular.acc * halfdtdt;
+                    state.old.angular.acc = 0;
+
+                }
+            }
+
+            scratch.done();
+        }
+    };
+});
+
+
+
+// ---
+// inside: src/renderers/canvas.js
+
+/**
+ * A simple canvas renderer.
+ * Renders circles and convex-polygons
+ */
+Physics.renderer('canvas', function( proto ){
+
+    var Pi2 = Math.PI * 2
+        // helper to create new dom elements
+        ,newEl = function( node, content ){
+            var el = document.createElement(node || 'div');
+            if (content){
+                el.innerHTML = content;
+            }
+            return el;
+        }
+        ;
+
+    var defaults = {
+
+        // draw aabbs of bodies for debugging
+        debug: false,
+        // the element to place meta data into
+        metaEl: null,
+        // default styles of drawn objects
+        styles: {
+
+            'point' : 'rgba(80, 50, 100, 0.7)',
+
+            'circle' : {
+                strokeStyle: 'rgba(70, 50, 100, 0.7)',
+                lineWidth: 1,
+                fillStyle: 'rgba(44, 105, 44, 0.7)',
+                angleIndicator: 'rgba(69, 51, 78, 0.7)'
+            },
+
+            'convex-polygon' : {
+                strokeStyle: 'rgba(80, 50, 100, 0.7)',
+                lineWidth: 1,
+                fillStyle: 'rgba(114, 105, 124, 0.7)',
+                angleIndicator: 'rgba(69, 51, 78, 0.7)'
+            }
+        },
+        offset: {x: 0, y: 0}
+    };
+
+    // deep copy callback to extend deeper into options
+    var deep = function( a, b ){
+
+        if ( Physics.util.isPlainObject( b ) ){
+
+            return Physics.util.extend({}, a, b, deep );
+        }
+
+        return b !== undefined ? b : a;
+    };
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Config options passed by initializer
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call proto init
+            proto.init.call(this, options);
+
+            // further options
+            this.options = Physics.util.extend({}, defaults, this.options, deep);
+            this.options.offset = Physics.vector( this.options.offset );
+
+
+            // hidden canvas
+            this.hiddenCanvas = document.createElement('canvas');
+            this.hiddenCanvas.width = this.hiddenCanvas.height = 100;
+            
+            if (!this.hiddenCanvas.getContext){
+                throw "Canvas not supported";
+            }
+
+            this.hiddenCtx = this.hiddenCanvas.getContext('2d');
+
+            // actual viewport
+            var viewport = this.el;
+            if (viewport.nodeName.toUpperCase() !== "CANVAS"){
+
+                viewport = document.createElement('canvas');
+                this.el.appendChild( viewport );
+                if (typeof this.options.el === 'string' && this.el === document.body){
+                    viewport.id = this.options.el;
+                }
+                this.el = viewport;
+            }
+
+            viewport.width = this.options.width;
+            viewport.height = this.options.height;
+
+            this.ctx = viewport.getContext("2d");
+
+            this.els = {};
+
+            if (this.options.meta){
+                var stats = this.options.metaEl || newEl();
+                stats.className = 'pjs-meta';
+                this.els.fps = newEl('span');
+                this.els.ipf = newEl('span');
+                stats.appendChild(newEl('span', 'fps: '));
+                stats.appendChild(this.els.fps);
+                stats.appendChild(newEl('br'));
+                stats.appendChild(newEl('span', 'ipf: '));
+                stats.appendChild(this.els.ipf);
+
+                viewport.parentNode.insertBefore(stats, viewport);
+            }
+        },
+
+        /**
+         * Set the styles of specified context
+         * @param {Object|String} styles Styles configuration for body drawing
+         * @param {Canvas2DContext} ctx    (optional) Defaults to visible canvas context
+         */
+        setStyle: function( styles, ctx ){
+
+            ctx = ctx || this.ctx;
+
+            if ( Physics.util.isObject(styles) ){
+
+                ctx.strokeStyle = styles.strokeStyle;
+                ctx.fillStyle = styles.fillStyle;
+                ctx.lineWidth = styles.lineWidth;
+
+            } else {
+
+                ctx.fillStyle = ctx.strokeStyle = styles;
+                ctx.lineWidth = 1;
+            }
+        },
+
+        /**
+         * Draw a circle to specified canvas context
+         * @param  {Number} x      The x coord
+         * @param  {Number} y      The y coord
+         * @param  {Number} r      The circle radius
+         * @param  {Object|String} styles The styles configuration
+         * @param  {Canvas2DContext} ctx    (optional) The canvas context
+         * @return {void}
+         */
+        drawCircle: function(x, y, r, styles, ctx){
+
+            ctx = ctx || this.ctx;
+
+            ctx.beginPath();
+            this.setStyle( styles, ctx );
+            ctx.arc(x, y, r, 0, Pi2, false);
+            ctx.closePath();
+            ctx.stroke();
+            ctx.fill();
+        },
+
+        /**
+         * Draw a polygon to specified canvas context
+         * @param  {Array} verts  Array of vectorish vertices
+         * @param  {Object|String} styles The styles configuration
+         * @param  {Canvas2DContext} ctx    (optional) The canvas context
+         * @return {void}
+         */
+        drawPolygon: function(verts, styles, ctx){
+
+            var vert = verts[0]
+                ,x = vert.x === undefined ? vert.get(0) : vert.x
+                ,y = vert.y === undefined ? vert.get(1) : vert.y
+                ,l = verts.length
+                ;
+
+            ctx = ctx || this.ctx;
+            ctx.beginPath();
+            this.setStyle( styles, ctx );
+
+            ctx.moveTo(x, y);
+
+            for ( var i = 1; i < l; ++i ){
+                
+                vert = verts[ i ];
+                x = vert.x === undefined ? vert.get(0) : vert.x;
+                y = vert.y === undefined ? vert.get(1) : vert.y;
+                ctx.lineTo(x, y);
+            }
+
+            if (l > 2){
+                ctx.closePath();
+            }
+
+            ctx.stroke();
+            ctx.fill();
+        },
+
+        /**
+         * Draw a line onto specified canvas context
+         * @param  {Vectorish} from   Starting point
+         * @param  {Vectorish} to     Ending point
+         * @param  {Object|String} styles The styles configuration
+         * @param  {Canvas2DContext} ctx    (optional) The canvas context
+         * @return {void}
+         */
+        drawLine: function(from, to, styles, ctx){
+
+            var x = from.x === undefined ? from.get(0) : from.x
+                ,y = from.y === undefined ? from.get(1) : from.y
+                ;
+
+            ctx = ctx || this.ctx;
+
+            ctx.beginPath();
+            this.setStyle( styles, ctx );
+
+            ctx.moveTo(x, y);
+
+            x = to.x === undefined ? to.get(0) : to.x;
+            y = to.y === undefined ? to.get(1) : to.y;
+            
+            ctx.lineTo(x, y);
+            
+            ctx.stroke();
+            ctx.fill();
+        },
+
+        /**
+         * Create a view for specified geometry.
+         * @param  {Geometry} geometry The geometry
+         * @param  {Object|String} styles The styles configuration
+         * @return {Image}          An image cache of the geometry
+         */
+        createView: function( geometry, styles ){
+
+            var view = new Image()
+                ,aabb = geometry.aabb()
+                ,hw = aabb.halfWidth + Math.abs(aabb.pos.x)
+                ,hh = aabb.halfHeight + Math.abs(aabb.pos.y)
+                ,x = hw + 1
+                ,y = hh + 1
+                ,hiddenCtx = this.hiddenCtx
+                ,hiddenCanvas = this.hiddenCanvas
+                ,name = geometry.name
+                ;
+
+            styles = styles || this.options.styles[ name ];
+
+            x += styles.lineWidth | 0;
+            y += styles.lineWidth | 0;
+            
+            // clear
+            hiddenCanvas.width = 2 * hw + 2 + (2 * styles.lineWidth|0);
+            hiddenCanvas.height = 2 * hh + 2 + (2 * styles.lineWidth|0);
+
+            hiddenCtx.save();
+            hiddenCtx.translate(x, y);
+
+            if (name === 'circle'){
+
+                this.drawCircle(0, 0, geometry.radius, styles, hiddenCtx);
+
+            } else if (name === 'convex-polygon'){
+
+                this.drawPolygon(geometry.vertices, styles, hiddenCtx);
+            }
+
+            if (styles.angleIndicator){
+
+                hiddenCtx.beginPath();
+                this.setStyle( styles.angleIndicator, hiddenCtx );
+                hiddenCtx.moveTo(0, 0);
+                hiddenCtx.lineTo(hw, 0);
+                hiddenCtx.closePath();
+                hiddenCtx.stroke();
+            }
+
+            hiddenCtx.restore();
+
+            view.src = hiddenCanvas.toDataURL("image/png");
+            view.width = hiddenCanvas.width;
+            view.height = hiddenCanvas.height;
+            return view;
+        },
+
+        /**
+         * Draw the meta data
+         * @param  {Object} meta The meta data
+         * @return {void}
+         */
+        drawMeta: function( meta ){
+
+            this.els.fps.innerHTML = meta.fps.toFixed(2);
+            this.els.ipf.innerHTML = meta.ipf;
+        },
+
+        /**
+         * Callback to be run before rendering
+         * @private
+         * @return {void}
+         */
+        beforeRender: function(){
+
+            // clear canvas
+            this.ctx.clearRect(0, 0, this.el.width, this.el.height);
+        },
+
+        /**
+         * Draw a body to canvas
+         * @param  {Body} body The body to draw
+         * @param  {Image} view The view for that body
+         * @return {void}
+         */
+        drawBody: function( body, view ){
+
+            var ctx = this.ctx
+                ,pos = body.state.pos
+                ,offset = this.options.offset
+                ,aabb = body.aabb()
+                ;
+
+            ctx.save();
+            ctx.translate(pos.get(0) + offset.get(0), pos.get(1) + offset.get(1));
+            ctx.rotate(body.state.angular.pos);
+            ctx.drawImage(view, -view.width/2, -view.height/2);
+            ctx.restore();
+
+            if ( this.options.debug ){
+                // draw bounding boxes
+                ctx.save();
+                ctx.translate(offset.get(0), offset.get(1));
+                this.drawPolygon([
+                        { x: aabb.pos.x - aabb.x, y: aabb.pos.y - aabb.y },
+                        { x: aabb.pos.x + aabb.x, y: aabb.pos.y - aabb.y },
+                        { x: aabb.pos.x + aabb.x, y: aabb.pos.y + aabb.y },
+                        { x: aabb.pos.x - aabb.x, y: aabb.pos.y + aabb.y }
+                    ], 'rgba(100, 255, 100, 0.3)');
+                ctx.restore();
+            }
+        }
+    };
+});
+
+
+// ---
+// inside: src/renderers/dom.js
+
+/**
+ * A pathetically simple dom renderer
+ */
+Physics.renderer('dom', function( proto ){
+
+    // utility methods
+    var thePrefix = {}
+        ,tmpdiv = document.createElement("div")
+        ,toTitleCase = function toTitleCase(str) {
+            return str.replace(/(?:^|\s)\w/g, function(match) {
+                return match.toUpperCase();
+            });
+        }
+        // return the prefixed name for the specified css property
+        ,pfx = function pfx(prop) {
+
+            if (thePrefix[prop]){
+                return thePrefix[prop];
+            }
+
+            var arrayOfPrefixes = ['Webkit', 'Moz', 'Ms', 'O']
+                ,name
+                ;
+
+            for (var i = 0, l = arrayOfPrefixes.length; i < l; ++i) {
+
+                name = arrayOfPrefixes[i] + toTitleCase(prop);
+
+                if (name in tmpdiv.style){
+                    return thePrefix[prop] = name;
+                }
+            }
+
+            if (name in tmpdiv.style){
+                return thePrefix[prop] = prop;
+            }
+
+            return false;
+        }
+        ;
+
+    var classpfx = 'pjs-'
+        ,px = 'px'
+        ,cssTransform = pfx('transform')
+        ;
+
+    var newEl = function( node, content ){
+            var el = document.createElement(node || 'div');
+            if (content){
+                el.innerHTML = content;
+            }
+            return el;
+        }
+        ,drawBody
+        ;
+
+    // determine which drawBody method we can use
+    if (cssTransform){
+        drawBody = function( body, view ){
+
+            var pos = body.state.pos;
+            view.style[cssTransform] = 'translate('+pos.get(0)+'px,'+pos.get(1)+'px) rotate('+body.state.angular.pos+'rad)';
+        };
+    } else {
+        drawBody = function( body, view ){
+
+            var pos = body.state.pos;
+            view.style.left = pos.get(0) + px;
+            view.style.top = pos.get(1) + px;
+        };
+    }
+
+    return {
+
+        /**
+         * Initialization
+         * @param  {Object} options Config options passed by initializer
+         * @return {void}
+         */
+        init: function( options ){
+
+            // call proto init
+            proto.init.call(this, options);
+
+            var viewport = this.el;
+            viewport.style.position = 'relative';
+            viewport.style.overflow = 'hidden';
+            viewport.style[cssTransform] = 'translateZ(0)'; // force GPU accel
+            viewport.style.width = this.options.width + px;
+            viewport.style.height = this.options.height + px;
+
+            this.els = {};
+
+            if (options.meta){
+                var stats = newEl();
+                stats.className = 'pjs-meta';
+                this.els.fps = newEl('span');
+                this.els.ipf = newEl('span');
+                stats.appendChild(newEl('span', 'fps: '));
+                stats.appendChild(this.els.fps);
+                stats.appendChild(newEl('br'));
+                stats.appendChild(newEl('span', 'ipf: '));
+                stats.appendChild(this.els.ipf);
+
+                viewport.appendChild(stats);
+            }
+        },
+
+        /**
+         * Set dom element style properties for a circle
+         * @param  {HTMLElement} el       The element
+         * @param  {Geometry} geometry The bodie's geometry
+         * @return {void}
+         */
+        circleProperties: function( el, geometry ){
+
+            var aabb = geometry.aabb();
+
+            el.style.width = (aabb.halfWidth * 2) + px;
+            el.style.height = (aabb.halfHeight * 2) + px;
+            el.style.marginLeft = (-aabb.halfWidth) + px;
+            el.style.marginTop = (-aabb.halfHeight) + px;
+        },
+
+        /**
+         * Create a dom element for the specified geometry
+         * @param  {Geometry} geometry The bodie's geometry
+         * @return {HTMLElement}          The element
+         */
+        createView: function( geometry ){
+
+            var el = newEl()
+                ,fn = geometry.name + 'Properties'
+                ;
+
+            el.className = classpfx + geometry.name;
+            el.style.position = 'absolute';            
+            el.style.top = '0px';
+            el.style.left = '0px';
+            
+            if (this[ fn ]){
+                this[ fn ](el, geometry);
+            }
+            
+            this.el.appendChild( el );
+            return el;
+        },
+
+        /**
+         * Draw the meta data
+         * @param  {Object} meta The meta data
+         * @return {void}
+         */
+        drawMeta: function( meta ){
+
+            this.els.fps.innerHTML = meta.fps.toFixed(2);
+            this.els.ipf.innerHTML = meta.ipf;
+        },
+
+        /**
+         * Update dom element to reflect bodie's current state
+         * @param  {Body} body The body to draw
+         * @param  {HTMLElement} view The view for that body
+         * @return {void}
+         */
+        drawBody: drawBody
+    };
+});
+
+// ---
+// inside: src/outro.js
+
+return Physics;
+}));

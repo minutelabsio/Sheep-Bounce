@@ -6,5 +6,204 @@
  * Copyright (c) 2013 Jasper Palfree <jasper@wellcaffeinated.net>
  * Licensed MIT
  */
-
-(function(e,t){var n=["physicsjs"];if(typeof exports=="object"){var r=n.map(require);module.exports=t.call(e,r[0])}else typeof define=="function"&&define.amd?define(n,function(n){return t.call(e,n)}):e.Physics=t.call(e,e.Physics)})(this,function(e){return e.behavior("rigid-constraint-manager",function(t){var n={targetLength:20};return{init:function(r){t.init.call(this,r),e.util.extend(this.options,n,r),this._constraints=[]},connect:function(e){var t=e.integrator();if(t&&t.name.indexOf("verlet")<0)throw'The rigid constraint manager needs a world with a "verlet" compatible integrator.';e.subscribe("integrate:positions",this.resolve,this)},disconnect:function(e){e.unsubscribe("integrate:positions",this.resolve)},drop:function(){return this._constraints=[],this},constrain:function(t,n,r){var i;return!t||!n?!1:(this._constraints.push(i={id:e.util.uniqueId("rigid-constraint"),bodyA:t,bodyB:n,targetLength:r||this.options.targetLength}),i)},remove:function(t){var n=this._constraints,r;if(typeof t=="number")return n.splice(t,1),this;r=e.util.isObject(t);for(var i=0,s=n.length;i<s;++i)if(r&&n[i]===t||!r&&n[i].id===t)return n.splice(i,1),this;return this},resolve:function(){var t=this._constraints,n=e.scratchpad(),r=n.vector(),i=n.vector(),s,o,u,a;for(var f=0,l=t.length;f<l;++f)s=t[f],r.clone(s.bodyA.state.pos),i.clone(s.bodyB.state.pos).vsub(r),o=i.norm(),u=(o-s.targetLength)/o,i.mult(u),a=s.bodyB.mass/(s.bodyA.mass+s.bodyB.mass),s.bodyA.fixed||(i.mult(a),s.bodyA.state.pos.vadd(i),i.mult(1/a)),s.bodyB.fixed||(i.mult(1-a),s.bodyB.state.pos.vsub(i));n.done()},getConstraints:function(){return[].concat(this._constraints)}}}),e});
+(function (root, factory) {
+    var deps = ['physicsjs'];
+    if (typeof exports === 'object') {
+        // Node. 
+        var mods = deps.map(require);
+        module.exports = factory.call(root, mods[ 0 ]);
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(deps, function( p ){ return factory.call(root, p); });
+    } else {
+        // Browser globals (root is window). Dependency management is up to you.
+        root.Physics = factory.call(root, root.Physics);
+    }
+}(this, function ( Physics ) {
+    
+    /**
+     * Rigid constraints manager.
+     * Handles distance constraints
+     * @module behaviors/rigid-constraint-manager
+     */
+    Physics.behavior('rigid-constraint-manager', function( parent ){
+    
+        var defaults = {
+    
+            // set a default target length
+            targetLength: 20
+        };
+    
+        return {
+    
+            /**
+             * Initialization
+             * @param  {Object} options Configuration object
+             * @return {void}
+             */
+            init: function( options ){
+    
+                parent.init.call(this, options);
+    
+                Physics.util.extend(this.options, defaults, options);
+    
+                this._constraints = [];
+            },
+    
+            /**
+             * Connect to world. Automatically called when added to world by the setWorld method
+             * @param  {Object} world The world to connect to
+             * @return {void}
+             */
+            connect: function( world ){
+    
+                var intg = world.integrator();
+    
+                if ( intg && intg.name.indexOf('verlet') < 0 ){
+    
+                    throw 'The rigid constraint manager needs a world with a "verlet" compatible integrator.';
+                }
+    
+                world.subscribe('integrate:positions', this.resolve, this);
+            },
+    
+            /**
+             * Disconnect from world
+             * @param  {Object} world The world to disconnect from
+             * @return {void}
+             */
+            disconnect: function( world ){
+    
+                world.unsubscribe('integrate:positions', this.resolve);
+            },
+    
+            /**
+             * Remove all constraints
+             * @return {self}
+             */
+            drop: function(){
+    
+                // drop the current constraints
+                this._constraints = [];
+                return this;
+            },
+    
+            /**
+             * Constrain two bodies to a target relative distance
+             * @param  {Object} bodyA        First body
+             * @param  {Object} bodyB        Second body
+             * @param  {Number} targetLength (optional) Target length. defaults to target length specified in configuration options
+             * @return {object}              The constraint object, which holds .bodyA and .bodyB references to the bodies, .id the string ID of the constraint, .targetLength the target length
+             */
+            constrain: function( bodyA, bodyB, targetLength ){
+    
+                var cst;
+    
+                if (!bodyA || !bodyB){
+    
+                    return false;
+                }
+    
+                this._constraints.push(cst = {
+                    id: Physics.util.uniqueId('rigid-constraint'),
+                    bodyA: bodyA,
+                    bodyB: bodyB,
+                    targetLength: targetLength || this.options.targetLength
+                });
+    
+                return cst;
+            },
+    
+            /**
+             * Remove a constraint
+             * @param  {Mixed} indexCstrOrId Either the constraint object, the constraint id, or the numeric index of the constraint
+             * @return {self}
+             */
+            remove: function( indexCstrOrId ){
+    
+                var constraints = this._constraints
+                    ,isObj
+                    ;
+    
+                if (typeof indexCstrOrId === 'number'){
+    
+                    constraints.splice( indexCstrOrId, 1 );
+                    return this;   
+                }
+    
+                isObj = Physics.util.isObject( indexCstrOrId );
+                
+                for ( var i = 0, l = constraints.length; i < l; ++i ){
+                    
+                    if ( (isObj && constraints[ i ] === indexCstrOrId) ||
+                        ( !isObj && constraints[ i ].id === indexCstrOrId) ){
+    
+                        constraints.splice( i, 1 );
+                        return this;
+                    }
+                }
+    
+                return this;
+            },
+    
+            /**
+             * Resolve constraints
+             * @return {void}
+             */
+            resolve: function(){
+    
+                var constraints = this._constraints
+                    ,scratch = Physics.scratchpad()
+                    ,A = scratch.vector()
+                    ,BA = scratch.vector()
+                    ,con
+                    ,len
+                    ,corr
+                    ,proportion
+                    ;
+    
+                for ( var i = 0, l = constraints.length; i < l; ++i ){
+                
+                    con = constraints[ i ];
+    
+                    // move constrained bodies to target length based on their
+                    // mass proportions
+                    A.clone( con.bodyA.state.pos );
+                    BA.clone( con.bodyB.state.pos ).vsub( A );
+                    len = BA.norm();
+                    corr = ( len - con.targetLength ) / len;
+                    
+                    BA.mult( corr );
+                    proportion = con.bodyB.mass / (con.bodyA.mass + con.bodyB.mass);
+    
+                    if ( !con.bodyA.fixed ){
+    
+                        BA.mult( proportion );
+                        con.bodyA.state.pos.vadd( BA );
+                        BA.mult( 1 / proportion );
+                    }
+    
+                    if ( !con.bodyB.fixed ){
+    
+                        BA.mult( 1 - proportion );
+                        con.bodyB.state.pos.vsub( BA );
+                    }
+                }
+    
+                scratch.done();
+            },
+    
+            /**
+             * Get an array of all constraints
+             * @return {Array} The array of constraint objects
+             */
+            getConstraints: function(){
+    
+                return [].concat(this._constraints);
+            }
+        };
+    });
+    
+    // end module: behaviors/rigid-constraint-manager.js
+    return Physics;
+})); // UMD 

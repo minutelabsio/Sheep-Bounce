@@ -1,1 +1,126 @@
-define(["when"],function(e){var t;return Function.prototype.bind?t=function(t,n){return t.bind(n)}:t=function(t,n){return function(){return t.apply(n,arguments)}},{on:function(e,n,r){var i=this._topics||(this._topics={}),s=i[e]||(i[e]=[]),o=n,u;if(typeof e=="object"){for(var a in e)this.on(a,e[a],n,r);return this}return typeof r=="object"&&(n=t(n,r),n._bindfn_=o),s.push(n),this},off:function(e,t){var n=this._topics||(this._topics={}),r=n[e],i;if(!r)return this;for(var s=0,o=r.length;s<o;s++){i=r[s];if(i._bindfn_===t||i===t){r.splice(s,1);break}}return this},emit:function(e,t){var n=this._topics||(this._topics={}),r=n[e],i=r&&r.length,s=0,o={topic:e};if(!i)return this;while(s<i)o.handler=r[s],o.handler(o,t),s++;return this},after:function(t,n){var r=this._dfds||(this._dfds={}),i=r[t]||(r[t]=e.defer());return n?i.promise.then(n):i.promise},resolve:function(t,n){var r=this._dfds||(this._dfds={}),i=r[t]||(r[t]=e.defer());return i.resolve(n),this}}});
+define(
+    [
+        'when'
+    ],
+    function(
+        when
+    ){
+        var bind;
+        if (Function.prototype.bind){
+            bind = function bind( fn, scope ){
+                return fn.bind(scope);
+            };
+        } else {
+            bind = function bind( fn, scope ){
+
+                return function(){
+                    return fn.apply(scope, arguments);
+                };
+            };
+        }
+
+        return {
+
+            on: function( topic, fn, scope ){
+
+                var topics = this._topics || (this._topics = {})
+                    ,listeners = topics[ topic ] || (topics[ topic ] = [])
+                    ,orig = fn
+                    ,idx
+                    ;
+
+                // check if we're subscribing to multiple topics
+                // with an object
+                if ( typeof topic === 'object' ){
+
+                    for ( var t in topic ){
+                        
+                        this.on( t, topic[ t ], fn, scope );
+                    }
+
+                    return this;
+                }
+
+                if ( typeof scope === 'object' ){
+                    
+                    fn = bind( fn, scope );
+                    fn._bindfn_ = orig;
+
+                }
+
+                listeners.push( fn );
+                return this;
+            },
+
+            off: function( topic, fn ){
+
+                var topics = this._topics || (this._topics = {})
+                    ,listeners = topics[ topic ]
+                    ,listn
+                    ;
+
+                if (!listeners){
+                    return this;
+                }
+
+                for ( var i = 0, l = listeners.length; i < l; i++ ){
+                    
+                    listn = listeners[ i ];
+
+                    if ( listn._bindfn_ === fn || listn === fn ){
+                        listeners.splice(i, 1);
+                        break;
+                    }
+                }
+
+                return this;
+            },
+
+            emit: function( topic, data ){
+
+                var topics = this._topics || (this._topics = {})
+                    ,listeners = topics[ topic ]
+                    ,l = listeners && listeners.length
+                    ,i = 0
+                    ,e = { topic: topic }
+                    ;
+
+                if ( !l ){
+                    return this;
+                }
+                
+                while ( i < l ){
+                    
+                    e.handler = listeners[ i ];
+                    e.handler( e, data );
+                    i++;
+                }
+
+                return this;
+            },
+            
+            after: function( name, fn ){
+
+                var dfds = this._dfds || (this._dfds = {})
+                    ,dfd = (dfds[ name ] || (dfds[ name ] = when.defer()))
+                    ;
+
+                if ( fn ){
+                    return dfd.promise.then( fn );
+                }
+
+                return dfd.promise;
+            },
+
+            resolve: function( name, arg ){
+
+                var dfds = this._dfds || (this._dfds = {})
+                    ,dfd = (dfds[ name ] || (dfds[ name ] = when.defer()))
+                    ;
+                    
+                dfd.resolve( arg );
+                return this;
+            }
+        };
+    }
+);
