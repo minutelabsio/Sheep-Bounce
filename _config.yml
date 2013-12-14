@@ -5,6 +5,7 @@ exclude: ["README.md", "CNAME", "LICENSE", "build", "config.rb", "Gruntfile.js",
 title : "Sheep Bounce"
 id : "/2013-12-02/sheep-bounce"
 description : "Sheep as an Ideal Gas - For Science!"
+thumb: "http://minutelabs.io/assets/images/sheepbounce.gif"
 version: "0.0.1"
 
 ml_url: "http://minutelabs.io"
