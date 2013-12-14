@@ -8,7 +8,7 @@ description : "Sheep as an Ideal Gas - For Science!"
 version: "0.0.1"
 
 ml_url: "http://minutelabs.io"
-library_path: "library-build"
+library_path: "library"
 
 show :
   branding: true

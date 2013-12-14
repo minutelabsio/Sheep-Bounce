@@ -6,5 +6,404 @@
  * Copyright (c) 2013 Jasper Palfree <jasper@wellcaffeinated.net>
  * Licensed MIT
  */
-
-(function(e,t){var n=["physicsjs"];if(typeof exports=="object"){var r=n.map(require);module.exports=t.call(e,r[0])}else typeof define=="function"&&define.amd?define(n,function(n){return t.call(e,n)}):e.Physics=t.call(e,e.Physics)})(this,function(e){return e.behavior("verlet-constraints",function(t){var n=2*Math.PI,r={iterations:2};return{init:function(n){t.init.call(this,n),e.util.extend(this.options,r,n),this._distanceConstraints=[],this._angleConstraints=[]},connect:function(e){var t=e.integrator();if(t&&t.name.indexOf("verlet")<0)throw'The rigid constraint manager needs a world with a "verlet" compatible integrator.';e.subscribe("integrate:positions",this.resolve,this)},disconnect:function(e){e.unsubscribe("integrate:positions",this.resolve)},drop:function(){return this._distanceConstraints=[],this._angleConstraints=[],this},distanceConstraint:function(t,n,r,i){var s;return!t||!n?!1:(s={id:e.util.uniqueId("dis-constraint"),type:"dis",bodyA:t,bodyB:n,stiffness:r||.5,targetLength:i||n.state.pos.dist(t.state.pos)},s.targetLengthSq=s.targetLength*s.targetLength,this._distanceConstraints.push(s),s)},angleConstraint:function(t,n,r,i,s){var o;return!t||!n?!1:(o={id:e.util.uniqueId("ang-constraint"),type:"ang",bodyA:t,bodyB:n,bodyC:r,stiffness:i||.5,targetAngle:s||n.state.pos.angle2(t.state.pos,r.state.pos)},this._angleConstraints.push(o),o)},remove:function(t){var n,r,i,s,o;i=e.util.isObject(t),r=i?t.type:t.substr(0,3),n=r==="ang"?this._angleConstraints:this._distanceConstraints;if(i){for(s=0,o=n.length;s<o;++s)if(n[s]===t)return n.splice(s,1),this}else for(s=0,o=n.length;s<o;++s)if(n[s].id===t)return n.splice(s,1),this;return this},resolveAngleConstraints:function(t){var r=this._angleConstraints,i=e.scratchpad(),s=i.transform(),o,u,a,f,l;for(var c=0,h=r.length;c<h;++c){o=r[c],u=o.bodyB.state.pos.angle2(o.bodyA.state.pos,o.bodyC.state.pos),a=u-o.targetAngle;if(!a)continue;a<=-Math.PI?a+=n:a>=Math.PI&&(a-=n),s.setTranslation(o.bodyB.state.pos),a*=-t*o.stiffness,!o.bodyA.fixed&&!o.bodyB.fixed&&!o.bodyC.fixed&&(l=1/(o.bodyA.mass+o.bodyB.mass+o.bodyC.mass)),o.bodyA.fixed||(!o.bodyB.fixed&&!o.bodyC.fixed?u=a*(o.bodyB.mass+o.bodyC.mass)*l:o.bodyB.fixed?u=a*o.bodyC.mass/(o.bodyC.mass+o.bodyA.mass):u=a*o.bodyB.mass/(o.bodyB.mass+o.bodyA.mass),s.setRotation(u),o.bodyA.state.pos.translateInv(s),o.bodyA.state.pos.rotate(s),o.bodyA.state.pos.translate(s)),o.bodyC.fixed||(!o.bodyA.fixed&&!o.bodyB.fixed?u=-a*(o.bodyB.mass+o.bodyA.mass)*l:o.bodyB.fixed?u=-a*o.bodyA.mass/(o.bodyC.mass+o.bodyA.mass):u=-a*o.bodyB.mass/(o.bodyB.mass+o.bodyC.mass),s.setRotation(u),o.bodyC.state.pos.translateInv(s),o.bodyC.state.pos.rotate(s),o.bodyC.state.pos.translate(s)),o.bodyB.fixed||(!o.bodyA.fixed&&!o.bodyC.fixed?u=a*(o.bodyA.mass+o.bodyC.mass)*l:o.bodyA.fixed?u=a*o.bodyC.mass/(o.bodyC.mass+o.bodyB.mass):u=a*o.bodyA.mass/(o.bodyA.mass+o.bodyC.mass),s.setRotation(u).setTranslation(o.bodyA.state.pos),o.bodyB.state.pos.translateInv(s),o.bodyB.state.pos.rotate(s),o.bodyB.state.pos.translate(s),s.setTranslation(o.bodyC.state.pos),o.bodyB.state.pos.translateInv(s),o.bodyB.state.pos.rotateInv(s),o.bodyB.state.pos.translate(s))}i.done()},resolveDistanceConstraints:function(t){var n=this._distanceConstraints,r=e.scratchpad(),i=r.vector(),s,o,u,a;for(var f=0,l=n.length;f<l;++f)s=n[f],i.clone(s.bodyB.state.pos).vsub(s.bodyA.state.pos),o=i.normSq()||Math.random()*1e-4,u=t*s.stiffness*(o-s.targetLengthSq)/o,i.mult(u),a=s.bodyA.fixed||s.bodyB.fixed?1:s.bodyB.mass/(s.bodyA.mass+s.bodyB.mass),s.bodyA.fixed||(s.bodyB.fixed||i.mult(a),s.bodyA.state.pos.vadd(i),s.bodyB.fixed||i.mult(1/a)),s.bodyB.fixed||(s.bodyA.fixed||i.mult(1-a),s.bodyB.state.pos.vsub(i));r.done()},shuffleConstraints:function(){this._distanceConstraints=e.util.shuffle(this._distanceConstraints),this._angleConstraints=e.util.shuffle(this._angleConstraints)},resolve:function(){var e=this.options.iterations,t=1/e;for(var n=0;n<e;n++)this.resolveDistanceConstraints(t),this.resolveAngleConstraints(t)},getConstraints:function(){return{distanceConstraints:[].concat(this._distanceConstraints),angleConstraints:[].concat(this._angleConstraints)}}}}),e});
+(function (root, factory) {
+    var deps = ['physicsjs'];
+    if (typeof exports === 'object') {
+        // Node. 
+        var mods = deps.map(require);
+        module.exports = factory.call(root, mods[ 0 ]);
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(deps, function( p ){ return factory.call(root, p); });
+    } else {
+        // Browser globals (root is window). Dependency management is up to you.
+        root.Physics = factory.call(root, root.Physics);
+    }
+}(this, function ( Physics ) {
+    
+    /**
+     * Verlet constraints manager.
+     * Handles distance constraints, and angle constraints
+     * @module behaviors/rigid-constraint-manager
+     */
+    Physics.behavior('verlet-constraints', function( parent ){
+    
+        var TWOPI = 2 * Math.PI;
+    
+        var defaults = {
+    
+            // number of iterations to resolve constraints
+            iterations: 2
+        };
+    
+        return {
+    
+            /**
+             * Initialization
+             * @param  {Object} options Configuration object
+             * @return {void}
+             */
+            init: function( options ){
+    
+                parent.init.call(this, options);
+    
+                Physics.util.extend(this.options, defaults, options);
+    
+                this._distanceConstraints = [];
+                this._angleConstraints = [];
+            },
+    
+            /**
+             * Connect to world. Automatically called when added to world by the setWorld method
+             * @param  {Object} world The world to connect to
+             * @return {void}
+             */
+            connect: function( world ){
+    
+                var intg = world.integrator();
+    
+                if ( intg && intg.name.indexOf('verlet') < 0 ){
+    
+                    throw 'The rigid constraint manager needs a world with a "verlet" compatible integrator.';
+                }
+    
+                world.subscribe('integrate:positions', this.resolve, this);
+            },
+    
+            /**
+             * Disconnect from world
+             * @param  {Object} world The world to disconnect from
+             * @return {void}
+             */
+            disconnect: function( world ){
+    
+                world.unsubscribe('integrate:positions', this.resolve);
+            },
+    
+            /**
+             * Remove all constraints
+             * @return {self}
+             */
+            drop: function(){
+    
+                // drop the current constraints
+                this._distanceConstraints = [];
+                this._angleConstraints = [];
+                return this;
+            },
+    
+            /**
+             * Constrain two bodies to a target relative distance
+             * @param  {Object} bodyA        First body
+             * @param  {Object} bodyB        Second body
+             * @param  {Number} targetLength (optional) Target length. defaults to target length specified in configuration options
+             * @return {object}              The constraint object, which holds .bodyA and .bodyB references to the bodies, .id the string ID of the constraint, .targetLength the target length
+             */
+            distanceConstraint: function( bodyA, bodyB, stiffness, targetLength ){
+    
+                var cst;
+    
+                if (!bodyA || !bodyB){
+    
+                    return false;
+                }
+    
+                cst = {
+                    id: Physics.util.uniqueId('dis-constraint'),
+                    type: 'dis',
+                    bodyA: bodyA,
+                    bodyB: bodyB,
+                    stiffness: stiffness || 0.5,
+                    targetLength: targetLength || bodyB.state.pos.dist( bodyA.state.pos )
+                };
+    
+                cst.targetLengthSq = cst.targetLength * cst.targetLength;
+    
+                this._distanceConstraints.push( cst );
+                return cst;
+            },
+    
+            /**
+             * Constrain three bodies to a target relative angle
+             * @param  {Object} bodyA        First body
+             * @param  {Object} bodyB        Second body
+             * @param  {Object} bodyC        Third body
+             * @param  {Number} targetLength (optional) Target length. defaults to target length specified in configuration options
+             * @return {object}              The constraint object, which holds .bodyA and .bodyB references to the bodies, .id the string ID of the constraint, .targetLength the target length
+             */
+            angleConstraint: function( bodyA, bodyB, bodyC, stiffness, targetAngle ){
+    
+                var cst;
+    
+                if (!bodyA || !bodyB){
+    
+                    return false;
+                }
+    
+                cst = {
+                    id: Physics.util.uniqueId('ang-constraint'),
+                    type: 'ang',
+                    bodyA: bodyA,
+                    bodyB: bodyB,
+                    bodyC: bodyC,
+                    stiffness: stiffness || 0.5,
+                    targetAngle: targetAngle || bodyB.state.pos.angle2( bodyA.state.pos, bodyC.state.pos )
+                };
+    
+                this._angleConstraints.push( cst );
+                return cst;
+            },
+    
+            /**
+             * Remove a constraint
+             * @param  {Mixed} indexCstrOrId Either the constraint object or the constraint id
+             * @return {self}
+             */
+            remove: function( cstrOrId ){
+    
+                var constraints
+                    ,type
+                    ,isObj
+                    ,i
+                    ,l
+                    ;
+    
+                isObj = Physics.util.isObject( cstrOrId );
+    
+                type = (isObj) ? cstrOrId.type : cstrOrId.substr(0, 3);
+                constraints = ( type === 'ang' ) ? this._angleConstraints : this._distanceConstraints;
+    
+                if ( isObj ){
+    
+                    for ( i = 0, l = constraints.length; i < l; ++i ){
+                        
+                        if ( constraints[ i ] === cstrOrId ){
+    
+                            constraints.splice( i, 1 );
+                            return this;
+                        }
+                    }
+                } else {
+    
+                    for ( i = 0, l = constraints.length; i < l; ++i ){
+                        
+                        if ( constraints[ i ].id === cstrOrId ){
+    
+                            constraints.splice( i, 1 );
+                            return this;
+                        }
+                    }
+                }
+    
+                return this;
+            },
+    
+            resolveAngleConstraints: function( coef ){
+    
+                var constraints = this._angleConstraints
+                    ,scratch = Physics.scratchpad()
+                    ,trans = scratch.transform()
+                    ,con
+                    ,ang
+                    ,corr
+                    ,proportion
+                    ,invMassSum
+                    ;
+    
+                for ( var i = 0, l = constraints.length; i < l; ++i ){
+                
+                    con = constraints[ i ];
+    
+                    ang = con.bodyB.state.pos.angle2( con.bodyA.state.pos, con.bodyC.state.pos );
+                    corr = ang - con.targetAngle;
+    
+                    if (!corr){
+    
+                        continue;
+    
+                    } else if (corr <= -Math.PI){
+                    
+                        corr += TWOPI;
+    
+                    } else if (corr >= Math.PI){
+                    
+                        corr -= TWOPI;
+                    }
+    
+                    trans.setTranslation( con.bodyB.state.pos );
+    
+                    corr *= -coef * con.stiffness;
+    
+                    if ( !con.bodyA.fixed && !con.bodyB.fixed && !con.bodyC.fixed ){
+                        invMassSum = 1 / (con.bodyA.mass + con.bodyB.mass + con.bodyC.mass);
+                    }
+    
+                    if ( !con.bodyA.fixed ){
+    
+                        if ( !con.bodyB.fixed && !con.bodyC.fixed ){
+                            
+                            ang = corr * (con.bodyB.mass + con.bodyC.mass) * invMassSum;
+    
+                        } else if ( con.bodyB.fixed ){
+    
+                            ang = corr * con.bodyC.mass / ( con.bodyC.mass + con.bodyA.mass );
+    
+                        } else {
+    
+                            ang = corr * con.bodyB.mass / ( con.bodyB.mass + con.bodyA.mass );
+                        }
+    
+                        // ang = corr;
+    
+                        trans.setRotation( ang );
+                        con.bodyA.state.pos.translateInv( trans );
+                        con.bodyA.state.pos.rotate( trans );
+                        con.bodyA.state.pos.translate( trans );
+                    }
+    
+                    if ( !con.bodyC.fixed ){
+    
+                        if ( !con.bodyA.fixed && !con.bodyB.fixed ){
+                            
+                            ang = -corr * (con.bodyB.mass + con.bodyA.mass) * invMassSum;
+    
+                        } else if ( con.bodyB.fixed ){
+    
+                            ang = -corr * con.bodyA.mass / ( con.bodyC.mass + con.bodyA.mass );
+                            
+                        } else {
+    
+                            ang = -corr * con.bodyB.mass / ( con.bodyB.mass + con.bodyC.mass );
+                        }
+    
+                        // ang = -corr;
+    
+                        trans.setRotation( ang );
+                        con.bodyC.state.pos.translateInv( trans );
+                        con.bodyC.state.pos.rotate( trans );
+                        con.bodyC.state.pos.translate( trans );
+                    }
+    
+                    if ( !con.bodyB.fixed ){
+    
+                        if ( !con.bodyA.fixed && !con.bodyC.fixed ){
+                            
+                            ang = corr * (con.bodyA.mass + con.bodyC.mass) * invMassSum;
+    
+                        } else if ( con.bodyA.fixed ){
+    
+                            ang = corr * con.bodyC.mass / ( con.bodyC.mass + con.bodyB.mass );
+                            
+                        } else {
+    
+                            ang = corr * con.bodyA.mass / ( con.bodyA.mass + con.bodyC.mass );
+                        }
+    
+                        // ang = corr;
+    
+                        trans.setRotation( ang ).setTranslation( con.bodyA.state.pos );
+                        con.bodyB.state.pos.translateInv( trans );
+                        con.bodyB.state.pos.rotate( trans );
+                        con.bodyB.state.pos.translate( trans );
+    
+                        trans.setTranslation( con.bodyC.state.pos );
+                        con.bodyB.state.pos.translateInv( trans );
+                        con.bodyB.state.pos.rotateInv( trans );
+                        con.bodyB.state.pos.translate( trans );
+                    }
+                }
+    
+                scratch.done();
+            },
+    
+            resolveDistanceConstraints: function( coef ){
+    
+                var constraints = this._distanceConstraints
+                    ,scratch = Physics.scratchpad()
+                    ,BA = scratch.vector()
+                    ,con
+                    ,len
+                    ,corr
+                    ,proportion
+                    ;
+    
+                for ( var i = 0, l = constraints.length; i < l; ++i ){
+                
+                    con = constraints[ i ];
+    
+                    // move constrained bodies to target length based on their
+                    // mass proportions
+                    BA.clone( con.bodyB.state.pos ).vsub( con.bodyA.state.pos );
+                    len = BA.normSq() || Math.random() * 0.0001;
+                    corr = coef * con.stiffness * ( len - con.targetLengthSq ) / len;
+                    
+                    BA.mult( corr );
+                    proportion = (con.bodyA.fixed || con.bodyB.fixed) ? 1 : con.bodyB.mass / (con.bodyA.mass + con.bodyB.mass);
+    
+                    if ( !con.bodyA.fixed ){
+    
+                        if ( !con.bodyB.fixed ){
+                            BA.mult( proportion );
+                        }
+    
+                        con.bodyA.state.pos.vadd( BA );
+    
+                        if ( !con.bodyB.fixed ){
+                            BA.mult( 1 / proportion );
+                        }
+                    }
+    
+                    if ( !con.bodyB.fixed ){
+    
+                        if ( !con.bodyA.fixed ){
+                            BA.mult( 1 - proportion );
+                        }
+    
+                        con.bodyB.state.pos.vsub( BA );
+                    }
+                }
+    
+                scratch.done();
+            },
+    
+            shuffleConstraints: function(){
+    
+                this._distanceConstraints = Physics.util.shuffle( this._distanceConstraints );
+                this._angleConstraints = Physics.util.shuffle( this._angleConstraints );
+            },
+    
+            /**
+             * Resolve constraints
+             * @return {void}
+             */
+            resolve: function(){
+    
+                var its = this.options.iterations
+                    ,coef = 1 / its
+                    ;
+    
+                for (var i = 0; i < its; i++){
+    
+                    // this.shuffleConstraints();
+                    this.resolveDistanceConstraints( coef );
+                    this.resolveAngleConstraints( coef );
+                }
+            },
+    
+            /**
+             * Get all constraints
+             * @return {Object} The object containing copied arrays of the constraints
+             */
+            getConstraints: function(){
+    
+                return {
+                    distanceConstraints: [].concat(this._distanceConstraints),
+                    angleConstraints: [].concat(this._angleConstraints)
+                };
+            }
+        };
+    });
+    
+    // end module: behaviors/verlet-constraints.js
+    return Physics;
+})); // UMD 

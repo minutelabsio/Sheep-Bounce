@@ -6,5 +6,234 @@
  * Copyright (c) 2013 Jasper Palfree <jasper@wellcaffeinated.net>
  * Licensed MIT
  */
-
-(function(e,t){var n=["physicsjs"];if(typeof exports=="object"){var r=n.map(require);module.exports=t.call(e,r[0])}else typeof define=="function"&&define.amd?define(n,function(n){return t.call(e,n)}):e.Physics=t.call(e,e.Physics)})(this,function(e){return e.geometry("convex-polygon",function(t){var n="Error: The vertices specified do not match that of a _convex_ polygon.",r={};return{init:function(n){t.init.call(this,n),n=e.util.extend({},r,n),this.setVertices(n.vertices||[])},setVertices:function(t){var r=e.scratchpad(),i=r.transform(),s=this.vertices=[];if(!e.geometry.isPolygonConvex(t))throw n;i.setRotation(0),i.setTranslation(e.geometry.getPolygonCentroid(t).negate());for(var o=0,u=t.length;o<u;++o)s.push(e.vector(t[o]).translate(i));return this._area=e.geometry.getPolygonArea(s),this._aabb=!1,r.done(),this},aabb:function(t){if(!t&&this._aabb)return this._aabb.get();var n=e.scratchpad(),r=n.vector(),i=n.transform().setRotation(t||0),s=n.vector().clone(e.vector.axis[0]).rotateInv(i),o=n.vector().clone(e.vector.axis[1]).rotateInv(i),u=this.getFarthestHullPoint(s,r).proj(s),a=-this.getFarthestHullPoint(s.negate(),r).proj(s),f=this.getFarthestHullPoint(o,r).proj(o),l=-this.getFarthestHullPoint(o.negate(),r).proj(o),c;return c=new e.aabb(a,l,u,f),t||(this._aabb=c),n.done(),c.get()},getFarthestHullPoint:function(t,n,r){var i=this.vertices,s,o,u=i.length,a=2,f;n=n||e.vector();if(u<2)return r&&(r.idx=0),n.clone(i[0]);o=i[0].dot(t),s=i[1].dot(t);if(u===2)return f=s>=o?1:0,r&&(r.idx=f),n.clone(i[f]);if(s>=o){while(a<u&&s>=o)o=s,s=i[a].dot(t),a++;return s>=o&&a++,f=a-2,r&&(r.idx=a-2),n.clone(i[f])}a=u;while(a>2&&o>=s)a--,s=o,o=i[a].dot(t);return f=(a+1)%u,r&&(r.idx=f),n.clone(i[f])},getFarthestCorePoint:function(t,n,r){var i,s=e.scratchpad(),o=s.vector(),u=s.vector(),a=this.vertices,f=a.length,l,c=this._area>0,h={};return n=this.getFarthestHullPoint(t,n,h),o.clone(a[(h.idx+1)%f]).vsub(n).normalize().perp(!c),u.clone(a[(h.idx-1+f)%f]).vsub(n).normalize().perp(c),l=r/(1+o.dot(u)),n.vadd(o.vadd(u).mult(l)),s.done(),n}}}),e});
+(function (root, factory) {
+    var deps = ['physicsjs'];
+    if (typeof exports === 'object') {
+        // Node. 
+        var mods = deps.map(require);
+        module.exports = factory.call(root, mods[ 0 ]);
+    } else if (typeof define === 'function' && define.amd) {
+        // AMD. Register as an anonymous module.
+        define(deps, function( p ){ return factory.call(root, p); });
+    } else {
+        // Browser globals (root is window). Dependency management is up to you.
+        root.Physics = factory.call(root, root.Physics);
+    }
+}(this, function ( Physics ) {
+    
+    /**
+     * Convex polygon geometry
+     * @module geometries/convex-polygon
+     */
+    Physics.geometry('convex-polygon', function( parent ){
+    
+        var ERROR_NOT_CONVEX = 'Error: The vertices specified do not match that of a _convex_ polygon.';
+    
+        var defaults = {
+    
+        };
+    
+        return {
+    
+            /**
+             * Initialization
+             * @param  {Object} options Configuration options
+             * @return {void}
+             */
+            init: function( options ){
+    
+                // call parent init method
+                parent.init.call(this, options);
+                options = Physics.util.extend({}, defaults, options);
+    
+                this.setVertices( options.vertices || [] );
+            },
+    
+            /**
+             * Set the vertices of the polygon shape. Vertices will be converted to be relative to the calculated centroid
+             * @param {Array} hull The hull definition. Array of vectorish objects
+             * @return {self}
+             */
+            setVertices: function( hull ){
+    
+                var scratch = Physics.scratchpad()
+                    ,transl = scratch.transform()
+                    ,verts = this.vertices = []
+                    ;
+    
+                if ( !Physics.geometry.isPolygonConvex( hull ) ){
+                    throw ERROR_NOT_CONVEX;
+                }
+    
+                transl.setRotation( 0 );
+                transl.setTranslation( Physics.geometry.getPolygonCentroid( hull ).negate() );
+    
+                // translate each vertex so that the centroid is at the origin
+                // then add the vertex as a vector to this.vertices
+                for ( var i = 0, l = hull.length; i < l; ++i ){
+                    
+                    verts.push( Physics.vector( hull[ i ] ).translate( transl ) );
+                }
+    
+                this._area = Physics.geometry.getPolygonArea( verts );
+    
+                this._aabb = false;
+                scratch.done();
+                return this;
+            },
+            
+            /**
+             * Get axis-aligned bounding box for this object (rotated by angle if specified).
+             * @param  {Number} angle (optional) The angle to rotate the geometry.
+             * @return {Object}       Bounding box values
+             */
+            aabb: function( angle ){
+    
+                if (!angle && this._aabb){
+                    return this._aabb.get();
+                }
+    
+                var scratch = Physics.scratchpad()
+                    ,p = scratch.vector()
+                    ,trans = scratch.transform().setRotation( angle || 0 )
+                    ,xaxis = scratch.vector().clone(Physics.vector.axis[0]).rotateInv( trans )
+                    ,yaxis = scratch.vector().clone(Physics.vector.axis[1]).rotateInv( trans )
+                    ,xmax = this.getFarthestHullPoint( xaxis, p ).proj( xaxis )
+                    ,xmin = - this.getFarthestHullPoint( xaxis.negate(), p ).proj( xaxis )
+                    ,ymax = this.getFarthestHullPoint( yaxis, p ).proj( yaxis )
+                    ,ymin = - this.getFarthestHullPoint( yaxis.negate(), p ).proj( yaxis )
+                    ,aabb
+                    ;
+    
+                aabb = new Physics.aabb( xmin, ymin, xmax, ymax );
+    
+                if (!angle){
+                    this._aabb = aabb;
+                }
+    
+                scratch.done();
+                return aabb.get();
+            },
+    
+            /**
+             * Get farthest point on the hull of this geometry
+             * along the direction vector "dir"
+             * returns local coordinates
+             * replaces result if provided
+             * @param {Vector} dir Direction to look
+             * @param {Vector} result (optional) A vector to write result to
+             * @return {Vector} The farthest hull point in local coordinates
+             */
+            getFarthestHullPoint: function( dir, result, data ){
+    
+                var verts = this.vertices
+                    ,val
+                    ,prev
+                    ,l = verts.length
+                    ,i = 2
+                    ,idx
+                    ;
+    
+                result = result || Physics.vector();
+    
+                if ( l < 2 ){
+                    if ( data ){
+                        data.idx = 0;
+                    }
+                    return result.clone( verts[0] );
+                }
+    
+                prev = verts[ 0 ].dot( dir );
+                val = verts[ 1 ].dot( dir );
+    
+                if ( l === 2 ){
+                    idx = (val >= prev) ? 1 : 0;
+                    if ( data ){
+                        data.idx = idx;
+                    }
+                    return result.clone( verts[ idx ] );
+                }
+    
+                if ( val >= prev ){
+                    // go up
+                    // search until the next dot product 
+                    // is less than the previous
+                    while ( i < l && val >= prev ){
+                        prev = val;
+                        val = verts[ i ].dot( dir );
+                        i++;
+                    }
+    
+                    if (val >= prev){
+                        i++;
+                    }
+    
+                    // return the previous (furthest with largest dot product)
+                    idx = i - 2;
+                    if ( data ){
+                        data.idx = i - 2;
+                    }
+                    return result.clone( verts[ idx ] );
+    
+                } else {
+                    // go down
+    
+                    i = l;
+                    while ( i > 2 && prev >= val ){
+                        i--;
+                        val = prev;
+                        prev = verts[ i ].dot( dir );
+                    }
+    
+                    // return the previous (furthest with largest dot product)
+                    idx = (i + 1) % l;
+                    if ( data ){
+                        data.idx = idx;
+                    }
+                    return result.clone( verts[ idx ] );                
+                }
+            },
+    
+            /**
+             * Get farthest point on the core of this geometry
+             * along the direction vector "dir"
+             * returns local coordinates
+             * replaces result if provided
+             * @param {Vector} dir Direction to look
+             * @param {Vector} result (optional) A vector to write result to
+             * @return {Vector} The farthest core point in local coordinates
+             */
+            getFarthestCorePoint: function( dir, result, margin ){
+    
+                var norm
+                    ,scratch = Physics.scratchpad()
+                    ,next = scratch.vector()
+                    ,prev = scratch.vector()
+                    ,verts = this.vertices
+                    ,l = verts.length
+                    ,mag
+                    ,sign = this._area > 0
+                    ,data = {}
+                    ;
+    
+                result = this.getFarthestHullPoint( dir, result, data );
+    
+                // get normalized directions to next and previous vertices
+                next.clone( verts[ (data.idx + 1) % l ] ).vsub( result ).normalize().perp( !sign );
+                prev.clone( verts[ (data.idx - 1 + l) % l ] ).vsub( result ).normalize().perp( sign );
+    
+                // get the magnitude of a vector from the result vertex 
+                // that splits down the middle
+                // creating a margin of "m" to each edge
+                mag = margin / (1 + next.dot(prev));
+    
+                result.vadd( next.vadd( prev ).mult( mag ) );
+                scratch.done();
+                return result;
+            }
+        };
+    });
+    
+    // end module: geometries/convex-polygon.js
+    return Physics;
+})); // UMD 
