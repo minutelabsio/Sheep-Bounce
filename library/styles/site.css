@@ -1,0 +1,102 @@
+/* line 4, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+html, body, #wrap-outer {
+  height: 100%;
+}
+
+/* line 23, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#resources {
+  display: none !important;
+}
+
+/* line 27, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#main {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+/* line 34, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#main header {
+  padding-top: 2%;
+  padding-left: 10%;
+}
+/* line 38, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#main header .page-header {
+  color: #666;
+}
+/* line 41, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#main header .page-header big {
+  color: #333;
+}
+/* line 47, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#main .tagline {
+  font-weight: normal;
+}
+/* line 51, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#main .watermark {
+  position: absolute;
+  left: 8%;
+  top: 33%;
+  width: 200px;
+  z-index: 0;
+  opacity: 0.15;
+}
+/* line 60, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#main #watermark-2 {
+  left: 50%;
+  top: 50%;
+}
+
+/* line 66, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+/* line 73, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#control-wrap {
+  position: absolute;
+  right: 20px;
+  width: 280px;
+  z-index: 2;
+}
+
+/* line 80, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+#controls {
+  position: relative;
+  z-index: 2;
+  padding: 1em;
+  background: #333;
+  -webkit-border-radius: 5px;
+  -moz-border-radius: 5px;
+  -ms-border-radius: 5px;
+  -o-border-radius: 5px;
+  border-radius: 5px;
+  opacity: 0.4;
+  -webkit-transition: opacity 0.25s linear;
+  -moz-transition: opacity 0.25s linear;
+  -ms-transition: opacity 0.25s linear;
+  transition: opacity 0.25s linear;
+}
+/* line 17, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+.touch #controls, #controls:hover {
+  opacity: 1;
+}
+
+/* line 90, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+.grav-msg {
+  display: none;
+}
+
+/* line 95, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+.device-orientation .grav-msg {
+  display: block;
+}
+
+/* line 99, /Users/wellcaffeinated/Documents/github/minutelabs/Sheep-Bounce/library/styles/site.scss */
+.share-links {
+  margin-top: 1em;
+}
