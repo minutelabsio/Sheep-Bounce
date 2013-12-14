@@ -1,10 +1,7 @@
 
-js/config/require-config.js
-----------------
-js/config/require-config.js
-
 js/page-boilerplate.js
 ----------------
+js/config/require-config.js
 js/vendor/jquery.js
 js/modules/adapters/jquery.js
 js/modules/pubsub.js

@@ -31,7 +31,7 @@ module.exports = ({
     removeCombined: true,
 
     // uncomment to include conditionally loaded modules
-    // findNestedDependencies: true,
+    findNestedDependencies: true,
     
     // Include configurations from our require-config file
     // so r.js knows where to look for resources
@@ -44,16 +44,16 @@ module.exports = ({
         // that are needed on every page
         // this will include things like 
         // jquery, stapes, globals mediator, etc...
-        {
-            name: 'config/require-config',
+        // {
+        //     name: 'config/require-config',
 
-            include: [
+        //     include: [
                 
-            ]
-        },
+        //     ]
+        // },
         // page level dependencies.
         {
-            name: 'page-boilerplate',
+            name: 'page-boilerplate'//,
             // this usually is used for creating
             // modules that don't exist in the optimized
             // source yet. Instead, we're using it to
@@ -61,7 +61,7 @@ module.exports = ({
             // eg: we need the home mediator
             // to be defined in the build layer
             // _before_ page-home.js
-            create: true,
+            // create: true,
 
             // things to include in build layer.
             // Dependencies of these modules are
@@ -70,16 +70,16 @@ module.exports = ({
             // Including page-home so it gets defined
             // at the bottom. Used in conjunction with
             // create: true as described above.
-            include: [
-                'mediators/boilerplate',
-                'page-boilerplate'
-            ],
+            // include: [
+            //     'mediators/boilerplate',
+            //     'page-boilerplate'
+            // ],
 
             // Exclude anything already included
             // in the require-config build layer
-            exclude: [
-                'config/require-config'
-            ]
+            // exclude: [
+            //     'config/require-config'
+            // ]
         }
     ]
 });
