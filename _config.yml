@@ -1,0 +1,17 @@
+permalink: /:year-:month-:day/:title
+markdown: rdiscount
+exclude: ["README.md", "CNAME", "LICENSE", "build", "config.rb", "Gruntfile.js", "package.json", "jshint.json"]
+
+title : "Sheep Bounce"
+id : "/2013-12-02/sheep-bounce"
+description : "Sheep as an Ideal Gas - For Science!"
+version: "0.0.1"
+
+ml_url: "http://minutelabs.io"
+library_path: "library-build"
+
+show :
+  branding: true
+  details: true
+  comments: true
+

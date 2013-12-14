@@ -1,0 +1,101 @@
+// site styles
+@import 'compass/css3';
+
+html, body, #wrap-outer {
+    height: 100%;
+}
+
+@mixin fadein {
+
+    opacity: 0.4;
+    -webkit-transition: opacity 0.25s linear;
+    -moz-transition: opacity 0.25s linear;
+    -ms-transition: opacity 0.25s linear;
+    transition: opacity 0.25s linear;
+
+    .touch &,
+    &:hover {
+
+        opacity: 1;
+    }
+}
+
+#resources {
+    display: none !important;
+}
+
+#main {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    header {
+        padding-top: 2%;
+        padding-left: 10%;
+
+        .page-header {
+            color: #666;
+
+            big {
+                color: #333;
+            }
+        }
+    }
+
+    .tagline {
+        font-weight: normal;
+    }
+
+    .watermark {
+        position: absolute;
+        left: 8%;
+        top: 33%;
+        width: 200px;
+        z-index: 0;
+        opacity: 0.15;
+    }
+
+    #watermark-2 {
+        left: 50%;
+        top: 50%;
+    }
+}
+
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+#control-wrap {
+    position: absolute;
+    right: 20px;
+    width: 280px;
+    z-index: 2;
+}
+
+#controls {
+    position: relative;
+    z-index: 2;
+    padding: 1em;
+    background: #333;
+    @include border-radius( 5px );
+
+    @include fadein;
+}
+
+.grav-msg {
+
+    display: none;
+}
+
+.device-orientation .grav-msg {
+    display: block;
+}
+
+.share-links {
+    margin-top: 1em;
+}

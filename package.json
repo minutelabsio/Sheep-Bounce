@@ -1,7 +1,26 @@
 {
-  "author": "",
-  "name": "",
-  "version": "0.0.0",
-  "dependencies": {},
-  "devDependencies": {}
+    "name": "Sheep-Bounce",
+    "version": "0.0.1",
+    "description": "Fun and games with jumping sheep",
+    "author": "Jasper Palfree <info@minutelabs.io>",
+    "contributors": [
+        {
+            "name": "Jasper Palfree",
+            "email": "info@minutelabs.io"
+        }
+    ],
+    "main": null,
+    "dependencies": {},
+    "devDependencies": {
+        "grunt": "*",
+        "grunt-bg-shell": "*",
+        "grunt-contrib-clean": "*",
+        "grunt-contrib-copy": "*",
+        "grunt-contrib-jshint": "*",
+        "grunt-img": "*",
+        "grunt-contrib-requirejs": "*",
+        "grunt-contrib-compass": "*"
+    },
+    "bundledDependencies": [],
+    "license": "MIT"
 }

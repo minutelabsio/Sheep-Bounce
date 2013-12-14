@@ -1,0 +1,10 @@
+/**
+ * PhysicsJS v0.5.3 - 2013-11-25
+ * A modular, extendable, and easy-to-use physics engine for javascript
+ * http://wellcaffeinated.net/PhysicsJS
+ *
+ * Copyright (c) 2013 Jasper Palfree <jasper@wellcaffeinated.net>
+ * Licensed MIT
+ */
+
+(function(e,t){var n=["physicsjs"];if(typeof exports=="object"){var r=n.map(require);module.exports=t.call(e,r[0])}else typeof define=="function"&&define.amd?define(n,function(n){return t.call(e,n)}):e.Physics=t.call(e,e.Physics)})(this,function(e){return e.renderer("dom",function(e){var t={},n=document.createElement("div"),r=function(t){return t.replace(/(?:^|\s)\w/g,function(e){return e.toUpperCase()})},i=function(i){if(t[i])return t[i];var s=["Webkit","Moz","Ms","O"],o;for(var u=0,a=s.length;u<a;++u){o=s[u]+r(i);if(o in n.style)return t[i]=o}return o in n.style?t[i]=i:!1},s="pjs-",o="px",u=i("transform"),a=function(e,t){var n=document.createElement(e||"div");return t&&(n.innerHTML=t),n},f;return u?f=function(e,t){var n=e.state.pos;t.style[u]="translate("+n.get(0)+"px,"+n.get(1)+"px) rotate("+e.state.angular.pos+"rad)"}:f=function(e,t){var n=e.state.pos;t.style.left=n.get(0)+o,t.style.top=n.get(1)+o},{init:function(t){e.init.call(this,t);var n=this.el;n.style.position="relative",n.style.overflow="hidden",n.style[u]="translateZ(0)",n.style.width=this.options.width+o,n.style.height=this.options.height+o,this.els={};if(t.meta){var r=a();r.className="pjs-meta",this.els.fps=a("span"),this.els.ipf=a("span"),r.appendChild(a("span","fps: ")),r.appendChild(this.els.fps),r.appendChild(a("br")),r.appendChild(a("span","ipf: ")),r.appendChild(this.els.ipf),n.appendChild(r)}},circleProperties:function(e,t){var n=t.aabb();e.style.width=n.halfWidth*2+o,e.style.height=n.halfHeight*2+o,e.style.marginLeft=-n.halfWidth+o,e.style.marginTop=-n.halfHeight+o},createView:function(e){var t=a(),n=e.name+"Properties";return t.className=s+e.name,t.style.position="absolute",t.style.top="0px",t.style.left="0px",this[n]&&this[n](t,e),this.el.appendChild(t),t},drawMeta:function(e){this.els.fps.innerHTML=e.fps.toFixed(2),this.els.ipf.innerHTML=e.ipf},drawBody:f}}),e});

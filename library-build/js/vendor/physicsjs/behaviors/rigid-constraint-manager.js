@@ -1,0 +1,10 @@
+/**
+ * PhysicsJS v0.5.3 - 2013-11-25
+ * A modular, extendable, and easy-to-use physics engine for javascript
+ * http://wellcaffeinated.net/PhysicsJS
+ *
+ * Copyright (c) 2013 Jasper Palfree <jasper@wellcaffeinated.net>
+ * Licensed MIT
+ */
+
+(function(e,t){var n=["physicsjs"];if(typeof exports=="object"){var r=n.map(require);module.exports=t.call(e,r[0])}else typeof define=="function"&&define.amd?define(n,function(n){return t.call(e,n)}):e.Physics=t.call(e,e.Physics)})(this,function(e){return e.behavior("rigid-constraint-manager",function(t){var n={targetLength:20};return{init:function(r){t.init.call(this,r),e.util.extend(this.options,n,r),this._constraints=[]},connect:function(e){var t=e.integrator();if(t&&t.name.indexOf("verlet")<0)throw'The rigid constraint manager needs a world with a "verlet" compatible integrator.';e.subscribe("integrate:positions",this.resolve,this)},disconnect:function(e){e.unsubscribe("integrate:positions",this.resolve)},drop:function(){return this._constraints=[],this},constrain:function(t,n,r){var i;return!t||!n?!1:(this._constraints.push(i={id:e.util.uniqueId("rigid-constraint"),bodyA:t,bodyB:n,targetLength:r||this.options.targetLength}),i)},remove:function(t){var n=this._constraints,r;if(typeof t=="number")return n.splice(t,1),this;r=e.util.isObject(t);for(var i=0,s=n.length;i<s;++i)if(r&&n[i]===t||!r&&n[i].id===t)return n.splice(i,1),this;return this},resolve:function(){var t=this._constraints,n=e.scratchpad(),r=n.vector(),i=n.vector(),s,o,u,a;for(var f=0,l=t.length;f<l;++f)s=t[f],r.clone(s.bodyA.state.pos),i.clone(s.bodyB.state.pos).vsub(r),o=i.norm(),u=(o-s.targetLength)/o,i.mult(u),a=s.bodyB.mass/(s.bodyA.mass+s.bodyB.mass),s.bodyA.fixed||(i.mult(a),s.bodyA.state.pos.vadd(i),i.mult(1/a)),s.bodyB.fixed||(i.mult(1-a),s.bodyB.state.pos.vsub(i));n.done()},getConstraints:function(){return[].concat(this._constraints)}}}),e});
