@@ -6,10 +6,10 @@ title : "Sheep Bounce"
 id : "/2013-12-02/sheep-bounce"
 description : "Sheep as an Ideal Gas - For Science!"
 thumb: "http://minutelabs.io/assets/images/sheepbounce.gif"
-version: "0.0.1"
+version: "0.0.2"
 
 ml_url: "http://minutelabs.io"
-library_path: "library"
+library_path: "library-build"
 
 show :
   branding: true
