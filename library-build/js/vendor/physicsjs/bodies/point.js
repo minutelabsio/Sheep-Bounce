@@ -6,26 +6,5 @@
  * Copyright (c) 2013 Jasper Palfree <jasper@wellcaffeinated.net>
  * Licensed MIT
  */
-(function (root, factory) {
-    var deps = ['physicsjs'];
-    if (typeof exports === 'object') {
-        // Node. 
-        var mods = deps.map(require);
-        module.exports = factory.call(root, mods[ 0 ]);
-    } else if (typeof define === 'function' && define.amd) {
-        // AMD. Register as an anonymous module.
-        define(deps, function( p ){ return factory.call(root, p); });
-    } else {
-        // Browser globals (root is window). Dependency management is up to you.
-        root.Physics = factory.call(root, root.Physics);
-    }
-}(this, function ( Physics ) {
-    
-    /**
-     * Point body
-     * @module bodies/point
-     */
-    Physics.body('point', function(){});
-    // end module: bodies/point.js
-    return Physics;
-})); // UMD 
+
+(function(e,t){var n=["physicsjs"];if(typeof exports=="object"){var r=n.map(require);module.exports=t.call(e,r[0])}else typeof define=="function"&&define.amd?define(n,function(n){return t.call(e,n)}):e.Physics=t.call(e,e.Physics)})(this,function(e){return e.body("point",function(){}),e});

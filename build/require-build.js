@@ -15,8 +15,8 @@ module.exports = ({
     baseUrl: 'js/',
 
     // use optimize: none to get concatenation without optimization for debugging
-    optimize: 'none',
-    // optimize: 'uglify',
+    // optimize: 'none',
+    optimize: 'uglify',
     optimizeCss: 'none',
 
     // exclude any hidden files (.filename) and any node.js libraries
@@ -53,7 +53,12 @@ module.exports = ({
         // },
         // page level dependencies.
         {
-            name: 'page-boilerplate'//,
+            name: 'page-boilerplate',
+            override: {
+                paths: {
+                    'physicsjs': 'empty:'
+                }
+            },
             // this usually is used for creating
             // modules that don't exist in the optimized
             // source yet. Instead, we're using it to
@@ -77,9 +82,10 @@ module.exports = ({
 
             // Exclude anything already included
             // in the require-config build layer
-            // exclude: [
-            //     'config/require-config'
-            // ]
+            exclude: [
+                // 'config/require-config'
+                // 'physicsjs'
+            ]
         }
     ]
 });
