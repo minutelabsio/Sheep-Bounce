@@ -3,9 +3,9 @@ markdown: rdiscount
 exclude: ["README.md", "CNAME", "LICENSE", "build", "config.rb", "Gruntfile.js", "package.json", "jshint.json"]
 
 title : "Sheep Bounce"
+id : "77183036875"
 description : "Sheep as an Ideal Gas - For Science!"
 thumb: "http://labs.minutelabs.io/assets/images/sheepbounce.gif"
-prevLabOffset: "2"
 version: "0.0.2"
 
 ml_url: "http://minutelabs.io"
