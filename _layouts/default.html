@@ -20,10 +20,10 @@
   <!-- js includes -->
   <script src="library/js/vendor/modernizr.js"></script>
   <script>
-    var Lab = { title: '{{ site.title }}', id: '{{ site.id }}' };
+    var Lab = { title: '{{ site.title }}', id: '{{ site.id }}', prevLabOffset: "{{ site.prevLabOffset }}" };
     var require = { urlArgs: 'v={{ site.version }}' };
   </script>
-  <script src="{{ site.ml_url }}/library/js/vendor/require.js" data-main="{{ site.library_path }}/js/page-boilerplate"></script>
+  <script src="{{ site.ml_library }}/js/vendor/require.js" data-main="{{ site.library_path }}/js/page-boilerplate"></script>
 </head>
 <body>
   
@@ -45,8 +45,8 @@
   </div>
   <![endif]-->
 
-  <script src="{{ site.ml_url }}/assets/labs-nav.js"></script>
-  <script src="{{ site.ml_url }}/assets/ga.js" async></script>
+  <script src="{{ site.ml_assets }}/labs-nav.js"></script>
+  <script src="{{ site.ml_assets }}/ga.js" async></script>
   
   {% if site.show.comments and site.show.details %}
   <script type="text/javascript">
